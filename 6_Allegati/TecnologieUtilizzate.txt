@@ -1,0 +1,7 @@
+Foront-end: HTML, CSS(BootStrap), Javascript => 
+
+Back-end: PHP(Laravel) => JavaSpring 
+
+DB: MySQL
+
+Altre Tecnologie: Dropzone.js

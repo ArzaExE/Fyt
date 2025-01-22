@@ -1,0 +1,2 @@
+Ho aggiunto la cartella fonti dove vengono salvati i collegamenti da inserire a fine progetto.
+Aggiungere alla documentazione una comparazione delle tecnologie adottate e perchè sono state scelte.

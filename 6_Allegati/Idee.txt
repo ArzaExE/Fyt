@@ -3,3 +3,6 @@
 Documentazione:
 
 - Descrivere l'idea del nome: nome moderno che richiamasse il futuro....
+- Inserire tabelle di confronto tra le varie tecnologie di cui eravamo indecisi
+     - Metodo di pagamento (Stripe, PayPal...)
+     - Frameworks (Laraverl, Maui...)

@@ -7,3 +7,4 @@ Documentazione:
      - Metodo di pagamento (Stripe, PayPal...)
      - Frameworks (Laraverl, Maui...)
 - Citare nella documentazione il modello usato (Agile, Scrum, Kanban...)
+- Nell'analisi del dominio (ultimo paragrafo) aggiungere il perchè il nostro prodotto è diverso dagli altri.

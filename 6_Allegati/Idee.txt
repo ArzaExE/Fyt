@@ -6,3 +6,4 @@ Documentazione:
 - Inserire tabelle di confronto tra le varie tecnologie di cui eravamo indecisi
      - Metodo di pagamento (Stripe, PayPal...)
      - Frameworks (Laraverl, Maui...)
+- Citare nella documentazione il modello usato (Agile, Scrum, Kanban...)

@@ -1,6 +1,6 @@
 Foront-end: HTML, CSS(BootStrap), Javascript => 
 
-Back-end: PHP(Laravel) => JavaSpring 
+Back-end: PHP(Laravel)
 
 DB: MySQL
 

@@ -1,0 +1,17 @@
+{
+    "name": "samuele.ambrosetti/5_applicativo",
+    "autoload": {
+        "psr-4": {
+            "SamueleAmbrosetti\\5Applicativo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "samuele.ambrosetti",
+            "email": "ambrosettisamuele@gmail.com"
+        }
+    ],
+    "require": {
+        "laravel/installer": "^5.11"
+    }
+}

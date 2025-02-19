@@ -1654,7 +1654,7 @@
             },
             "time": "2024-11-06T14:24:19+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Process\\": ""

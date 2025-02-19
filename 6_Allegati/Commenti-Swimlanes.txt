@@ -1,0 +1,34 @@
+Cliente-Login
+--------------
+Descrive le operazioni che deve intraprendere
+il cliente per poter effettuare il login.
+
+Cliente-Creazione utente
+--------------------------
+Descrive tutte le operazioni che deve svolgere 
+il cliente per crearsi un account.
+
+Cliente-Acquisto prodotti
+--------------------------
+Descrive tutte le operazioni che può svolgere
+il cliente (riguardando l'acquisto di prodotti).
+
+Vendor-Login
+--------------
+Descrive le operazioni che deve intraprendere
+il vendor per poter effettuare il login.
+
+Vendor-Gestione prodotti
+--------------------------
+Descrive tutte le operazioni che può svolgere 
+il vendor (sui prodotti).
+
+Admin-Login
+--------------
+Descrive le operazioni che deve intraprendere
+l'admin per poter effettuare il login.
+
+Admin-Gestione utenti
+--------------------------
+Descrive tutte le operazioni che può svolgere
+l'admin (sugli utenti).

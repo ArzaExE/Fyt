@@ -1,0 +1,15 @@
+1) *Entrare nella cartella del progetto*
+
+2) composer init
+
+3) set http_proxy=http://localhost:5865
+
+4) set https_proxy=https://localhost:5865
+
+5) composer require laravel/installer
+
+
+Bootsrap install:
+1) npm install bootstrap
+
+2) 

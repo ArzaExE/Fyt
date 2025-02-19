@@ -1,0 +1,32 @@
+Cliente
+
+    Effettua Login
+    Acquista
+    Gestisce account (Modifica credenziali, Modifica dati personali)
+    Aggiunge prodotto al carrello
+    Inserisce dati personali
+
+Admin
+
+    Effettua Login
+    Gestisce utenti
+    Gestisce prodotto
+    Visualizza vendite
+    Gestisce inventario
+    Gestisce promozioni
+
+Vendor
+
+    Effettua Login
+    Gestisce prodotto (Aggiunge, Modifica, Elimina)
+    Visualizza vendite
+    Gestisce inventario
+
+Sistema
+
+    Autentica utenti
+    Registra nuovi account
+    Elabora acquisti
+    Memorizza e gestisce dati prodotto
+    Mostra statistiche vendite
+    Notifica utenti su ordini e aggiornamenti

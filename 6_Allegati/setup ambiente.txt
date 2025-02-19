@@ -7,3 +7,9 @@
 4) set https_proxy=https://localhost:5865
 
 5) composer require laravel/installer
+
+
+Bootsrap install:
+1) npm install bootstrap
+
+2) 

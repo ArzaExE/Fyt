@@ -17,3 +17,7 @@ Route::get('/signup', function () {
 Route::get('/catalogo', function () {
     return view('catalogo');
 });
+
+Route::get('/shoe', function () {
+    return view('shoe');
+});

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo</title>
+    <title>Login</title>
 
     <link href="<?php echo e(asset('../css/css.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
@@ -26,6 +26,33 @@
         </div>
     </nav>
 
+    <!-- Prima riga -->
+    <table>
+        <tr>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s1.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s1.jpg')); ?>" alt="Test1"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s2.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s2.jpg')); ?>" alt="Test2"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s3.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s3.jpg')); ?>" alt="Test3"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s4.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s4.jpg')); ?>" alt="Test4"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s5.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s5.jpg')); ?>" alt="Test5"></a></td>
+        </tr>
+    </table>
+
+    <br><br><br><br><br><br>
+
+    <!-- Seconda riga -->
+    <table>
+        <tr>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s1.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s1.jpg')); ?>" alt="Test1"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s2.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s2.jpg')); ?>" alt="Test2"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s3.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s3.jpg')); ?>" alt="Test3"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s4.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s4.jpg')); ?>" alt="Test4"></a></td>
+            <td><a href="/shoe?img=<?php echo e(asset('img/s5.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s5.jpg')); ?>" alt="Test5"></a></td>
+        </tr>
+    </table>
+
+    <br><br><br><br><br><br>
+
+    <!-- Terza riga -->
     <table>
         <tr>
             <td><a href="/shoe?img=<?php echo e(asset('img/s1.jpg')); ?>"><img id="prova" src="<?php echo e(asset('img/s1.jpg')); ?>" alt="Test1"></a></td>

@@ -3,6 +3,10 @@ img#prova{
     height: 200px;
 }
 
+img#prova:hover{
+    filter: brightness(60%);
+}
+
 td{
     text-align: center;
 }

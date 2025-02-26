@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
+    <link href="{{ asset('../css/css.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -27,9 +28,11 @@
 
     <table>
         <tr>
-            <td><a href="google.com"></a><img src="{{ asset('img/s1.jpg') }}" alt="Test1"></td>
-            <td><a href=""><img src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
-            <td><img src="{{ asset('img/s3.jpg') }}" alt="Test3"></td>
+            <td><a href="#"><img id="prova" src="{{ asset('img/s1.jpg') }}" alt="Test1"></a></td>
+            <td><a href="#"><img id="prova" src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
+            <td><a href="#"><img id="prova" src="{{ asset('img/s3.jpg') }}" alt="Test3"></a></td>
+            <td><a href="#"><img id="prova" src="{{ asset('img/s4.jpg') }}" alt="Test4"></a></td>
+            <td><a href="#"><img id="prova" src="{{ asset('img/s5.jpg') }}" alt="Test5"></a></td>
         </tr>
     </table>
 

@@ -13,3 +13,6 @@
 
 Bootsrap install:
 1) npm install bootstrap
+
+Avviare laravel
+- php artisan serve

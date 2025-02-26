@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Login</title>
 
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
@@ -25,10 +25,14 @@
         </div>
     </nav>
 
-    <div class="w-100 vh-100 d-flex align-items-center justify-content-center p-3 mb-2 bg-light text-dark">
-    <h1>Home Fyt</h1>
-    <img src="{{ asset('img/Logo.png') }}" alt="Logo">
-    <p>Oggi è il {{ date('d/m/Y') }}</p>
+    <table>
+        <tr>
+            <td><a href="google.com"></a><img src="{{ asset('img/s1.jpg') }}" alt="Test1"></td>
+            <td><a href=""><img src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
+            <td><img src="{{ asset('img/s3.jpg') }}" alt="Test3"></td>
+        </tr>
+    </table>
+
     </div>
 </body>
 </html>

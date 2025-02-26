@@ -1,3 +1,5 @@
+0) "php -v" e "composer -v" per visualizzare se php e il composer sia installato correttamente
+
 1) *Entrare nella cartella del progetto*
 
 2) composer init
@@ -11,5 +13,3 @@
 
 Bootsrap install:
 1) npm install bootstrap
-
-2) 

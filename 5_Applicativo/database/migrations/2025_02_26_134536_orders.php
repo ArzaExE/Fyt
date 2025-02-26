@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->double('total');
             $table->string('status');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+
         });
     }
 

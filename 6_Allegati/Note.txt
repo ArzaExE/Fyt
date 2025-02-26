@@ -9,3 +9,6 @@ Nel caso dello scroll utilizzare AJAX.
 Pagina prodotto: Fare attenzione alla data 13/05/2023.
 Più campi di ricerca nelle pagine.
 Controllo sulla cancellazione utenti: l'admin non può cancellare se stesso.
+
+DATABASE:
+Mettere apposto le foreign key ordine...

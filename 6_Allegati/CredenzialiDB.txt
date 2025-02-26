@@ -1,0 +1,9 @@
+sito: http://fyt.labosam.cpt.local
+
+user: fyt
+
+password: Choch{e9re
+
+sFTP: sftp://fyt@sam-labo-web.cpt.local
+
+accesso db: mysql://fyt@sam-labo-web.cpt.local:3306

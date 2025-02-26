@@ -29,9 +29,8 @@
     <div class="container" style="margin-top: 100px;">
         <h1>Shoe Details</h1>
         <img src="<?php echo e(request()->query('img')); ?>" alt="Shoe Image">
+        <a href="/catalogo"><button>Torna al catalogo</button></a>
     </div>
-
-    <a href="/catalogo"><button>Torna al catalogo</button></a>
 
     </div>
 </body>

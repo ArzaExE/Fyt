@@ -7,6 +7,7 @@
 
     <link href="{{ asset('../css/css.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('../js/catalogo.js') }}"></script>
 </head>
 <body>
     <nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd">

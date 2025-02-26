@@ -7,6 +7,7 @@
 
     <link href="<?php echo e(asset('../css/css.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
+    <script src="<?php echo e(asset('../js/catalogo.js')); ?>"></script>
 </head>
 <body>
     <nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd">

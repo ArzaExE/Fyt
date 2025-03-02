@@ -1,10 +1,18 @@
 ----File per idee e cose da implementare per il progetto-----
 
-Documentazione:
+-----------------------Documentazione-----------------------
 
 - Descrivere l'idea del nome: nome moderno che richiamasse il futuro....
 - Inserire tabelle di confronto tra le varie tecnologie di cui eravamo indecisi
      - Metodo di pagamento (Stripe, PayPal...)
      - Frameworks (Laraverl, Maui...)
-- Citare nella documentazione il modello usato (Agile, Scrum, Kanban...)
 - Nell'analisi del dominio (ultimo paragrafo) aggiungere il perchè il nostro prodotto è diverso dagli altri.
+- Aggiungere alla documentazione una comparazione delle tecnologie adottate e perchè sono state scelte.
+
+-----------------------Implemetazione-----------------------
+
+- Creare certificato per HTTPS
+- Scroll dei prodotti nel catalogo oppure pagina con pulsante next. (Nel caso dello scroll utilizzare AJAX.)
+- Pagina prodotto: Fare attenzione alla data 13/05/2023. (FARE ATTENZIONE ALLE DATE IN GENERALE)
+- Più campi di ricerca nelle pagine.
+- Controllo sulla cancellazione utenti: l'admin non può cancellare se stesso.

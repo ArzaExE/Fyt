@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VendorController;
 
 Route::get('/', function () {
     return view('home');
@@ -21,3 +23,16 @@ Route::get('/catalog', function () {
 Route::get('/shoe', function () {
     return view('shoe');
 });
+
+Route::get('/products', function () {
+    return view('product');
+});
+
+Route::get('/vendor', function () {
+    return view('vendor');
+});
+
+Route::get('/products', [ProductController::class, 'index']);
+
+Route::get('/vendor', [VendorController::class, 'index']);
+

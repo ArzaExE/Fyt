@@ -16,6 +16,7 @@
             <div class="navbar-header">
                 <a href="/" class="navbar-brand">Home</a>
                 <a href="/catalog" class="navbar-brand">Catalog</a>
+                <a href="/vendor" class="navbar-brand">Vendor</a>
             </div>
             <div class="ml-auto">
                 <?php if(!isset($_SESSION['user'])): ?>

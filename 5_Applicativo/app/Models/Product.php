@@ -10,10 +10,18 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $dates = ['release_date'];
-
     public function getFormattedReleaseDateAttribute()
     {
         return Carbon::parse($this->release_date)->format('d-m-Y');
     }
+    
+    protected $fillable = [
+        'name',
+        'description',
+        'color',
+        'release_date',
+        'price'
+    ];
+
+    public $timestamps = false;
 }

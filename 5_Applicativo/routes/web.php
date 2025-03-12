@@ -35,4 +35,4 @@ Route::get('/vendor', function () {
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/vendor', [VendorController::class, 'index']);
-
+Route::post('/vendor/upload', [VendorController::class, 'upload'])->name('vendor.upload');

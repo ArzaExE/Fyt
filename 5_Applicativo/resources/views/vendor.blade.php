@@ -21,6 +21,14 @@
             <td>{{ $product->description }}</td>
             <td>{{ $product->formatted_release_date }}</td>
             <td>{{ $product->price }} €</td>
+            <td>
+                <form action="{{ route('vendor.upload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="image">
+                    <input type="number" name="id">
+                    <button type="submit">Carica Immagine</button>
+                </form>
+            </td>
         </tr>
     @endforeach
     </tbody>

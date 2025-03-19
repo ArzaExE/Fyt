@@ -6,6 +6,5 @@
     <img src="{{ asset('img/Logo.png') }}" alt="Logo">
     <p>Oggi è il {{ date('d/m/Y') }}</p>
 </div>
-
 <!-- Footer -->
 @include('templates.footer')

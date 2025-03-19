@@ -19,6 +19,7 @@
             <td>{{ $product->description }}</td>
             <td>{{ $product->formatted_release_date }}</td>
             <td>{{ $product->price }} €</td>
+            <td>{{ $product->image }}</td>
         </tr>
     @endforeach
     </tbody>

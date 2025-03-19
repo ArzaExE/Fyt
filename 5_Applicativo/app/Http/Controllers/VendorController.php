@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Models\Image;
 
 class VendorController extends Controller
 {
@@ -14,6 +15,18 @@ class VendorController extends Controller
 
         // Passa i prodotti alla view product
         return view('vendor', compact('products'));
+    }
+
+    public function add()
+    {
+        $products = Product::all();
+        $images = Image::all();
+        foreach ($images as $image) {
+            if ($image->image) {
+                $image->image = 'data:image/jpeg;base64,' . base64_encode($image->image);
+            }
+        }
+        return view('addProduct', compact('products', 'images'));
     }
 
     public function upload(Request $request)
@@ -27,9 +40,11 @@ class VendorController extends Controller
         $imageData = file_get_contents($image->getRealPath()); // Converte l'immagine in binario
 
         // CARICAMENTO DELLE IMMAGINI DEVE PASSARE DAL CONTROLLER IMAGE NON USER
-        $user = User::find($id); // Esempio: trova l'utente con ID 1
-        $user->image = $imageData; // Salva il binario nel campo BLOB
-        $user->save();
+        $product = Product::find($id); // Esempio: trova l'utente con ID 1
+        $image = new Image();
+        $image->image = $imageData; // Salva il binario nel campo BLOB
+        $image->product_id = $product->id;
+        $image->save();
 
         return back()->with('success', 'Immagine caricata con successo!');
     }

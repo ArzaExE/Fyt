@@ -26,7 +26,7 @@ class ProductFactory extends Factory
             'description' => fake()->realText(),
             'color' => fake()->colorName(),
             'release_date' => fake()->date(),
-            'price' => fake()->randomFloat()
+            'price' => fake()->randomFloat(2, 10, 1000)
         ];
     }
 }

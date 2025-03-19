@@ -1,50 +1,44 @@
 <!-- Header -->
 @include('templates.header')
 
-@php
-    use Illuminate\Support\Facades\DB;
+<!-- Contenuto principale -->
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Catalogo Prodotti</h1>
 
-    $products = DB::table('products')->select('name', 'price')->get();
-@endphp
-<br><br><br>
-<div>
-    @foreach ($products as $product)
-        <p>Nome: {{ $product->name }} - Prezzo: {{ $product->price }}chf</p>
-    @endforeach
+    <!-- Griglia dei prodotti -->
+    <div class="row">
+        @foreach ($products as $product)
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <!-- Immagine del prodotto -->
+                    <div class="card-img-top text-center p-3">
+                        @foreach($images as $image)
+                            @if($image->product_id == $product->id)
+                                <img src="{{ $image->image }}" alt="Immagine Prodotto" class="img-fluid" style="max-height: 200px;">
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <!-- Corpo della card -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $product->name }}</h5>
+                        <p class="card-text text-muted">{{ $product->description }}</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Colore:</strong> {{ $product->color }}</li>
+                            <li class="list-group-item"><strong>Data di rilascio:</strong> {{ $product->release_date }}</li>
+                            <li class="list-group-item"><strong>Prezzo:</strong> {{ $product->price }} €</li>
+                        </ul>
+                    </div>
+
+                    <!-- Footer della card (es. pulsante per dettagli) -->
+                    <div class="card-footer bg-transparent">
+                        <a href="#" class="btn btn-primary btn-block">Dettagli</a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
-
-<!-- Prima riga
-<table>
-    <tr>
-        <td><a href="/shoe?img={{ asset('img/s1.jpg') }}"><img id="prova" src="{{ asset('img/s1.jpg') }}" alt="Test1"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s2.jpg') }}"><img id="prova" src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s3.jpg') }}"><img id="prova" src="{{ asset('img/s3.jpg') }}" alt="Test3"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s4.jpg') }}"><img id="prova" src="{{ asset('img/s4.jpg') }}" alt="Test4"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s5.jpg') }}"><img id="prova" src="{{ asset('img/s5.jpg') }}" alt="Test5"></a></td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <td><a href="/shoe?img={{ asset('img/s1.jpg') }}"><img id="prova" src="{{ asset('img/s1.jpg') }}" alt="Test1"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s2.jpg') }}"><img id="prova" src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s3.jpg') }}"><img id="prova" src="{{ asset('img/s3.jpg') }}" alt="Test3"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s4.jpg') }}"><img id="prova" src="{{ asset('img/s4.jpg') }}" alt="Test4"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s5.jpg') }}"><img id="prova" src="{{ asset('img/s5.jpg') }}" alt="Test5"></a></td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <td><a href="/shoe?img={{ asset('img/s1.jpg') }}"><img id="prova" src="{{ asset('img/s1.jpg') }}" alt="Test1"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s2.jpg') }}"><img id="prova" src="{{ asset('img/s2.jpg') }}" alt="Test2"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s3.jpg') }}"><img id="prova" src="{{ asset('img/s3.jpg') }}" alt="Test3"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s4.jpg') }}"><img id="prova" src="{{ asset('img/s4.jpg') }}" alt="Test4"></a></td>
-        <td><a href="/shoe?img={{ asset('img/s5.jpg') }}"><img id="prova" src="{{ asset('img/s5.jpg') }}" alt="Test5"></a></td>
-    </tr>
-</table>
-</div>
--->
 
 <!-- Footer -->
 @include('templates.footer')

@@ -34,6 +34,11 @@ Route::get('/admin', function () {
     return view('admin');
 })->name('admin');
 
+// per utente base
+Route::get('/user', function () {
+    return view('user');
+})->name('user');
+
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 
 Route::middleware('auth')->group(function () {

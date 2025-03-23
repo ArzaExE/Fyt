@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -19,6 +21,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
+        'username',
         'email',
         'password',
     ];
@@ -46,5 +50,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Funzione per generare uno username nel formato nome.cognome
+    public static function generateUsername($name, $surname)
+    {
+        // Crea la base dello username nel formato nome.cognome
+        $baseUsername = Str::lower($name) . '.' . Str::lower($surname); // Esempio: "giovanni.rossi"
+
+        $username = $baseUsername;
+        $counter = 1;
+
+        // Verifica se lo username esiste già nel database
+        while (self::where('username', $username)->exists()) {
+            $username = $baseUsername . $counter; // Aggiunge un numero incrementale
+            $counter++;
+        }
+
+        return $username;
     }
 }

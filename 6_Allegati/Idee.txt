@@ -16,3 +16,5 @@
 - Pagina prodotto: Fare attenzione alla data 13/05/2023. (FARE ATTENZIONE ALLE DATE IN GENERALE)
 - Più campi di ricerca nelle pagine.
 - Controllo sulla cancellazione utenti: l'admin non può cancellare se stesso.
+- Cifratura dati anagrafici (AES) --> tabella users (solo se c'è tempo)
+- Quando l'utente viene eliminato bisogna rendere anonima la profilazione del utente (attività, acquisti, etc..) --> meglio farlo fin da subito. NEXT LEVEL

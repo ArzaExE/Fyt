@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
@@ -29,10 +30,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// DA CAMBIARE CON ADMIN
-Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
+Route::get('/admin', [AdminController::class, 'index'])
+    ->name('admin');
 
 // per utente base
 Route::get('/user', function () {

@@ -55,7 +55,6 @@ class User extends Authenticatable
     // Funzione per generare uno username nel formato nome.cognome
     public static function generateUsername($name, $surname)
     {
-        // Crea la base dello username nel formato nome.cognome
         $baseUsername = Str::lower($name) . '.' . Str::lower($surname); // Esempio: "giovanni.rossi"
 
         $username = $baseUsername;

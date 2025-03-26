@@ -59,7 +59,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('vendor'),
             'role_id' => 2
         ]);
-
         User::factory()->count(50)->create(); // Crea 50 utenti casuali
         Product::factory()->count(50)->create();
     }

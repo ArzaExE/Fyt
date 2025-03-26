@@ -14,7 +14,7 @@
                     <div class="card-img-top text-center p-3">
                         @foreach($images as $image)
                             @if($image->product_id == $product->id)
-                                <img src="{{ $image->image }}" alt="Immagine Prodotto" class="img-fluid" style="max-height: 200px;">
+                                <img src="{{ asset('public/productImages' . $image->image) }}">
                             @endif
                         @endforeach
                     </div>

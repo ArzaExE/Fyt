@@ -24,7 +24,7 @@
             <td>
                 <form action="{{ route('vendor.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" name="image">
+                    <input type="file" name="images[]" multiple>
                     <input type="number" name="id">
                     <button type="submit">Carica Immagine</button>
                 </form>

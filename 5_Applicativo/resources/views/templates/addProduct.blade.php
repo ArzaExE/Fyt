@@ -1,6 +1,6 @@
 
 <!-- Form per l'aggiunta del prodotto -->
-<form method="POST" action="{{ route('vendor.add') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('vendor.upload') }}" enctype="multipart/form-data">
     @csrf
 
     <!-- Campo Name -->
@@ -33,15 +33,15 @@
 
     <!-- Campo Price -->
     <div class="mb-4">
-        <x-input-label for="price" :value="__('Price')" />
+        <x-input-label for="price" :value="__('Price (€)')" />
         <x-text-input id="price" class="block mt-1 w-full" type="number" step="0.01" name="price" :value="old('price')" required />
         <x-input-error :messages="$errors->get('price')" class="mt-2" />
     </div>
 
-    <!-- Campo Image -->
+    <!-- Campo Images -->
     <div class="mb-4">
-        <x-input-label for="image" :value="__('Image')" />
-        <input id="image" class="block mt-1 w-full" type="file" name="image" accept="image/*" required />
+        <x-input-label for="images" :value="__('Images')" />
+        <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple/>
         <x-input-error :messages="$errors->get('image')" class="mt-2" />
     </div>
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Image;
 
@@ -17,35 +16,52 @@ class VendorController extends Controller
         return view('vendor', compact('products'));
     }
 
-    public function add()
-    {
-        $products = Product::all();
-        $images = Image::all();
-        foreach ($images as $image) {
-            if ($image->image) {
-                $image->image = 'data:image/jpeg;base64,' . base64_encode($image->image);
-            }
-        }
-        return view('addProduct', compact('products', 'images'));
+
+    //Metodo GET per mostrare la pagina addProducts
+    public function add(){
+        return view('addProducts');
     }
 
+    //Metodo POST per iniviare i campi del form dell' aggiunta di un nuovo prodotto
     public function upload(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|max:2048', // Controllo di validazione
+        $name = $request->get('name');
+        $color = $request->get('color');
+        $description = $request->get('description');
+        $release_date = $request->get('release_date');
+        $price = $request->get('price');
+
+        $product = Product::create([
+            'name' => $name,
+            'color' => $color,
+            'description' => $description,
+            'release_date' => $release_date,
+            'price' => $price,
         ]);
 
-        $id = $request->get('id');
-        $image = $request->file('image');
-        $imageData = file_get_contents($image->getRealPath()); // Converte l'immagine in binario
+        // Gestione delle immagini
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                // Genera un nome unico per l'immagine
+                $imageName = time() . '_' . $imageFile->getClientOriginalName();
 
-        // CARICAMENTO DELLE IMMAGINI DEVE PASSARE DAL CONTROLLER IMAGE NON USER
-        $product = Product::find($id); // Esempio: trova l'utente con ID 1
-        $image = new Image();
-        $image->image = $imageData; // Salva il binario nel campo BLOB
-        $image->product_id = $product->id;
-        $image->save();
+                // Sposta il file direttamente nella cartella public/images
+                $imagePath = $imageFile->move('public/productImages', $imageName);
 
-        return back()->with('success', 'Immagine caricata con successo!');
+                // Salva il percorso relativo nel database (es. images/filename.jpg)
+                Image::create([
+                    'product_id' => $product->id,
+                    'image' => '/' . $imageName,  // Salva solo il percorso relativo
+                ]);
+            }
+        }
+
+        return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images!');
     }
+
+
+    public function convertToBase64(){
+
+    }
+
 }

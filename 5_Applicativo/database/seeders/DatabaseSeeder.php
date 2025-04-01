@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             'city' => 'Canobbio',
             'country' => 'Svizzera',
             'phone' => '+41123456789',
-            'email' => 'jon.zillo@samtrevano.ch',
+            'email' => 'john.zillo@samtrevano.ch',
             'password' => Hash::make('admin'),
             'role_id' => 1
         ]);

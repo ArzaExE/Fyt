@@ -17,7 +17,7 @@ class EnsureUserIsVendor
     public function handle(Request $request, Closure $next): Response
     {
         // Verifica se l'utente è autenticato e ha il ruolo di "vendor"
-        if (Auth::check() && Auth::user()->role_id === 2) {
+        if (Auth::check() && Auth::user()->role->name === 'vendor') {
             return $next($request);
         }
 

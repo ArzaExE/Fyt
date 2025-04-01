@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/admin', [AdminController::class, 'index'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin');
 
 // per utente base

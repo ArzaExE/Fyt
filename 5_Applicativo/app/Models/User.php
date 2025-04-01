@@ -20,6 +20,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    public function role()
+    {
+        return $this->belongsTo(user_roles::class, 'role_id'); // Assicurati che 'role_id' sia il nome della colonna FK
+    }
+
     protected $fillable = [
         'name',
         'surname',

@@ -17,11 +17,11 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Verifica se l'utente è autenticato e ha il ruolo di "admin"
-        if (Auth::check() && Auth::user()->role_id === 1) {
+        if (Auth::check() && Auth::user()->role->name === 'admin') {
             return $next($request);
         }
 
-        // Se l'utente non ha il ruolo di "vendor", reindirizzalo a una pagina di errore o alla home
+        // Se l'utente non ha il ruolo di "admin", reindirizzalo a una pagina di errore o alla home
         return redirect('/')->with('error');
     }
 }

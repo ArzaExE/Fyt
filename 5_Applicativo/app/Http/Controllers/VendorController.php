@@ -47,6 +47,7 @@ class VendorController extends Controller
 
                 // Sposta il file direttamente nella cartella public/images
                 $imagePath = $imageFile->move('productImages', $imageName);
+                $imagePath = $imageFile->store('productImages', $imageName);
 
                 // Salva il percorso relativo nel database (es. images/filename.jpg)
                 Image::create([

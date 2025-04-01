@@ -20,10 +20,10 @@
                 <th scope="col" class="w-auto">Surname</th>
                 <th scope="col" class="w-auto">Username</th>
                 <th scope="col" style="width: 120px">Born Date</th>
-                <th scope="col" class="w-auto">Address</th>
+                <!--<th scope="col" class="w-auto">Address</th>
                 <th scope="col" class="w-auto">Postcode</th>
                 <th scope="col" class="w-auto">City</th>
-                <th scope="col" class="w-auto">Country</th>
+                <th scope="col" class="w-auto">Country</th>-->
                 <th scope="col" class="w-auto">Phone</th>
                 <th scope="col" class="w-auto">Mail</th>
                 <th scope="col" class="w-auto">Role</th>
@@ -39,13 +39,15 @@
                     <td>{{ $user->surname }}</td>
                     <td>{{ $user->username }}</td>
                     <td>{{ $user->formatted_born_date }}</td>
+                    <!--
                     <td>{{ $user->address }}</td>
                     <td>{{ $user->postcode }}</td>
                     <td>{{ $user->city }}</td>
-                    <td>{{ $user->country }}</td>
+                    <td>{{ $user->country }}</td>-->
+
                     <td>{{ $user->phone }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role_id }}</td>
+                    <td>{{ $user->role->name }}</td>
                     <td>
                         <a href="#" class="btn btn-sm btn-outline-primary">
                             <i class="fa-solid fa-pencil"></i>

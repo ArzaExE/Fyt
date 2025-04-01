@@ -8,6 +8,8 @@ class user_roles extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_roles';
+
     protected $fillable = [
         'id',
         'name'

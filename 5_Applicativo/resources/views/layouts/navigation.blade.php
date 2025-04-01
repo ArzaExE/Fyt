@@ -19,15 +19,15 @@
                             {{ __('Catalog') }}
                         </x-nav-link>
                         @if (Route::has('login') && Auth::check())
-                            @if(Auth::user()->role_id === 1)
+                            @if(Auth::user()->role->name === 'admin')
                                 <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                                     {{ __('Admin') }}
                                 </x-nav-link>
-                            @elseif(Auth::user()->role_id === 2)
+                            @elseif(Auth::user()->role->name === 'vendor')
                                 <x-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                                     {{ __('Vendor') }}
                                 </x-nav-link>
-                            @elseif(Auth::user()->role_id === 3)
+                            @elseif(Auth::user()->role->name === 'user')
                                 <!-- User -->
                                 <x-nav-link :href="route('user')" :active="request()->routeIs('user')">
                                     {{ __('User') }}
@@ -36,11 +36,11 @@
                         @endif
                     @else
                         @if (Route::has('login') && Auth::check())
-                            @if(Auth::user()->role_id === 1)
+                            @if(Auth::user()->role->name === 'admin')
                                 <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                                     {{ __('Admin') }}
                                 </x-nav-link>
-                            @elseif(Auth::user()->role_id === 2)
+                            @elseif(Auth::user()->role->name === 'vendor')
                                 <x-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                                     {{ __('Products') }}
                                 </x-nav-link>
@@ -123,11 +123,11 @@
                     {{ __('Catalog') }}
                 </x-responsive-nav-link>
                 @if (Route::has('login') && Auth::check())
-                    @if(Auth::user()->role_id === 1)
+                    @if(Auth::user()->role->name === 'admin')
                         <x-responsive-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                             {{ __('Admin') }}
                         </x-responsive-nav-link>
-                    @elseif(Auth::user()->role_id === 2)
+                    @elseif(Auth::user()->role->name === 'vendor')
                         <x-responsive-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                             {{ __('Vendor') }}
                         </x-responsive-nav-link>
@@ -135,11 +135,11 @@
                 @endif
             @else
                 @if (Route::has('login') && Auth::check())
-                    @if(Auth::user()->role_id === 1)
+                    @if(Auth::user()->role->name === 'admin')
                         <x-responsive-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                             {{ __('Admin') }}
                         </x-responsive-nav-link>
-                    @elseif(Auth::user()->role_id === 2)
+                    @elseif(Auth::user()->role->name === 'vendor')
                         <x-responsive-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                             {{ __('Products') }}
                         </x-responsive-nav-link>

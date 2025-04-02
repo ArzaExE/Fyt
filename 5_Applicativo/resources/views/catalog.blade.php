@@ -10,7 +10,6 @@
         @foreach ($products as $product)
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
-<<<<<<< Updated upstream
                     <!-- Contenitore immagine con bordi -->
                     <div class="p-3"> <!-- Padding per creare spazio -->
                         <div class="ratio ratio-1x1 position-relative overflow-hidden rounded-3" style="border: 1px solid #e0e0e0;">
@@ -24,15 +23,6 @@
                                 @endif
                             @endforeach
                         </div>
-=======
-                    <!-- Immagine del prodotto -->
-                    <div class="card-img-top text-center p-3">
-                        @foreach($images as $image)
-                            @if($image->product_id == $product->id)
-                                <img src="{{ asset('public/productImages' . $image->image) }}">
-                            @endif
-                        @endforeach
->>>>>>> Stashed changes
                     </div>
 
                     <!-- Corpo della card -->

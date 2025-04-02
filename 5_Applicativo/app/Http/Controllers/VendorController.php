@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Image;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -31,37 +32,85 @@ class VendorController extends Controller
         $release_date = $request->get('release_date');
         $price = $request->get('price');
 
-        $product = Product::create([
-            'name' => $name,
-            'color' => $color,
-            'description' => $description,
-            'release_date' => $release_date,
-            'price' => $price,
-        ]);
+        // Avvia una transazione
+        DB::beginTransaction();
 
-        // Gestione delle immagini
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $imageFile) {
-                // Genera un nome unico per l'immagine
-                $imageName = time() . '_' . $imageFile->getClientOriginalName();
+        try{
 
-                // Sposta il file direttamente nella cartella public/images
-                $imagePath = $imageFile->move('productImages', $imageName);
+            $product = Product::create([
+                'name' => $name,
+                'color' => $color,
+                'description' => $description,
+                'release_date' => $release_date,
+                'price' => $price,
+            ]);
 
-                // Salva il percorso relativo nel database (es. images/filename.jpg)
-                Image::create([
-                    'product_id' => $product->id,
-                    'image' => '/' . $imageName,  // Salva solo il percorso relativo
-                ]);
+            // Verifica se l'immagine principale sia presente (richiesta)
+            if ($request->hasFile('mainImage')) {
+                $this->addMainImage($request, $product);
+            } else {
+                throw new \Exception('The main image is missing. Please insert at least the main one.');
             }
-        }
 
-        return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images!');
+            // Gestione delle altre immagini (opzionali)
+            if ($request->hasFile('images')) {
+                // Verifica quantità immagini
+                if (count($request->file('images')) <= 20) {
+                    $this->addOtherImages($request, $product);
+                } else {
+                    throw new \Exception('Too many images have been added. Please insert a maximum of 20.');
+                }
+            }
+
+            return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images.');
+            // Conferma la transazione
+            DB::commit();
+
+        }catch(\Exception $e){
+            // Annulla la transazione in caso di errore
+            DB::rollBack();
+
+            return redirect()->back()->with('failed', 'Error: ' . $e->getMessage());
+        }
     }
 
+    public function addMainImage($request, $product){
 
-    public function convertToBase64(){
+        $mainImage = $request->file('mainImage');
+        // Genera un nome unico per l'immagine
+        $imageName = time() . '_' . $mainImage->getClientOriginalName();
 
+        // Sposta il file direttamente nella cartella public/images
+        $imagePath = $mainImage->move('productImages', $imageName);
+
+        // Salva il percorso relativo nel database (es. images/filename.jpg)
+        Image::create([
+            'product_id' => $product->id,
+            // Salva solo il percorso relativo
+            'image' => '/' . $imageName,
+            // Definisce come immagine principale
+            'is_main' => 1,
+        ]);
+
+    }
+
+    public function addOtherImages($request, $product){
+        foreach ($request->file('images') as $imageFile) {
+            // Genera un nome unico per l'immagine
+            $imageName = time() . '_' . $imageFile->getClientOriginalName();
+
+            // Sposta il file direttamente nella cartella public/images
+            $imagePath = $imageFile->move('productImages', $imageName);
+
+            // Salva il percorso relativo nel database (es. images/filename.jpg)
+            Image::create([
+                'product_id' => $product->id,
+                // Salva solo il percorso relativo
+                'image' => '/' . $imageName,
+                // Definisce come immagine secondaria
+                'is_main' => 0,
+            ]);
+        }
     }
 
 }

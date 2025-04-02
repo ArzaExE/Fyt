@@ -9,9 +9,9 @@
         {{--        <a href="#" class="btn btn-outline-gray-custom px-5 btn-custom-height" data-bs-toggle="modal" data-bs-target="#addModal>--}}
         {{--            <i class="fa-solid fa-plus"></i> Add--}}
         {{--        </a>--}}
-        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">
-            <a href="{{ route('admin.add') }}">Add</a>
-        </button>
+{{--        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">--}}
+{{--            <a href="{{ route('admin.add') }}">Add</a>--}}
+{{--        </button>--}}
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">

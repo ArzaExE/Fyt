@@ -6,9 +6,9 @@
         <h1 class="mb-0">Products</h1>
 
 
-        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">
-            <a href="{{ route('vendor.add') }}">Add</a>
-        </button>
+{{--        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">--}}
+{{--            <a href="{{ route('vendor.add') }}">Add</a>--}}
+{{--        </button>--}}
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">

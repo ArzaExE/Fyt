@@ -39,12 +39,12 @@
                     <td>{{ $product->formatted_release_date }}</td>
                     <td>{{ $product->price }} €</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-outline-primary">
+                        <a href="vendor/editShoe" class="btn btn-sm btn-outline-primary">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-outline-danger">
+                        <a href="" class="btn btn-sm btn-outline-danger">
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>

@@ -19,6 +19,10 @@ Route::get('/vendor/add', [VendorController::class, 'add'])
     ->middleware(['auth', 'verified', 'vendor'])
     ->name('vendor.add');
 
+Route::get('/vendor/editShoe', [VendorController::class, 'editShoeForm'])
+    ->middleware(['auth', 'verified', 'vendor'])
+    ->name('vendor.editShoeForm');
+
 Route::post('/vendor/upload', [VendorController::class, 'upload'])
     ->middleware(['auth', 'verified', 'vendor'])
     ->name('vendor.upload');

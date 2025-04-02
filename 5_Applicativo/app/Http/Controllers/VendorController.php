@@ -116,4 +116,18 @@ class VendorController extends Controller
         }
     }
 
+    // Reindirizzamento al form di modifica della scarpa
+    public function editShoeForm(){
+        return view('templates.editShoe');
+    }
+
+    // Metodo che invia al database i nuovi dati
+    public function updateShoeData(){
+
+    }
+
+    // Metodo che rimuove una scarpa definita
+    public function removeShoe(){
+    }
+
 }

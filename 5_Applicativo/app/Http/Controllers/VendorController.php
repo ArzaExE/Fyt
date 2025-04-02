@@ -62,14 +62,17 @@ class VendorController extends Controller
                 }
             }
 
-            return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images.');
             // Conferma la transazione
             DB::commit();
+
+            // Reindirizza alla pagina precedente con un codice d'uscita
+            return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images.');
 
         }catch(\Exception $e){
             // Annulla la transazione in caso di errore
             DB::rollBack();
 
+            // Reindirizza alla pagina precedente con un codice d'uscita
             return redirect()->back()->with('failed', 'Error: ' . $e->getMessage());
         }
     }

@@ -44,10 +44,7 @@ Route::middleware('auth')->group(function () {
 });
 
 //  ----------------- Per info shipping -----------------
-Route::get('/profile/shipping', [ShippingController::class, 'show'])
-    ->name('shipping.show');
-
-Route::patch('/profile/shipping', [ShippingController::class, 'update'])
-    ->name('shipping.update');
+Route::patch('/profile/shipping', [ProfileController::class, 'updateShipping'])
+    ->name('profile.shipping.update');
 
 require __DIR__.'/auth.php';

@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('shipping.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
@@ -34,7 +34,7 @@
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'shipping-updated')
+            @if (session('status') === 'profile-updated')
                 <p class="text-sm text-green-600">
                     {{ __('Shipping address successfully updated !') }}
                 </p>

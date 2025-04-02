@@ -58,5 +58,18 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    public function updateShipping(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'postcode' => ['required', 'string', 'max:255']
+        ]);
+
+        $request->user()->update($validated);
+
+        return back()->with('status', 'shipping-updated');
+    }
+
 
 }

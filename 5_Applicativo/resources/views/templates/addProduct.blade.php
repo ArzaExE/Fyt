@@ -1,7 +1,7 @@
 @include('templates.header')
 <div class="container mt-5">
 <!-- Form per l'aggiunta del prodotto -->
-    <form method="POST" action="{{ route('vendor.upload') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.upload') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Campo Name -->
@@ -11,17 +11,17 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Campo Color -->
+        <!-- Campo Surname -->
         <div class="mb-4">
-            <x-input-label for="color" :value="__('Color')" />
-            <x-text-input id="color" class="block mt-1 w-full" type="text" name="color" :value="old('color')" required />
-            <x-input-error :messages="$errors->get('color')" class="mt-2" />
+            <x-input-label for="surname" :value="__('Surname')" />
+            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required />
+            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
 
-        <!-- Campo Description -->
+        <!-- Campo Username -->
         <div class="mb-4">
-            <x-input-label for="description" :value="__('Description')" />
-            <textarea id="description" name="description" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" rows="4" required>{{ old('description') }}</textarea>
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" name="username" {{ old('username') }}/>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
 

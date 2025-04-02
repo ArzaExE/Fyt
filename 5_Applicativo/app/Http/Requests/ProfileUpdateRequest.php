@@ -15,16 +15,25 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $isShippingUpdate = $this->hasAny(['address', 'city', 'postcode']);
+
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                $isShippingUpdate ? 'nullable' : 'required',
+                'string',
+                'max:255',
+            ],
             'email' => [
-                'required',
+                $isShippingUpdate ? 'nullable' : 'required',
                 'string',
                 'lowercase',
                 'email',
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'address' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'postcode' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

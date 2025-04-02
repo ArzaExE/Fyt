@@ -4,6 +4,12 @@
     <form method="POST" action="{{ route('vendor.upload') }}" enctype="multipart/form-data">
         @csrf
 
+        @if(session('failed'))
+            <div class="alert alert-danger">
+                {{ session('failed') }}
+            </div>
+        @endif
+
         <!-- Campo Name -->
         <div class="mb-4">
             <x-input-label for="name" :value="__('Name')" />
@@ -51,7 +57,7 @@
         <!-- Immagini multiple -->
         <div class="mb-4">
             <x-input-label for="images" :value="__('Other images')" />
-            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple onchange="validateFileCount(this)"/>
+            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple onchange="validateFileCount(this)"/>
             <x-input-error :messages="$errors->get('image')" class="mt-2" />
         </div>
 

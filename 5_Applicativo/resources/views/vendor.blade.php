@@ -2,13 +2,27 @@
 <div class="container mt-5">
     <!-- Contenitore flessibile per h1 e pulsante -->
     <div class="d-flex align-items-center justify-content-between">
+
+
         <!-- Titolo -->
         <h1 class="mb-0">Products</h1>
 
+        <!-- Pulsante -->
+{{--        <a href="#" class="btn btn-outline-gray-custom px-5 btn-custom-height" data-bs-toggle="modal" data-bs-target="#addModal>--}}
+{{--            <i class="fa-solid fa-plus"></i> Add--}}
+{{--        </a>--}}
+        <!-- Stampa esito inserimento -->
+        @if(session('failed'))
+            <div class="alert alert-danger">
+                {{ session('failed') }}
+            </div>
+        @endif
 
-{{--        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">--}}
-{{--            <a href="{{ route('vendor.add') }}">Add</a>--}}
-{{--        </button>--}}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">

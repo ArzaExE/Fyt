@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,5 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//  ----------------- Per info shipping -----------------
+Route::get('/profile/shipping', [ShippingController::class, 'show'])
+    ->name('shipping.show');
+
+Route::patch('/profile/shipping', [ShippingController::class, 'update'])
+    ->name('shipping.update');
 
 require __DIR__.'/auth.php';

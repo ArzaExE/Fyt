@@ -32,19 +32,28 @@
             <x-input-error :messages="$errors->get('release_date')" class="mt-2" />
         </div>
 
-        <!-- Campo Price -->
-        <div class="mb-4">
-            <x-input-label for="price" :value="__('Price (€)')" />
-            <x-text-input id="price" class="block mt-1 w-full" type="number" step="0.01" name="price" :value="old('price')" required />
-            <x-input-error :messages="$errors->get('price')" class="mt-2" />
-        </div>
+    <!-- Campo Price -->
+    <div class="mb-4">
+        <x-input-label for="price" :value="__('Price (€)')" />
+        <x-text-input id="price" class="block mt-1 w-full" type="number" min="0" step="0.01" name="price" :value="old('price')" required />
+        <x-input-error :messages="$errors->get('price')" class="mt-2" />
+    </div>
 
-        <!-- Campo Images -->
-        <div class="mb-4">
-            <x-input-label for="images" :value="__('Images')" />
-            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple/>
-            <x-input-error :messages="$errors->get('image')" class="mt-2" />
-        </div>
+    <!-- Campo Images -->
+
+    <!-- Immaigne principale -->
+    <div class="mb-4">
+        <x-input-label for="mainImage" :value="__('Main image')" />
+        <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" required/>
+        <x-input-error :messages="$errors->get('image')" class="mt-2" />
+    </div>
+
+    <!-- Immagini multiple -->
+    <div class="mb-4">
+        <x-input-label for="images" :value="__('Other images')" />
+        <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple onchange="validateFileCount(this)"/>
+        <x-input-error :messages="$errors->get('image')" class="mt-2" />
+    </div>
 
         <!-- Pulsante di invio -->
         <div class="flex items-center justify-end mt-6">
@@ -55,3 +64,15 @@
     </form>
 </div>
 
+<!-- Script per verificare la quantità di immagini inserite -->
+<script>
+    function validateFileCount(input) {
+        // Verifica quantità immagini
+        if (input.files.length > 20) {
+            // Avviso all'utente
+            alert('Puoi caricare un massimo di 20 immagini.');
+            // Rimozione immagini selezionate
+            input.value = '';
+        }
+    }
+</script>

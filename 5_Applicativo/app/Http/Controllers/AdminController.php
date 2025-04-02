@@ -13,4 +13,8 @@ class AdminController extends Controller
         $users = User::all();
         return view('admin', compact('users'));
     }
+
+    public function add(){
+        return view('templates.addUser');
+    }
 }

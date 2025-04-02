@@ -1,6 +1,6 @@
 @include('templates.header')
-<div class="container mt-5">
 <!-- Form per l'aggiunta del prodotto -->
+<div class="container mt-4">
     <form method="POST" action="{{ route('vendor.upload') }}" enctype="multipart/form-data">
         @csrf
 

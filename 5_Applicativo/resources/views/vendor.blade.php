@@ -5,11 +5,10 @@
         <!-- Titolo -->
         <h1 class="mb-0">Products</h1>
 
-        <!-- Pulsante -->
-{{--        <a href="#" class="btn btn-outline-gray-custom px-5 btn-custom-height" data-bs-toggle="modal" data-bs-target="#addModal>--}}
-{{--            <i class="fa-solid fa-plus"></i> Add--}}
-{{--        </a>--}}
-        <button type="button" class="btn btn-outline-gray-custom px-5 btn-custom-height" data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+
+        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">
+            <a href="{{ route('vendor.add') }}">Add</a>
+        </button>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -50,8 +49,6 @@
         </table>
     </div>
 </div>
-
-@include('modals.addProduct')
 
 <!-- Stile personalizzato -->
 <style>

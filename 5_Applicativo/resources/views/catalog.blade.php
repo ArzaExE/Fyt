@@ -2,13 +2,11 @@
 @include('templates.header')
 
 <!-- Contenuto principale -->
-<div class="container mt-5">
+<div class="container mt-5" >
     <h1 class="text-center mb-5">Catalogo Prodotti</h1>
-
     <!-- Griglia dei prodotti -->
     <div class="row">
         @foreach ($products as $product)
-
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
                     <!-- Carousel Immagini -->
@@ -17,19 +15,19 @@
                             <div id="carousel-{{ $product->id }}" class="carousel slide" data-bs-ride="carousel">
                                 <div class="ratio ratio-1x1 overflow-hidden rounded-3" style="border: 1px solid #e0e0e0;">
                                     @php
-                                        $mainImage = true;
+                                        $isMainImage = true;
                                     @endphp
 
                                     @foreach($images as $image)
                                         @if($image->product_id == $product->id)
-                                            <div class="carousel-item {{ $mainImage ? 'active' : '' }}">
+                                            <div class="carousel-item {{ $isMainImage ? 'active' : '' }}">
                                                 <img src="{{ file_exists(public_path('productImages' . $image->image)) ? asset('productImages' . $image->image) : asset('img/not_found.png') }}"
                                                      class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
                                                      alt="{{ asset('img/not_found.png') }}">
                                             </div>
 
                                             @php
-                                                $mainImage = false;
+                                                $isMainImage = false;
                                             @endphp
                                         @endif
                                     @endforeach
@@ -38,16 +36,26 @@
 
                                     <!-- Indicatori -->
                                     <div class="carousel-indicators position-static mt-2">
-                                        @foreach($images as $indicatorIndex => $image)
-                                            <button type="button"
-                                                    data-bs-target="#carousel-{{ $product->id }}"
-                                                    data-bs-slide-to="{{ $indicatorIndex }}"
-                                                    class="{{ $indicatorIndex === 0 ? 'active' : '' }} mx-1"
-                                                    style="width: 10px; height: 10px; border-radius: 50%; border: none; background-color: #ddd;"></button>
+                                        @php
+                                            $indicatorIndex = 0;
+                                        @endphp
+                                        @foreach($images as $image)
+                                            @if($image->product_id == $product->id)
+                                                <button type="button"
+                                                        data-bs-target="#carousel-{{ $product->id }}"
+                                                        data-bs-slide-to="{{ $indicatorIndex }}"
+                                                        class="{{ $indicatorIndex === 0 ? 'active' : '' }} mx-1"
+                                                        style="width: 10px; height: 10px; border-radius: 50%; border: none; background-color: #D0A1FF;">
+                                                </button>
+                                                @php
+                                                    $indicatorIndex++;
+                                                @endphp
+                                            @endif
                                         @endforeach
                                     </div>
 
-                                    <!-- Controlli -->
+
+                                <!-- Controlli -->
                                     <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
                                     </button>
@@ -71,7 +79,7 @@
 
                     <!-- Footer della card -->
                     <div class="card-footer bg-transparent">
-                        <a href="#" class="btn btn-primary w-100">Dettagli</a>
+                        <a href="#" class="btn w-100" style="background-color: #D0A1FF">Dettagli</a>
                     </div>
                 </div>
             </div>

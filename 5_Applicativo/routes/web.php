@@ -31,6 +31,10 @@ Route::get('/admin/add', [AdminController::class, 'add'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.add');
 
+Route::post('/admin/upload', [AdminController::class, 'save'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.save');
+
 Route::get('/user', function () {
     return view('user');
 })->name('user');

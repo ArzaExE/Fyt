@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -18,7 +19,7 @@ class AdminController extends Controller
         return view('templates.addUser');
     }
 
-    public function upload(Request $request)
+    public function save(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
@@ -29,18 +30,11 @@ class AdminController extends Controller
             'postcode' => 'nullable|numeric|digits_between:3,10',
             'city' => 'nullable|string|max:100',
             'country' => 'nullable|string|max:100',
-            'phone' => [
-                'required',
-                'string',
-                'max:20',
-                Rule::unique('users')->ignore($this->user)
-            ],
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($this->user)
-            ],
+            'phone' => 'required|string|max:20|unique:users',
+            'email' => 'required|email|max:255|unique:users',
         ]);
+
+        User::create($validated);
+        return redirect()->route('admin');
     }
 }

@@ -1,7 +1,7 @@
 @include('templates.header')
 <div class="container mt-5">
-<!-- Form per l'aggiunta del prodotto -->
-    <form method="POST" action="{{ route('admin.upload') }}" enctype="multipart/form-data">
+    <!-- Form per l'aggiunta del prodotto -->
+    <form method="POST" action="{{ route('vendor.upload') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Campo Name -->
@@ -11,17 +11,17 @@
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Campo Surname -->
+        <!-- Campo Color -->
         <div class="mb-4">
-            <x-input-label for="surname" :value="__('Surname')" />
-            <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required />
-            <x-input-error :messages="$errors->get('surname')" class="mt-2" />
+            <x-input-label for="color" :value="__('Color')" />
+            <x-text-input id="color" class="block mt-1 w-full" type="text" name="color" :value="old('color')" required />
+            <x-input-error :messages="$errors->get('color')" class="mt-2" />
         </div>
 
-        <!-- Campo Username -->
+        <!-- Campo Description -->
         <div class="mb-4">
-            <x-input-label for="username" :value="__('Username')" />
-            <x-text-input id="username" name="username" {{ old('username') }}/>
+            <x-input-label for="description" :value="__('Description')" />
+            <textarea id="description" name="description" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" rows="4" required>{{ old('description') }}</textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
 
@@ -32,28 +32,28 @@
             <x-input-error :messages="$errors->get('release_date')" class="mt-2" />
         </div>
 
-    <!-- Campo Price -->
-    <div class="mb-4">
-        <x-input-label for="price" :value="__('Price (€)')" />
-        <x-text-input id="price" class="block mt-1 w-full" type="number" min="0" step="0.01" name="price" :value="old('price')" required />
-        <x-input-error :messages="$errors->get('price')" class="mt-2" />
-    </div>
+        <!-- Campo Price -->
+        <div class="mb-4">
+            <x-input-label for="price" :value="__('Price (€)')" />
+            <x-text-input id="price" class="block mt-1 w-full" type="number" min="0" step="0.01" name="price" :value="old('price')" required />
+            <x-input-error :messages="$errors->get('price')" class="mt-2" />
+        </div>
 
-    <!-- Campo Images -->
+        <!-- Campo Images -->
 
-    <!-- Immaigne principale -->
-    <div class="mb-4">
-        <x-input-label for="mainImage" :value="__('Main image')" />
-        <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" required/>
-        <x-input-error :messages="$errors->get('image')" class="mt-2" />
-    </div>
+        <!-- Immaigne principale -->
+        <div class="mb-4">
+            <x-input-label for="mainImage" :value="__('Main image')" />
+            <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" required/>
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
 
-    <!-- Immagini multiple -->
-    <div class="mb-4">
-        <x-input-label for="images" :value="__('Other images')" />
-        <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple onchange="validateFileCount(this)"/>
-        <x-input-error :messages="$errors->get('image')" class="mt-2" />
-    </div>
+        <!-- Immagini multiple -->
+        <div class="mb-4">
+            <x-input-label for="images" :value="__('Other images')" />
+            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" required multiple onchange="validateFileCount(this)"/>
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
 
         <!-- Pulsante di invio -->
         <div class="flex items-center justify-end mt-6">

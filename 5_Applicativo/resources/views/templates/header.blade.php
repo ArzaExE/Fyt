@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fyt</title>
-
-    <link href="{{ asset('../css/shoe.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('img/LogoOnly.png') }}" type="image/x-icon">
+{{--    <link href="{{ asset('../css/shoe.css') }}" rel="stylesheet">--}}
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <script src="{{ asset('../js/catalog.js') }}"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -13,5 +13,4 @@
 </head>
 <body>
 @include('layouts.navigation')
-</body>
-</html>
+

@@ -10,10 +10,6 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/vendor', [VendorController::class, 'index'])
     ->middleware(['auth', 'verified', 'vendor'])
     ->name('vendor');
@@ -26,15 +22,10 @@ Route::post('/vendor/upload', [VendorController::class, 'upload'])
     ->middleware(['auth', 'verified', 'vendor'])
     ->name('vendor.upload');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/admin', [AdminController::class, 'index'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin');
 
-// per utente base
 Route::get('/user', function () {
     return view('user');
 })->name('user');

@@ -1,4 +1,4 @@
-@include('templates.accessHeader')
+@include('templates.header')
 <h1>Prodotti</h1>
 
 <table>

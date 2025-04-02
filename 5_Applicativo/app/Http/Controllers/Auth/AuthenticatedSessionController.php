@@ -29,19 +29,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $role_id = User::where('email', $request->user()->email)->select('role_id')->first();
+        $role = User::where('email', $request->user()->email)->first();
+        $role = $role->role->name;
 
-        if ($role_id->role_id === 1) {
-            return redirect()->intended(route('dashboard', absolute: false));
+        if ($role === 'admin') {
+            return redirect()->intended(route('admin', absolute: false));
         }
-        elseif ($role_id->role_id === 2) {
+        elseif ($role === 'vendor') {
             return redirect()->intended(route('vendor', absolute: false));
         }
-        // per utente base
-        elseif($role_id->role_id === 3) {
-            return redirect()->intended(route('user', absolute: false));
-        }
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('user', absolute: false));
     }
 
     /**

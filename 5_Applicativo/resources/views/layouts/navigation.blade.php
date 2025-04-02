@@ -91,11 +91,11 @@
                 </div>
             @elseif(Route::has('login') && !Auth::check())
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        Login
+                    <button type="button" class="btn btn-primary me-3">
+                        <a href="{{ route('login') }}">Login</a>
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">
-                        Sign Up
+                    <button type="button" class="btn btn-primary" href="{{ route('register') }}">
+                        <a href="{{ route('register') }}">Sign Up</a>
                     </button>
                 </div>
             @endif
@@ -180,10 +180,10 @@
                 </div>
             @elseif(Route::has('login') && !Auth::check())
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <x-responsive-nav-link href="{{ route('login') }}">
                         {{ __('Login') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link href="#" data-bs-toggle="modal" data-bs-target="#signUpModal">
+                    <x-responsive-nav-link href="{{ route('register') }}">
                         {{ __('Sign Up') }}
                     </x-responsive-nav-link>
                 </div>
@@ -192,7 +192,5 @@
     </div>
 </nav>
 
-@include('modals.login')
-@include('modals.register')
 
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>

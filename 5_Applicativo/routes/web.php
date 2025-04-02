@@ -26,6 +26,10 @@ Route::get('/admin', [AdminController::class, 'index'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin');
 
+Route::get('/admin/add', [AdminController::class, 'add'])
+    ->middleware(['auth', 'verified', 'admin'])
+    ->name('admin.add');
+
 Route::get('/user', function () {
     return view('user');
 })->name('user');

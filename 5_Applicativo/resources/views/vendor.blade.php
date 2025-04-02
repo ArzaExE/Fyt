@@ -65,8 +65,6 @@
     </div>
 </div>
 
-@include('modals.addProduct')
-
 <!-- Stile personalizzato -->
 <style>
     .btn-outline-gray-custom {

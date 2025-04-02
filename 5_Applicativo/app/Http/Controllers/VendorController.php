@@ -20,7 +20,7 @@ class VendorController extends Controller
 
     //Metodo GET per mostrare la pagina addProducts
     public function add(){
-        return view('addProducts');
+        return view('templates.addProduct');
     }
 
     //Metodo POST per iniviare i campi del form dell' aggiunta di un nuovo prodotto

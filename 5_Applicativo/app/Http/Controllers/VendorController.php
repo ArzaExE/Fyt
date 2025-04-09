@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductEditRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class VendorController extends Controller
 {
@@ -136,7 +138,7 @@ class VendorController extends Controller
         return view('templates.editProduct', compact('product', 'main', 'images'));
     }
 
-    public function save(ProductCreateRequest $request, Product $product): RedirectResponse
+    public function save(ProductEditRequest $request, Product $product): RedirectResponse
     {
         $validatedData = $request->validated();
 
@@ -159,8 +161,8 @@ class VendorController extends Controller
                 if (count($request->file('images')) + $countActualImages <= 10) {
                     $this->addOtherImages($request, $product);
                 }
-                else {
-                    throw new \Exception('Maximum 10 additional images allowed');
+                else{
+                    return back()->withInput()->withErrors(['images_limit' => 'Maximum 10 additional images allowed']);
                 }
             }
 
@@ -175,7 +177,9 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else {
-                    throw new \Exception('Maximum 10 additional images allowed');
+                    return back()
+                        ->withInput()
+                        ->withErrors(['images_limit' => 'Maximum 10 additional images allowed']);
                 }
             }
 
@@ -183,7 +187,7 @@ class VendorController extends Controller
             DB::commit();
 
             // Reindirizza alla pagina precedente con un codice d'uscita
-            return redirect()->route('vendor', $product->id)->with('success', 'Product created successfully');
+            return redirect()->route('vendor', $product->id)->with('success', 'Product ' . $product->name . ' edited successfully');
 
         }catch(\Exception $e){
             // Annulla la transazione in caso di errore

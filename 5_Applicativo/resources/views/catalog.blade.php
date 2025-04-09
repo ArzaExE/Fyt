@@ -73,7 +73,7 @@
                         <p class="card-text text-muted">{{ $product->description }}</p>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Colore:</strong> {{ $product->color }}</li>
-                            <li class="list-group-item"><strong>Data di rilascio:</strong> {{ $product->release_date }}
+                            <li class="list-group-item"><strong>Data di rilascio:</strong> {{ $product->formatted_release_date }}
                             </li>
                             <li class="list-group-item"><strong>Prezzo:</strong> {{ $product->price }} €</li>
                         </ul>

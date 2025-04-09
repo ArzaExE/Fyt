@@ -168,7 +168,11 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else{
-                    return back()->withInput()->withErrors(['images_limit' => 'Maximum 10 additional images allowed']);
+                    $validator = \Validator::make([], []); // Crea un validator vuoto
+                    $validator->errors()->add('images', 'Maximum 10 images allowed');
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
                 }
             }
 
@@ -183,9 +187,11 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else {
-                    return back()
-                        ->withInput()
-                        ->withErrors(['images_limit' => 'Maximum 10 additional images allowed']);
+                    $validator = \Validator::make([], []); // Crea un validator vuoto
+                    $validator->errors()->add('images', 'Maximum 10 images allowed');
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
                 }
             }
 

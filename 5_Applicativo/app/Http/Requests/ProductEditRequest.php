@@ -17,12 +17,12 @@ class ProductEditRequest extends FormRequest
     {
 
         return [
-            'name' => 'string|max:255',
-            'color' => 'string|max:100',
-            'description' => 'string|min:10|max:2000',
-            'release_date' => 'date|before_or_equal:today',
-            'price' => 'numeric|min:0.01|max:999999.99',
-            'mainImage' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'nullable|string|max:255',
+            'color' => 'nullable|string|max:100',
+            'description' => 'nullable|string|min:10|max:2000',
+            'release_date' => 'nullable|date|before_or_equal:today',
+            'price' => 'nullable|numeric|min:0.01|max:999999.99',
+            'mainImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'max:10',
         ];

@@ -50,7 +50,7 @@
         <div class="mt-4">
             <x-input-label :value="__('Current Main Image')" />
             <div class="mt-2 flex items-center space-x-4">
-                <img src="{{ asset('productImages'. $main->image) }}" alt="Current main image" class="h-32 w-32 object-cover rounded">
+                <img src="{{ asset('productImages'. $main->image) }}" alt="Current main image" class="fixed-size-img">
                 <input type="hidden" name="old_main_image" value="{{ $main->image }}">
                 <input type="hidden" name="old_main_id" value="{{ $main->id }}">
                 <div class="ml-12">
@@ -67,9 +67,7 @@
             <div class="flex flex-wrap gap-3 mt-2">
                 @foreach($images as $image)
                     <div class="flex flex-col items-center border rounded p-2 w-24">
-                        <img src="{{ asset('productImages'.$image->image) }}"
-                             alt="Product image"
-                             class="h-20 w-20 object-cover rounded mb-1">
+                        <img src="{{ asset('productImages'.$image->image) }}" alt="Product image" class="fixed-size-img mb-1">
                         <label class="flex items-center space-x-1">
                             <input type="checkbox"
                                    name="delete_images[]"
@@ -98,3 +96,15 @@
         </div>
     </form>
 </div>
+
+<style>
+    .fixed-size-img {
+        width: 128px;
+        height: 128px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0.5rem; /* opzionale, per arrotondare */
+        flex-shrink: 0; /* evita che si restringa */
+    }
+</style>
+

@@ -6,7 +6,7 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductEditRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Image;

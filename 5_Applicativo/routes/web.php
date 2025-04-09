@@ -77,4 +77,6 @@ Route::patch('/profile/shipping', [ProfileController::class, 'updateShipping'])
 require __DIR__.'/auth.php';
 
 //  ----------------- Per prodotti venduti -----------------
-Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
+Route::middleware('auth')->group(function () {
+    Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
+});

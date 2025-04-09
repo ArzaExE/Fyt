@@ -22,3 +22,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/public/productImages/*.jpg
+/public/productImages/*.png
+/public/productImages/*.gif
+/public/productImages/*.jpeg

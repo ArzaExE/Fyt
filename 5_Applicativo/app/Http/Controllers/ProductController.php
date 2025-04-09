@@ -14,4 +14,5 @@ class ProductController extends Controller
         // Passa i prodotti alla view 'product'
         // return view('product', compact('products'));
     }
+
 }

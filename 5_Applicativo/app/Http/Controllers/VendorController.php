@@ -6,6 +6,7 @@ use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductEditRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Image;
@@ -21,6 +22,11 @@ class VendorController extends Controller
 
         // Passa i prodotti alla view product
         return view('vendor', compact('products'));
+    }
+
+    public function showSales(){
+        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->get();
+        return view('vendorSales',compact('orders'));
     }
 
 

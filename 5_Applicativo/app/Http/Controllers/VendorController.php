@@ -106,7 +106,6 @@ class VendorController extends Controller
 
     public function addOtherImages($request, $product){
         foreach ($request->file('images') as $imageFile) {
-            // Genera un nome unico per l'immagine
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
 
             // Sposta il file direttamente nella cartella public/images

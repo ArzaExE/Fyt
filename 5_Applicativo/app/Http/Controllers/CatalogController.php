@@ -11,7 +11,7 @@ class CatalogController extends Controller
     public function index()
     {
         $products = Product::all();
-        $images = Image::all();
+        $images = Image::orderByDesc('is_main')->get();
 //        foreach ($images as $image) {
 //            if ($image->image) {
 //                $image->image = 'data:image/jpeg;base64,' . base64_encode($image->image);

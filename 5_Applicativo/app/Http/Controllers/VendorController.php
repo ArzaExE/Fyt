@@ -106,14 +106,19 @@ class VendorController extends Controller
 
     public function addOtherImages($request, $product){
         foreach ($request->file('images') as $imageFile) {
-            // Genera un nome unico per l'immagine
             $imageName = time() . '_' . $imageFile->getClientOriginalName();
 
             // Sposta il file direttamente nella cartella public/images
             $imagePath = $imageFile->move('productImages', $imageName);
 
-            // Elimina il percorso relativo nel database (es. images/filename.jpg)
-            ProductImage::destroy($imageFile->id);
+            // Salva il percorso relativo nel database (es. images/filename.jpg)
+            ProductImage::create([
+                'product_id' => $product->id,
+                // Salva solo il percorso relativo
+                'image' => '/' . $imageName,
+                // Definisce come immagine principale
+                'is_main' => 1,
+            ]);
         }
     }
 

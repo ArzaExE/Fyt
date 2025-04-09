@@ -91,10 +91,10 @@
                 </div>
             @elseif(Route::has('login') && !Auth::check())
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <button type="button" class="btn btn-primary me-3">
+                    <button type="button" class="btn me-3" style="color:whitesmoke; background-color: #D0A1FF;">
                         <a href="{{ route('login') }}">Login</a>
                     </button>
-                    <button type="button" class="btn btn-primary" href="{{ route('register') }}">
+                    <button type="button" class="btn" style="color:whitesmoke; background-color: #D0A1FF;" href="{{ route('register') }}">
                         <a href="{{ route('register') }}">Sign Up</a>
                     </button>
                 </div>

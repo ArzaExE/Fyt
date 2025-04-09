@@ -30,6 +30,10 @@ Route::put('/vendor/save/{product}', [VendorController::class, 'save'])
     ->middleware(['auth', 'verified', 'vendor'])
     ->name('vendor.save');
 
+Route::delete('/admin/delete/{product}', [VendorController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'vendor'])
+    ->name('vendor.destroy');
+
 //------------- Pagine admin -------------
 
 Route::get('/admin', [AdminController::class, 'index'])
@@ -45,6 +49,7 @@ Route::put('/admin/save/{user}', [AdminController::class, 'save'])
     ->name('admin.save');
 
 Route::delete('/admin/delete/{user}', [AdminController::class, 'destroy'])
+    ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.destroy');
 
 // ---------------------------------------

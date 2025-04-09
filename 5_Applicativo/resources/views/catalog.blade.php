@@ -81,7 +81,7 @@
 
                     <!-- Footer della card -->
                     <div class="card-footer bg-transparent">
-                        <a href="#" class="btn w-100" style="background-color: #D0A1FF">Dettagli</a>
+                        <a href="/catalog/product/{{ $product->id }}" class="btn w-100" style="color: whitesmoke; background-color: #D0A1FF;">Dettagli</a>
                     </div>
                 </div>
             </div>

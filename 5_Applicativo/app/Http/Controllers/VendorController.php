@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
 use App\Models\Product;
+use App\Models\ProductImage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Image;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class VendorController extends Controller
 {
@@ -24,41 +28,32 @@ class VendorController extends Controller
     }
 
     //Metodo POST per iniviare i campi del form dell' aggiunta di un nuovo prodotto
-    public function upload(Request $request)
+    public function upload(ProductCreateRequest $request): RedirectResponse
     {
-        $name = $request->get('name');
-        $color = $request->get('color');
-        $description = $request->get('description');
-        $release_date = $request->get('release_date');
-        $price = $request->get('price');
+        $validatedData = $request->validated();
 
         // Avvia una transazione
         DB::beginTransaction();
 
         try{
-
-            $product = Product::create([
-                'name' => $name,
-                'color' => $color,
-                'description' => $description,
-                'release_date' => $release_date,
-                'price' => $price,
-            ]);
+            $product = Product::create($request->only([
+                'name', 'color', 'description', 'release_date', 'price'
+            ]));
 
             // Verifica se l'immagine principale sia presente (richiesta)
             if ($request->hasFile('mainImage')) {
                 $this->addMainImage($request, $product);
             } else {
-                throw new \Exception('The main image is missing. Please insert at least the main one.');
+                throw new \Exception('The main image is required.');
             }
 
             // Gestione delle altre immagini (opzionali)
             if ($request->hasFile('images')) {
                 // Verifica quantità immagini
-                if (count($request->file('images')) <= 20) {
+                if (count($request->file('images')) <= 10) {
                     $this->addOtherImages($request, $product);
                 } else {
-                    throw new \Exception('Too many images have been added. Please insert a maximum of 20.');
+                    throw new \Exception('Maximum 10 additional images allowed');
                 }
             }
 
@@ -66,7 +61,7 @@ class VendorController extends Controller
             DB::commit();
 
             // Reindirizza alla pagina precedente con un codice d'uscita
-            return redirect()->route('vendor', $product->id)->with('success', 'Product added successfully with images.');
+            return redirect()->route('vendor', $product->id)->with('success', 'Product created successfully');
 
         }catch(\Exception $e){
             // Annulla la transazione in caso di errore
@@ -87,14 +82,26 @@ class VendorController extends Controller
         $imagePath = $mainImage->move('productImages', $imageName);
 
         // Salva il percorso relativo nel database (es. images/filename.jpg)
-        Image::create([
+        ProductImage::create([
             'product_id' => $product->id,
             // Salva solo il percorso relativo
             'image' => '/' . $imageName,
             // Definisce come immagine principale
             'is_main' => 1,
         ]);
+    }
+    public function deleteMainImage($request){
 
+        $imageName = $request->input('old_main_image');
+        $imageId = $request->input('old_main_id');
+
+        // Elimina il file direttamente nella cartella public/images
+        $filePath = public_path('productImages' . $imageName);
+        unlink($filePath);
+
+        // Elimina il percorso relativo nel database (es. images/filename.jpg)
+        $image = ProductImage::find($imageId);
+        $image->forceDelete();
     }
 
     public function addOtherImages($request, $product){
@@ -105,29 +112,73 @@ class VendorController extends Controller
             // Sposta il file direttamente nella cartella public/images
             $imagePath = $imageFile->move('productImages', $imageName);
 
-            // Salva il percorso relativo nel database (es. images/filename.jpg)
-            Image::create([
-                'product_id' => $product->id,
-                // Salva solo il percorso relativo
-                'image' => '/' . $imageName,
-                // Definisce come immagine secondaria
-                'is_main' => 0,
-            ]);
+            // Elimina il percorso relativo nel database (es. images/filename.jpg)
+            ProductImage::destroy($imageFile->id);
         }
     }
 
-    // Reindirizzamento al form di modifica della scarpa
-    public function editShoeForm(){
-        return view('templates.editShoe');
+    public function deleteOtherImages($request){
+        foreach ($request->file('delete_images') as $imageFile) {
+            // Genera un nome unico per l'immagine
+            $imageName = $imageFile->getPathname();
+
+            // Elimina il file direttamente nella cartella public/images
+            $imageFile->delete('productImages', $imageName);
+
+            // Elimina il percorso relativo nel database (es. images/filename.jpg)
+            ProductImage::destroy($imageFile->id);
+        }
     }
 
-    // Metodo che invia al database i nuovi dati
-    public function updateShoeData(){
-
+    public function edit(Product $product){
+        $main = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 1]])->first();
+        $images = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 0]])->get();
+        return view('templates.editProduct', compact('product', 'main', 'images'));
     }
 
-    // Metodo che rimuove una scarpa definita
-    public function removeShoe(){
+    public function save(ProductCreateRequest $request, Product $product): RedirectResponse
+    {
+        $validatedData = $request->validated();
+
+        DB::beginTransaction();
+
+        try{
+
+            $product->update($request->only([
+                'name', 'color', 'description', 'release_date', 'price'
+            ]));
+
+
+            // Verifica se l'immagine principale sia presente (richiesta)
+            if ($request->hasFile('mainImage')) {
+                $this->deleteMainImage($request);
+                $this->addMainImage($request, $product);
+            }
+
+            // Gestione delle altre immagini (opzionali)
+            if ($request->hasFile('images')) {
+                // Verifica quantità immagini
+                if (count($request->file('images')) <= 10) {
+                    $this->deleteOtherImages($request);
+                    $this->addOtherImages($request, $product);
+                } else {
+                    throw new \Exception('Maximum 10 additional images allowed');
+                }
+            }
+
+            // Conferma la transazione
+            DB::commit();
+
+            // Reindirizza alla pagina precedente con un codice d'uscita
+            return redirect()->route('vendor', $product->id)->with('success', 'Product created successfully');
+
+        }catch(\Exception $e){
+            // Annulla la transazione in caso di errore
+            DB::rollBack();
+
+            // Reindirizza alla pagina precedente con un codice d'uscita
+            return redirect()->back()->with('failed', 'Error: ' . $e->getMessage());
+        }
     }
 
 }

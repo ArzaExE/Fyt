@@ -40,9 +40,6 @@
                                 <x-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                                     {{ __('Admin') }}
                                 </x-nav-link>
-                                <x-nav-link :href="route('admin.add')" :active="request()->routeIs('admin.add')">
-                                    {{ __('Add User') }}
-                                </x-nav-link>
                             @elseif(Auth::user()->role->name === 'vendor')
                                 <x-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                                     {{ __('Products') }}
@@ -141,9 +138,6 @@
                     @if(Auth::user()->role->name === 'admin')
                         <x-responsive-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                             {{ __('Admin') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route('admin.add')" :active="request()->routeIs('admin.add')">
-                            {{ __('Add User') }}
                         </x-responsive-nav-link>
                     @elseif(Auth::user()->role->name === 'vendor')
                         <x-responsive-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">

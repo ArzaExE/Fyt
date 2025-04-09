@@ -51,14 +51,19 @@
         <div class="mb-4">
             <x-input-label for="mainImage" :value="__('Main image')" />
             <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" required/>
-            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            <x-input-error :messages="$errors->get('mainImage')" class="mt-2" />
         </div>
 
         <!-- Immagini multiple -->
         <div class="mb-4">
             <x-input-label for="images" :value="__('Other images')" />
-            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple onchange="validateFileCount(this)"/>
-            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple/>
+            @error('images')
+                <x-input-error :messages="$message" class="mt-2" />
+            @enderror
+            @error('images.*')
+                <x-input-error :messages="$message" class="mt-2" />
+            @enderror
         </div>
 
         <!-- Pulsante di invio -->
@@ -69,16 +74,3 @@
         </div>
     </form>
 </div>
-
-<!-- Script per verificare la quantità di immagini inserite -->
-<script>
-    function validateFileCount(input) {
-        // Verifica quantità immagini
-        if (input.files.length > 20) {
-            // Avviso all'utente
-            alert('Puoi caricare un massimo di 20 immagini.');
-            // Rimozione immagini selezionate
-            input.value = '';
-        }
-    }
-</script>

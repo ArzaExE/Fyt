@@ -30,11 +30,15 @@ class User extends Authenticatable
         'name',
         'surname',
         'username',
+        'born_date',
+        'address',
+        'postcode',
+        'city',
+        'country',
+        'phone',
         'email',
         'password',
-        'address',
-        'city',
-        'postcode',
+        'role_id'
     ];
 
     /**
@@ -82,5 +86,9 @@ class User extends Authenticatable
     public function getFormattedBornDateAttribute()
     {
         return Carbon::parse($this->born_date)->format('d-m-Y');
+    }
+    public function getFormattedBornDateForFormAttribute()
+    {
+        return Carbon::parse($this->born_date)->format('Y-m-d');
     }
 }

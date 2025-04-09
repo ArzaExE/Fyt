@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\AdminUpdateRequest;
 use App\Models\User;
+use App\Models\user_roles;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
@@ -15,26 +20,40 @@ class AdminController extends Controller
         return view('admin', compact('users'));
     }
 
-    public function add(){
-        return view('templates.addUser');
+    public function edit(User $user) {
+        $roles = ['admin', 'vendor', 'user'];
+        $key = array_search($user->role->name, $roles);
+        unset($roles[$key]);
+        return view('templates.editUser', compact('user', 'roles'));
     }
 
-    public function save(Request $request)
+    public function save(AdminUpdateRequest $request, User $user): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'surname' => 'required|string|max:100',
-            'username' => 'required|string|max:50|unique:users',
-            'born_date' => 'required|date|before_or_equal:today',
-            'address' => 'nullable|string|max:255',
-            'postcode' => 'nullable|numeric|digits_between:3,10',
-            'city' => 'nullable|string|max:100',
-            'country' => 'nullable|string|max:100',
-            'phone' => 'required|string|max:20|unique:users',
-            'email' => 'required|email|max:255|unique:users',
-        ]);
+        $validatedData = $request->validated();
 
-        User::create($validated);
-        return redirect()->route('admin');
+        $user->update($request->except('role'));
+
+        if ($request->has('role')) {
+            $role = user_roles::where('name', $request->role)->first();
+            $user->role()->associate($role);
+        }
+
+        $user->save();
+
+        return Redirect::route('admin')->with('success', "User {$user->username} has been successfully modified");
+    }
+
+    public function destroy(User $user): RedirectResponse
+    {
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot delete your account!');
+        }
+
+        DB::transaction(function() use ($user) {
+            $user->forceDelete();
+        });
+
+        return redirect()->route('admin')
+            ->with('success', "User {$user->username} has been successfully deleted");
     }
 }

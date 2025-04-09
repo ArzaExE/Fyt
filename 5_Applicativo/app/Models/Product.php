@@ -14,7 +14,7 @@ class Product extends Model
     {
         return Carbon::parse($this->release_date)->format('d-m-Y');
     }
-    
+
     protected $fillable = [
         'name',
         'description',
@@ -23,5 +23,22 @@ class Product extends Model
         'price'
     ];
 
+    // Relazione uno-a-molti con le immagini
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    // Relazione per l'immagine principale (opzionale)
+    public function mainImage()
+    {
+        return $this->hasOne(ProductImage::class)->where('is_main', true);
+    }
+
     public $timestamps = false;
+
+    public function getFormattedReleaseDateForFormAttribute()
+    {
+        return Carbon::parse($this->release_date)->format('Y-m-d');
+    }
 }

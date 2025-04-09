@@ -1,18 +1,8 @@
 @include('templates.header')
 <div class="container mt-5">
-    <!-- Contenitore flessibile per h1 e pulsante -->
-    <div class="d-flex align-items-center justify-content-between">
-        <!-- Titolo -->
-        <h1 class="mb-0">Users</h1>
-
-        <!-- Pulsante -->
-        {{--        <a href="#" class="btn btn-outline-gray-custom px-5 btn-custom-height" data-bs-toggle="modal" data-bs-target="#addModal>--}}
-        {{--            <i class="fa-solid fa-plus"></i> Add--}}
-        {{--        </a>--}}
-{{--        <button type="button" class="btn btn-primary btn-outline-gray-custom px-5 btn-custom-height">--}}
-{{--            <a href="{{ route('admin.add') }}">Add</a>--}}
-{{--        </button>--}}
-    </div>
+    <b><h1 style="font-size: 25px">Users</h1></b>
+    <br>
+    <br>
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
@@ -25,8 +15,8 @@
                 <!--<th scope="col" class="w-auto">Address</th>
                 <th scope="col" class="w-auto">Postcode</th>
                 <th scope="col" class="w-auto">City</th>
-                <th scope="col" class="w-auto">Country</th>-->
-                <th scope="col" class="w-auto">Phone</th>
+                <th scope="col" class="w-auto">Country</th>
+                <th scope="col" class="w-auto">Phone</th>-->
                 <th scope="col" class="w-auto">Mail</th>
                 <th scope="col" class="w-auto">Role</th>
                 <th scope="col" class="w-auto">Edit</th>
@@ -45,20 +35,25 @@
                     <td>{{ $user->address }}</td>
                     <td>{{ $user->postcode }}</td>
                     <td>{{ $user->city }}</td>
-                    <td>{{ $user->country }}</td>-->
+                    <td>{{ $user->country }}</td>
+                    <td>{{ $user->phone }}</td>-->
 
-                    <td>{{ $user->phone }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-outline-primary">
+                        <a href="{{route('admin.edit', $user)}}" class="btn btn-sm btn-outline-primary">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-outline-danger">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
+                        <form method="POST" action="{{ route('admin.destroy', $user) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure you want to delete this user?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
@@ -66,6 +61,8 @@
         </table>
     </div>
 </div>
+
+@include('modals.delete')
 
 <!-- Stile personalizzato -->
 <style>

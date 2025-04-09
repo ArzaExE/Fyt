@@ -1,7 +1,7 @@
 @include('templates.header')
 <div class="container mt-5">
-    <!-- Contenitore flessibile per h1 e pulsante -->
     <div class="d-flex align-items-center justify-content-between">
+        <b><h1 style="font-size: 25px">Products</h1></b>
 
         <!-- Stampa esito inserimento -->
         @if(session('success'))
@@ -9,11 +9,9 @@
                 {{ session('success') }}
             </div>
         @endif
-
     </div>
 
-    <!-- Titolo -->
-    <h1 class="mb-0">Products</h1>
+    <br><br>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -39,7 +37,7 @@
                     <td>{{ $product->formatted_release_date }}</td>
                     <td>{{ $product->price }} €</td>
                     <td>
-                        <a href="vendor/editShoe" class="btn btn-sm btn-outline-primary">
+                        <a href="{{route('vendor.edit', $product)}}" class="btn btn-sm btn-outline-primary">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
                     </td>

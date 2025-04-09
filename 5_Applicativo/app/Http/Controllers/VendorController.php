@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use function Laravel\Prompts\select;
 
 class VendorController extends Controller
 {
@@ -19,6 +22,11 @@ class VendorController extends Controller
 
         // Passa i prodotti alla view product
         return view('vendor', compact('products'));
+    }
+
+    public function showSales(){
+        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->get();
+        return view('vendorSales',compact('orders'));
     }
 
 

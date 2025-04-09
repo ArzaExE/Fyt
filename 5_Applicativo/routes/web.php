@@ -65,3 +65,6 @@ Route::patch('/profile/shipping', [ProfileController::class, 'updateShipping'])
     ->name('profile.shipping.update');
 
 require __DIR__.'/auth.php';
+
+//  ----------------- Per prodotti venduti -----------------
+Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');

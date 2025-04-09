@@ -112,21 +112,22 @@ class VendorController extends Controller
             // Sposta il file direttamente nella cartella public/images
             $imagePath = $imageFile->move('productImages', $imageName);
 
-            // Elimina il percorso relativo nel database (es. images/filename.jpg)
-            ProductImage::destroy($imageFile->id);
+            // Salva il percorso relativo nel database (es. images/filename.jpg)
+            ProductImage::create([
+                'product_id' => $product->id,
+                // Salva solo il percorso relativo
+                'image' => '/' . $imageName,
+                // Definisce come immagine principale
+                'is_main' => 0,
+            ]);
         }
     }
 
     public function deleteOtherImages($request){
-        foreach ($request->file('delete_images') as $imageFile) {
-            // Genera un nome unico per l'immagine
-            $imageName = $imageFile->getPathname();
-
-            // Elimina il file direttamente nella cartella public/images
-            $imageFile->delete('productImages', $imageName);
-
-            // Elimina il percorso relativo nel database (es. images/filename.jpg)
-            ProductImage::destroy($imageFile->id);
+        foreach ($request->input('delete_images') as $imageId) {
+            $imageName = ProductImage::where('id', $imageId)->value('image');            $filePath = public_path('productImages' . $imageName);
+            unlink($filePath);
+            ProductImage::where('id', $imageId)->forceDelete();
         }
     }
 
@@ -147,7 +148,7 @@ class VendorController extends Controller
             $product->update($request->only([
                 'name', 'color', 'description', 'release_date', 'price'
             ]));
-
+            $countActualImages = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 0]])->count();
 
             // Verifica se l'immagine principale sia presente (richiesta)
             if ($request->hasFile('mainImage')) {
@@ -155,13 +156,26 @@ class VendorController extends Controller
                 $this->addMainImage($request, $product);
             }
 
-            // Gestione delle altre immagini (opzionali)
-            if ($request->hasFile('images')) {
-                // Verifica quantità immagini
-                if (count($request->file('images')) <= 10) {
+            if ($request->hasFile('images') && (!$request->filled('delete_images'))) {
+                if (count($request->file('images')) + $countActualImages <= 10) {
+                    $this->addOtherImages($request, $product);
+                }
+                else {
+                    throw new \Exception('Maximum 10 additional images allowed');
+                }
+            }
+
+            if (!$request->hasFile('images') && ($request->filled('delete_images'))) {
+                $this->deleteOtherImages($request);
+            }
+
+            if ($request->hasFile('images') && ($request->filled('delete_images'))){
+                $countImagesToDelete = count($request->input('delete_images'));
+                if ((count($request->file('images')) + $countActualImages) -  $countImagesToDelete <= 10) {
                     $this->deleteOtherImages($request);
                     $this->addOtherImages($request, $product);
-                } else {
+                }
+                else {
                     throw new \Exception('Maximum 10 additional images allowed');
                 }
             }
@@ -179,6 +193,16 @@ class VendorController extends Controller
             // Reindirizza alla pagina precedente con un codice d'uscita
             return redirect()->back()->with('failed', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function destroy(Product $product): RedirectResponse
+    {
+        DB::transaction(function() use ($product) {
+            $product->forceDelete();
+        });
+
+        return redirect()->route('vendor')
+            ->with('success', "Product {$product->name} has been successfully deleted");
     }
 
 }

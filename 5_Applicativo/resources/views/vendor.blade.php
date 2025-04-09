@@ -42,9 +42,14 @@
                         </a>
                     </td>
                     <td>
-                        <a href="" class="btn btn-sm btn-outline-danger">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
+                        <form method="POST" action="{{ route('vendor.destroy', $product) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure you want to delete this product?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

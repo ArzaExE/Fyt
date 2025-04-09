@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function get($id)
     {
-        // Recupera tutti i prodotti
-        // $products = Product::all();
-        // Passa i prodotti alla view 'product'
-        // return view('product', compact('products'));
+         $product = Product::find($id);
+         $images = Image::where('product_id', $id)
+            ->orderByDesc('is_main')
+            ->get();
+         return view('product', compact('product', 'images'));
     }
+
 }

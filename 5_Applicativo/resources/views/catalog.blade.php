@@ -2,7 +2,7 @@
 @include('templates.header')
 
 <!-- Contenuto principale -->
-<div class="container mt-5" >
+<div class="container mt-5">
     <h1 class="text-center mb-5">Catalogo Prodotti</h1>
     <!-- Griglia dei prodotti -->
     <div class="row">
@@ -13,55 +13,56 @@
                     <div class="p-3">
                         @if($images->count() > 0)
                             <div id="carousel-{{ $product->id }}" class="carousel slide" data-bs-ride="carousel">
-                                <div class="ratio ratio-1x1 overflow-hidden rounded-3" style="border: 1px solid #e0e0e0;">
-                                    @php
-                                        $isMainImage = true;
-                                    @endphp
-
+                                <div class="ratio ratio-1x1 overflow-hidden rounded-3"
+                                     style="border: 1px solid #e0e0e0;">
                                     @foreach($images as $image)
                                         @if($image->product_id == $product->id)
-                                            <div class="carousel-item {{ $isMainImage ? 'active' : '' }}">
-                                                <img src="{{ file_exists(public_path('productImages' . $image->image)) ? asset('productImages' . $image->image) : asset('img/not_found.png') }}"
-                                                     class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-                                                     alt="{{ asset('img/not_found.png') }}">
-                                            </div>
-
                                             @php
-                                                $isMainImage = false;
+                                                $isMainImage = $image->is_main;
                                             @endphp
+                                            <div class="carousel-item {{ $isMainImage ? 'active' : '' }}">
+                                                <img
+                                                    src="{{ file_exists(public_path('productImages' . $image->image)) ? asset('productImages' . $image->image) : asset('img/not_found.png') }}"
+                                                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+                                                    alt="{{ asset('img/not_found.png') }}">
+                                            </div>
                                         @endif
                                     @endforeach
 
                                 </div>
 
-                                    <!-- Indicatori -->
-                                    <div class="carousel-indicators position-static mt-2">
-                                        @php
-                                            $indicatorIndex = 0;
-                                        @endphp
-                                        @foreach($images as $image)
-                                            @if($image->product_id == $product->id)
-                                                <button type="button"
-                                                        data-bs-target="#carousel-{{ $product->id }}"
-                                                        data-bs-slide-to="{{ $indicatorIndex }}"
-                                                        class="{{ $indicatorIndex === 0 ? 'active' : '' }} mx-1"
-                                                        style="width: 10px; height: 10px; border-radius: 50%; border: none; background-color: #D0A1FF;">
-                                                </button>
-                                                @php
-                                                    $indicatorIndex++;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                    </div>
+                                <!-- Indicatori -->
+                                <div class="carousel-indicators position-static mt-2">
+                                    @php
+                                        $indicatorIndex = 0;
+                                    @endphp
+                                    @foreach($images as $image)
+                                        @if($image->product_id == $product->id)
+                                            <button type="button"
+                                                    data-bs-target="#carousel-{{ $product->id }}"
+                                                    data-bs-slide-to="{{ $indicatorIndex }}"
+                                                    class="{{ $image->is_main ? 'active' : '' }} mx-1"
+                                                    style="width: 10px; height: 10px; border-radius: 50%; border: none; background-color: #D0A1FF;">
+                                            </button>
+                                            @php
+                                                $indicatorIndex++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                </div>
 
 
                                 <!-- Controlli -->
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-                                    </button>
+                                <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"
+                                          aria-hidden="true"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carousel-{{ $product->id }}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon bg-dark rounded-circle p-2"
+                                          aria-hidden="true"></span>
+                                </button>
                             </div>
                         @endif
                     </div>
@@ -72,14 +73,15 @@
                         <p class="card-text text-muted">{{ $product->description }}</p>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Colore:</strong> {{ $product->color }}</li>
-                            <li class="list-group-item"><strong>Data di rilascio:</strong> {{ $product->release_date }}</li>
+                            <li class="list-group-item"><strong>Data di rilascio:</strong> {{ $product->release_date }}
+                            </li>
                             <li class="list-group-item"><strong>Prezzo:</strong> {{ $product->price }} €</li>
                         </ul>
                     </div>
 
                     <!-- Footer della card -->
                     <div class="card-footer bg-transparent">
-                        <a href="#" class="btn w-100" style="background-color: #D0A1FF">Dettagli</a>
+                        <a href="/catalog/product/{{ $product->id }}" class="btn w-100" style="color: whitesmoke; background-color: #D0A1FF;">Dettagli</a>
                     </div>
                 </div>
             </div>
@@ -109,9 +111,11 @@
     .carousel-inner {
         transition: transform 0.5s ease;
     }
+
     .carousel-item img {
         transition: transform 0.5s ease;
     }
+
     .carousel:hover .carousel-item.active img {
         transform: scale(1.02);
     }
@@ -150,9 +154,11 @@
         mask-repeat: no-repeat;
         mask-position: center;
     }
+
     .carousel-control-prev-icon {
         mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
     }
+
     .carousel-control-next-icon {
         mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
     }
@@ -160,6 +166,7 @@
     .carousel-indicators {
         bottom: 15px;
     }
+
     .carousel-indicators [data-bs-target] {
         width: 8px;
         height: 8px;
@@ -169,6 +176,7 @@
         margin: 0 4px;
         transition: all 0.3s ease;
     }
+
     .carousel-indicators .active {
         background-color: #fff;
         transform: scale(1.2);

@@ -46,14 +46,16 @@
                         </a>
                     </td>
                     <td>
-                        <form method="POST" action="{{ route('admin.destroy', $user) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                    onclick="return confirm('Are you sure you want to delete this user?')">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </form>
+                        @if($user->id != Auth::user()->id)
+                            <form method="POST" action="{{ route('admin.destroy', $user) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this user?')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

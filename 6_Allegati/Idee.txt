@@ -21,3 +21,4 @@
 - Controlli sul numero di telefono per i form del sito con l'aggiunta della provenienza (input apposta)  --- Importanza: 4
 - Controllo sulla modifica dell'account: se viene tolta o aggiunta solo una informazione riguardante il luogo anche le altre devono essere messe o tolte  --- Importanza: 4
 - È da implementare il Soft Delete --> creare una tabella a parte dove si tengono i dati degli utenti eliminati 
+- Gestione degli errori per tutti i form da FARE!!! Controllare anche la mole di dati che si inseriscono per evitare di mostrare errori. --- Importanza: 1

@@ -87,6 +87,7 @@
             <x-input-label for="images" :value="__('Add More Images')" />
             <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple/>
             <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
+            <x-input-error :messages="$errors->get('images')" class="mt-2" />
             <p class="mt-1 text-sm text-gray-500">You can upload up to 10 additional images</p>
         </div>
 

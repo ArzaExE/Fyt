@@ -45,21 +45,21 @@
         <!-- Campo Taglie e Quantità -->
         <div class="mb-4">
             <x-input-label :value="__('Available Sizes and Quantities')" />
+            <div id="sizes-container">
             @foreach($sizes as $size)
-                <div id="sizes-container">
                     <!-- Template per una riga taglia/quantità -->
                     <div class="size-row flex items-center gap-3 mb-2">
-                        <select name="size_quantity[0][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                        <select name="size_quantity[{{$size}}}][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                             <option value="{{number_format($size->size, 1)}}">{{number_format($size->size, 1)}}</option>
                             @for($i = 35; $i <= 50; $i += 0.5)
                                 <option value="{{ number_format($i, 1) }}">{{ number_format($i, 1) }}</option>
                             @endfor
                         </select>
-                        <x-text-input type="number" value="{{$size->stock}}" name="size_quantity[0][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
+                        <x-text-input type="number" value="{{$size->stock}}" name="size_quantity[{{$size}}}][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
                         <button type="button" class="remove-size text-red-500 hover:text-red-700">×</button>
                     </div>
-                </div>
             @endforeach
+            </div>
 
             <button type="button" id="add-size" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
                 + Add another size
@@ -125,6 +125,47 @@
         </div>
     </form>
 </div>
+
+<script>
+    //Aspetta che il DOM sia completamente caricato prima di eseguire lo script
+    document.addEventListener('DOMContentLoaded', function() {
+        const sizesContainer = document.getElementById('sizes-container');
+        const addSizeButton = document.getElementById('add-size');
+
+        // Inizia il conteggio dal numero di taglie esistenti
+        let rowCount = {{ count($sizes) }};
+
+        sizesContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-size')) {
+                e.target.closest('.size-row').remove();
+                // Non è necessario decrementare rowCount perché gli indici esistenti rimangono
+            }
+        });
+
+        addSizeButton.addEventListener('click', function() {
+            const newRow = document.createElement('div');
+            newRow.className = 'size-row flex items-center gap-3 mb-2';
+            newRow.innerHTML = `
+            <select name="size_quantity[${rowCount}][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                <option value="">Select size</option>
+                ${generateSizeOptions()}
+            </select>
+            <x-text-input type="number" name="size_quantity[${rowCount}][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
+            <button type="button" class="remove-size text-red-500 hover:text-red-700">×</button>
+        `;
+            sizesContainer.appendChild(newRow);
+            rowCount++;
+        });
+
+        function generateSizeOptions() {
+            let options = '';
+            for (let size = 35; size <= 50; size += 0.5) {
+                options += `<option value="${size.toFixed(1)}">${size.toFixed(1)}</option>`;
+            }
+            return options;
+        }
+    });
+</script>
 
 <style>
     .fixed-size-img {

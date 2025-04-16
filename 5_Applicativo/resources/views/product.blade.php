@@ -65,7 +65,8 @@
                                 </div>
                             @else
                                 <div class="ratio ratio-1x1 bg-light d-flex align-items-center justify-content-center">
-                                    <img src="{{ asset('img/not_found.png') }}" class="img-fluid p-5" alt="Immagine non disponibile">
+                                    <img src="{{ asset('img/not_found.png') }}" class="img-fluid p-5"
+                                         alt="Immagine non disponibile">
                                 </div>
                             @endif
                         </div>
@@ -82,7 +83,8 @@
                                         <tr>
                                             <th class="w-25" scope="row">Colore</th>
                                             <td>
-                                                <span class="d-inline-block rounded-circle me-2" style="width: 15px; height: 15px; background-color: {{ $product->color_hex ?? '#D0A1FF' }}"></span>
+                                                <span class="d-inline-block rounded-circle me-2"
+                                                      style="width: 15px; height: 15px; background-color: #D0A1FF"></span>
                                                 {{ $product->color }}
                                             </td>
                                         </tr>
@@ -101,10 +103,30 @@
                                         <tr>
                                             <th scope="row">Disponibilità</th>
                                             <td>
-                                                <span class="badge {{ $product->stock > 0 ? 'bg-success' : 'bg-secondary' }}">
-                                                    {{ $product->stock > 0 ? 'Disponibile' : 'Esaurito' }}
+                                                @php
+                                                    $totaleProdotti = 0;
+                                                @endphp
+                                                @if($sizes)
+                                                    @foreach($sizes as $size)
+                                                        @php
+                                                            $totaleProdotti += $size->stock;
+                                                        @endphp
+                                                  @endforeach
+                                                @endif
+                                                <span class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
+                                                        {{ $totaleProdotti > 0 ? 'Disponibile' : 'Esaurito' }}
                                                 </span>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            @if($totaleProdotti > 0)
+                                                <th scope="row">Taglie</th>
+                                            @endif
+                                            @if($sizes)
+                                                    @foreach($sizes as $size)
+                                                        <td>{{ $size->size }}</td>
+                                                    @endforeach
+                                            @endif
                                         </tr>
                                         </tbody>
                                     </table>

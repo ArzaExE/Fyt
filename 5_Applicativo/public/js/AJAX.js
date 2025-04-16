@@ -2,9 +2,9 @@
 function loadProducts(page = 1) {
     // Recupera i prodotti in base al numero della pagina
     fetch(`/products?page=${page}`)
-        .then(response => response.json())
+        .then(response => response.json()) // Converte la risposta in formato json
         .then(data => {
-            // Aggiorna i prodotti (solo gli oggetti)
+            // Recupera i prodotti
             const productList = document.getElementById('product-list');
             // Pulizia della lista
             productList.innerHTML = data.data.map(product => `
@@ -12,11 +12,12 @@ function loadProducts(page = 1) {
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                 </div>
-            `).join('');
+            `).join(''); // Formatta in una sola riga
 
-            // Aggiorna i link di paginazione (usiamo solo i link, non l'HTML completo)
+            // Aggiorna i link di paginazione
             const paginationLinks = document.getElementById('pagination-links');
-            paginationLinks.innerHTML = data.links; // Mostra solo i link di paginazione
+            // Mostra solo i link di paginazione
+            paginationLinks.innerHTML = data.links;
         });
 }
 

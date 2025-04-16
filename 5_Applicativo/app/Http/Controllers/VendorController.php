@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductEditRequest;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductSizesAndQuantities;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,6 +39,13 @@ class VendorController extends Controller
         return view('templates.addProduct');
     }
 
+    public function edit(Product $product){
+        $main = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 1]])->first();
+        $images = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 0]])->get();
+        $sizes = ProductSizesAndQuantities::where('product_id', '=', $product->id)->get();
+        return view('templates.editProduct', compact('product', 'main', 'images', 'sizes'));
+    }
+
     //Metodo POST per iniviare i campi del form dell' aggiunta di un nuovo prodotto
     public function upload(ProductCreateRequest $request): RedirectResponse
     {
@@ -46,9 +55,9 @@ class VendorController extends Controller
         DB::beginTransaction();
 
         try{
-            $product = Product::create($request->only([
-                'name', 'color', 'description', 'release_date', 'price'
-            ]));
+            $product = Product::create($validatedData);
+
+            $this->addSizesAndQuantities($validatedData, $product);
 
             // Verifica se l'immagine principale sia presente (richiesta)
             if ($request->hasFile('mainImage')) {
@@ -71,7 +80,7 @@ class VendorController extends Controller
             DB::commit();
 
             // Reindirizza alla pagina precedente con un codice d'uscita
-            return redirect()->route('vendor', $product->id)->with('success', 'Product created successfully');
+            return redirect()->route('vendor', $product->id)->with('success', 'Product ' . $product->name .' created successfully');
 
         }catch(\Exception $e){
             // Annulla la transazione in caso di errore
@@ -80,6 +89,33 @@ class VendorController extends Controller
             // Reindirizza alla pagina precedente con un codice d'uscita
             return redirect()->back()->with('failed', 'Error: ' . $e->getMessage());
         }
+    }
+
+    public function addSizesAndQuantities($request, $product)
+    {
+        $sizesAndQuantities = [];
+
+        // Raggruppa per taglia e somma le quantità
+        foreach ($request['size_quantity'] as $item) {
+            $size = $item['size'];
+            $quantity = $item['quantity'];
+
+            // Controllo per taglie doppie
+            if (isset($sizesAndQuantities[$size])) {
+                $sizesAndQuantities[$size] += $quantity;
+            } else {
+                $sizesAndQuantities[$size] = $quantity;
+            }
+        }
+
+        foreach($sizesAndQuantities as $size => $quantity){
+            ProductSizesAndQuantities::create([
+                'product_id' => $product->id,
+                'size' => $size,
+                'stock' => $quantity,
+            ]);
+        }
+
     }
 
     public function addMainImage($request, $product){
@@ -138,12 +174,6 @@ class VendorController extends Controller
             unlink($filePath);
             ProductImage::where('id', $imageId)->forceDelete();
         }
-    }
-
-    public function edit(Product $product){
-        $main = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 1]])->first();
-        $images = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 0]])->get();
-        return view('templates.editProduct', compact('product', 'main', 'images'));
     }
 
     public function save(ProductEditRequest $request, Product $product): RedirectResponse

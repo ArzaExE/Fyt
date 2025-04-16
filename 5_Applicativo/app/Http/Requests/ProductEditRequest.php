@@ -22,8 +22,8 @@ class ProductEditRequest extends FormRequest
             'description' => 'nullable|string|min:10|max:2000',
             'release_date' => 'nullable|date|before_or_equal:today',
             'price' => 'nullable|numeric|min:0.01|max:999999.99',
-            'mainImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'mainImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images' => 'nullable|max:10',
         ];
     }

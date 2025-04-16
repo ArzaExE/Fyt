@@ -42,6 +42,35 @@
             <x-input-error :messages="$errors->get('price')" class="mt-2" />
         </div>
 
+        <!-- Campo Taglie e Quantità -->
+        <div class="mb-4">
+            <x-input-label :value="__('Available Sizes and Quantities')" />
+            @foreach($sizes as $size)
+                <div id="sizes-container">
+                    <!-- Template per una riga taglia/quantità -->
+                    <div class="size-row flex items-center gap-3 mb-2">
+                        <select name="size_quantity[0][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <option value="{{number_format($size->size, 1)}}">{{number_format($size->size, 1)}}</option>
+                            @for($i = 35; $i <= 50; $i += 0.5)
+                                <option value="{{ number_format($i, 1) }}">{{ number_format($i, 1) }}</option>
+                            @endfor
+                        </select>
+                        <x-text-input type="number" value="{{$size->stock}}" name="size_quantity[0][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
+                        <button type="button" class="remove-size text-red-500 hover:text-red-700">×</button>
+                    </div>
+                </div>
+            @endforeach
+
+            <button type="button" id="add-size" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                + Add another size
+            </button>
+
+            <x-input-error :messages="$errors->get('sizes')" class="mt-2" />
+            <x-input-error :messages="$errors->get('quantities')" class="mt-2" />
+            <x-input-error :messages="$errors->get('sizes.*')" class="mt-2" />
+            <x-input-error :messages="$errors->get('quantities.*')" class="mt-2" />
+        </div>
+
         <!-- Sezione Immagini -->
         <h2 class="text-lg font-medium text-gray-900">Images Management</h2>
         <p class="mt-1 text-sm text-gray-600">Update your product images</p>

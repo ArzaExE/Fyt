@@ -2,25 +2,21 @@
 function loadProducts(page = 1) {
     // Recupera i prodotti in base al numero della pagina
     fetch(`/products?page=${page}`)
-        .then(response => response.json())
+        .then(response => response.json()) // Converte la risposta in formato json
         .then(data => {
-            // Aggiorna i prodotti
+            // Recupera i prodotti
             const productList = document.getElementById('product-list');
-            productList.innerHTML = ''; // Pulisce la lista esistente
-
-            data.data.forEach(product => {
-                const productElement = document.createElement('div');
-                productElement.classList.add('product');
-                productElement.innerHTML = `
+            // Pulizia della lista
+            productList.innerHTML = data.data.map(product => `
+                <div class="product">
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
-                `;
-                productList.appendChild(productElement);
-            });
+                </div>
+            `).join(''); // Formatta in una sola riga
 
-            // Aggiorna la barra di paginazione
-            const paginationLinks = document.getElementById('pagination-links');
             // Aggiorna i link di paginazione
+            const paginationLinks = document.getElementById('pagination-links');
+            // Mostra solo i link di paginazione
             paginationLinks.innerHTML = data.links;
         });
 }

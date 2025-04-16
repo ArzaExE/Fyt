@@ -25,5 +25,5 @@
 - Se si inserisco file di dimensioni grandi da un errore, È DA GESTIRE!
 - Traduzione del sito in inglese
 - Scaricare dati personali (ordini effettuati) prima di eliminare l'account
--Color Picker Prodotto
+- Color Picker Prodotto
 - Aggiungere campo di priorità per le immagini in modo che l'utente possa ordinarle a piacimento --- Importanza: 5

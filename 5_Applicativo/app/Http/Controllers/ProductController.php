@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
 use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\ProductSizesAndQuantities;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,10 +12,17 @@ class ProductController extends Controller
     public function get($id)
     {
          $product = Product::find($id);
-         $images = Image::where('product_id', $id)
+         $images = ProductImage::where('product_id', $id)
             ->orderByDesc('is_main')
             ->get();
-         return view('product', compact('product', 'images'));
+
+        $sizes = ProductSizesAndQuantities::where('product_id', $id)
+            ->orderBy('size', 'asc')
+            ->get();
+
+        $uniqueSizes = $sizes->unique('size');
+
+        return view('product', compact('product', 'images', 'sizes','uniqueSizes'));
     }
 
 }

@@ -115,7 +115,34 @@ class VendorController extends Controller
                 'stock' => $quantity,
             ]);
         }
+    }
 
+    public function editSizesAndQuantities($request, $product)
+    {
+        $sizesAndQuantities = [];
+
+        // Raggruppa per taglia e somma le quantità
+        foreach ($request['size_quantity'] as $item) {
+            $size = $item['size'];
+            $quantity = $item['quantity'];
+
+            // Controllo per taglie doppie
+            if (isset($sizesAndQuantities[$size])) {
+                $sizesAndQuantities[$size] += $quantity;
+            } else {
+                $sizesAndQuantities[$size] = $quantity;
+            }
+        }
+
+        ProductSizesAndQuantities::where('product_id', $product->id)->delete();
+
+        foreach($sizesAndQuantities as $size => $quantity){
+            ProductSizesAndQuantities::create([
+                'product_id' => $product->id,
+                'size' => $size,
+                'stock' => $quantity,
+            ]);
+        }
     }
 
     public function addMainImage($request, $product){
@@ -170,14 +197,17 @@ class VendorController extends Controller
 
     public function deleteOtherImages($request){
         foreach ($request->input('delete_images') as $imageId) {
-            $imageName = ProductImage::where('id', $imageId)->value('image');            $filePath = public_path('productImages' . $imageName);
-            unlink($filePath);
+            $imageName = ProductImage::where('id', $imageId)->value('image');
+            $filePath = public_path('productImages' . $imageName);
             ProductImage::where('id', $imageId)->forceDelete();
+
+            unlink($filePath);
         }
     }
 
     public function save(ProductEditRequest $request, Product $product): RedirectResponse
     {
+//        dd($request->all());
         $validatedData = $request->validated();
 
         DB::beginTransaction();
@@ -187,6 +217,9 @@ class VendorController extends Controller
             $product->update($request->only([
                 'name', 'color', 'description', 'release_date', 'price'
             ]));
+
+            $this->editSizesAndQuantities($validatedData, $product);
+
             $countActualImages = ProductImage::where([['product_id', '=', $product->id], ['is_main', '=', 0]])->count();
 
             // Verifica se l'immagine principale sia presente (richiesta)
@@ -200,9 +233,8 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else{
-                    $validator = Validator::make([], []); // Validator vuoto
-                    $validator->errors()->add('images', 'Massimo 10 immagini consentite');
-                    return back()->withErrors($validator)->withInput();
+                    // Non fa vedere l'errore sulla view
+                    return redirect()->back()->with('error', 'The images can be a maximum of 10');
                 }
             }
 
@@ -217,11 +249,8 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else {
-                    $validator = \Validator::make([], []); // Crea un validator vuoto
-                    $validator->errors()->add('images', 'Maximum 10 images allowed');
-                    return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                    // Non fa vedere l'errore sulla view
+                    return redirect()->back()->with('error', 'The images can be a maximum of 10');
                 }
             }
 

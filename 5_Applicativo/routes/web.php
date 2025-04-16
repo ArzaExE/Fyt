@@ -78,3 +78,7 @@ require __DIR__.'/auth.php';
 
 //  ----------------- Per prodotti venduti -----------------
 Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
+
+//  ----------------- Per richieste AJAX -----------------
+// match permette la gestione di più richieste
+Route::match(['get', 'post'], '/catalogo', [CatalogController::class, 'index']);

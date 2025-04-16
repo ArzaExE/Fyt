@@ -4,24 +4,19 @@ function loadProducts(page = 1) {
     fetch(`/products?page=${page}`)
         .then(response => response.json())
         .then(data => {
-            // Aggiorna i prodotti
+            // Aggiorna i prodotti (solo gli oggetti)
             const productList = document.getElementById('product-list');
-            productList.innerHTML = ''; // Pulisce la lista esistente
-
-            data.data.forEach(product => {
-                const productElement = document.createElement('div');
-                productElement.classList.add('product');
-                productElement.innerHTML = `
+            // Pulizia della lista
+            productList.innerHTML = data.data.map(product => `
+                <div class="product">
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
-                `;
-                productList.appendChild(productElement);
-            });
+                </div>
+            `).join('');
 
-            // Aggiorna la barra di paginazione
+            // Aggiorna i link di paginazione (usiamo solo i link, non l'HTML completo)
             const paginationLinks = document.getElementById('pagination-links');
-            // Aggiorna i link di paginazione
-            paginationLinks.innerHTML = data.links;
+            paginationLinks.innerHTML = data.links; // Mostra solo i link di paginazione
         });
 }
 

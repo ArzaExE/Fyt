@@ -42,6 +42,39 @@
             <x-input-error :messages="$errors->get('price')" class="mt-2" />
         </div>
 
+        <!-- Campo Taglie e Quantità -->
+        <div class="mb-4">
+            <x-input-label :value="__('Available Sizes and Quantities')" />
+            <div id="sizes-container">
+            @foreach($sizes as $index => $size)
+                    <!-- Template per una riga taglia/quantità -->
+                    <div class="size-row flex items-center gap-3 mb-2">
+                        <select name="size_quantity[{{$index}}}][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <option value="{{number_format($size->size, 1)}}">{{number_format($size->size, 1)}}</option>
+                            @for($i = 35; $i <= 50; $i += 0.5)
+                                <option value="{{ number_format($i, 1) }}">{{ number_format($i, 1) }}</option>
+                            @endfor
+                        </select>
+                        <x-text-input type="number" value="{{$size->stock}}" name="size_quantity[{{$index}}}][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
+                        <button type="button" class="remove-size text-red-500 hover:text-red-700">×</button>
+                    </div>
+            @endforeach
+            </div>
+
+            <button type="button" id="add-size" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                + Add another size
+            </button>
+
+            <x-input-error :messages="$errors->get('size_quantity')" class="mt-2" />
+            @error('size_quantity.*.quantity')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
+            @error('size_quantity.*.size')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
+
+        </div>
+
         <!-- Sezione Immagini -->
         <h2 class="text-lg font-medium text-gray-900">Images Management</h2>
         <p class="mt-1 text-sm text-gray-600">Update your product images</p>
@@ -55,7 +88,7 @@
                 <input type="hidden" name="old_main_id" value="{{ $main->id }}">
                 <div class="ml-12">
                     <x-input-label for="mainImage" :value="__('New Main Image')" />
-                    <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" />
+                    <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/png, image/jpeg, image/jpg, image/gif" />
                     <x-input-error :messages="$errors->get('mainImage')" class="mt-2" />
                     <p class="mt-1 text-sm text-gray-500">Leave empty to keep current image</p>
                 </div>
@@ -83,9 +116,24 @@
         <!-- Add New Images -->
         <div class="mt-6">
             <x-input-label for="images" :value="__('Add More Images')" />
-            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple/>
-            <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
-            <x-input-error :messages="$errors->get('images')" class="mt-2" />
+            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/png, image/jpeg, image/jpg, image/gif" multiple/>
+            @error('images')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
+
+
+{{--            Non fa vedere l'errore--}}
+            @if (session('error'))
+                <div class="mb-4 font-medium text-red-600">
+                    {{ session('error') }}
+                </div>
+            @endif
+{{--            -----------------------------}}
+
+
+            @error('images.*')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
             <p class="mt-1 text-sm text-gray-500">You can upload up to 10 additional images</p>
         </div>
 
@@ -96,6 +144,49 @@
         </div>
     </form>
 </div>
+
+
+
+<script>
+    //Aspetta che il DOM sia completamente caricato prima di eseguire lo script
+    document.addEventListener('DOMContentLoaded', function() {
+        const sizesContainer = document.getElementById('sizes-container');
+        const addSizeButton = document.getElementById('add-size');
+
+        // Inizia il conteggio dal numero di taglie esistenti
+        let rowCount = {{ count($sizes) }};
+
+        sizesContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-size')) {
+                e.target.closest('.size-row').remove();
+                // Non è necessario decrementare rowCount perché gli indici esistenti rimangono
+            }
+        });
+
+        addSizeButton.addEventListener('click', function() {
+            const newRow = document.createElement('div');
+            newRow.className = 'size-row flex items-center gap-3 mb-2';
+            newRow.innerHTML = `
+            <select name="size_quantity[${rowCount}][size]" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                <option value="">Select size</option>
+                ${generateSizeOptions()}
+            </select>
+            <x-text-input type="number" name="size_quantity[${rowCount}][quantity]" min="1" class="block mt-1" placeholder="Quantity" required />
+            <button type="button" class="remove-size text-red-500 hover:text-red-700">×</button>
+        `;
+            sizesContainer.appendChild(newRow);
+            rowCount++;
+        });
+
+        function generateSizeOptions() {
+            let options = '';
+            for (let size = 35; size <= 50; size += 0.5) {
+                options += `<option value="${size.toFixed(1)}">${size.toFixed(1)}</option>`;
+            }
+            return options;
+        }
+    });
+</script>
 
 <style>
     .fixed-size-img {

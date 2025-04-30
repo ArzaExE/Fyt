@@ -11,18 +11,29 @@
                     <div class="product-info">
                         <div class="product-details">
                             <p class="product-name">{{ $item->product->name }}</p>
-                            <p class="product-price">{{ number_format($item->price, 2) }} €</p>
+                            <p class="product-price">{{ number_format($item->product->price, 2) }} €</p>
                         </div>
                     </div>
 
-                    <div class="quantity-controls">
-                        <button class="quantity-btn">−</button>
-                        <span class="quantity">{{ $item->quantity }}</span>
-                        <button class="quantity-btn">+</button>
-                    </div>
+                    <select class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @foreach($sizes as $key => $value)
+                            @if($value == $item->product_id)
+                                <option>{{$key}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+
+{{--                    <div class="quantity-controls">--}}
+{{--                        <button class="quantity-btn">−</button>--}}
+{{--                        <span class="quantity">{{ $item->quantity }}</span>--}}
+{{--                        <button class="quantity-btn">+</button>--}}
+{{--                    </div>--}}
+
+                    <x-text-input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="block mt-1" placeholder="Quantity" required />
+
 
                     <div class="item-total">
-                        {{ number_format($item->price * $item->quantity, 2) }} €
+                        {{ number_format($item->price, 2) }} €
                     </div>
 
                     <button class="remove-btn">
@@ -35,7 +46,7 @@
         <div class="cart-summary">
             <div class="total-section">
                 <h3>Totale provvisorio</h3>
-                <p class="total-price">{{ $cart->total }} €</p>
+                <p class="total-price">{{ number_format($cart->total, 2) }} €</p>
             </div>
             <button class="checkout-btn">Procedi all'acquisto</button>
         </div>

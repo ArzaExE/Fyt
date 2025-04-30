@@ -1,3 +1,4 @@
+@include('templates.header')
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status :status="session('status')" />

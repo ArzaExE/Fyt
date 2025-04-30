@@ -111,9 +111,10 @@
                                                         @php
                                                             $totaleProdotti += $size->stock;
                                                         @endphp
-                                                  @endforeach
+                                                    @endforeach
                                                 @endif
-                                                <span class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
+                                                <span
+                                                    class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
                                                         {{ $totaleProdotti > 0 ? 'Disponibile' : 'Esaurito' }}
                                                 </span>
                                             </td>
@@ -128,6 +129,11 @@
                                                         @endforeach
                                                     </select>
                                                 </td>
+                                            @endif
+                                            @if($sizes)
+                                                @foreach($sizes as $size)
+                                                    <td>{{ $size->size }}</td>
+                                                @endforeach
                                             @endif
                                         </tr>
                                         </tbody>

@@ -5,6 +5,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -53,16 +54,21 @@ Route::delete('/admin/delete/{user}', [AdminController::class, 'destroy'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.destroy');
 
-// ---------------------------------------
+// ----------------------------------------
 Route::get('/user', function () {
     return view('user');
 })->name('user');
 
+//------------------------------------------
 Route::get('/catalog', [CatalogController::class, 'index'])
     ->name('catalog');
 
 Route::get('/catalog/product/{id}', [ProductController::class, 'get'])
     ->name('product.get');
+
+// ---------- Pagine Carrello -------------
+Route::get('/cart', [CartController::class, 'get'])
+    ->name('cart.get');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

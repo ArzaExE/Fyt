@@ -121,11 +121,13 @@
                                         <tr>
                                             @if($totaleProdotti > 0)
                                                 <th scope="row">Taglie</th>
-                                            @endif
-                                            @if($sizes)
-                                                    @foreach($sizes as $size)
-                                                        <td>{{ $size->size }}</td>
-                                                    @endforeach
+                                                <td colspan="{{ count($sizes) }}">
+                                                    <select name="selected_size" class="form-control">
+                                                        @foreach($sizes as $size)
+                                                            <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
                                             @endif
                                         </tr>
                                         </tbody>
@@ -134,10 +136,11 @@
 
                                 <!-- Azioni -->
                                 <div class="mt-auto">
-                                    <button class="btn w-100 mb-2" style="background-color: #D0A1FF; color: white;">
-                                        <i class="bi bi-cart-plus me-2"></i>Aggiungi al carrello
-                                    </button>
-                                    <a href="{{ route('catalog') }}" class="btn btn-outline-secondary w-100">
+
+                                    <a href="/cart/{{$product->id}}" class="btn w-100 mb-2" style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }} ; color: white; {{ $totaleProdotti > 0 ? '' : 'disabled' }}">
+                                        <i class="bi bi-cart-plus me-2"></i>{{ $totaleProdotti > 0 ? 'Aggiungi al carrello ' : 'Esaurito' }}
+                                    </a>
+                                    <a href="/" class="btn btn-outline-secondary w-100">
                                         <i class="bi bi-arrow-left me-2"></i>Torna al catalogo
                                     </a>
                                 </div>
@@ -152,8 +155,8 @@
 <!-- Footer -->
 @include('templates.footer')
 
-<!-- Stile aggiuntivo -->
 <style>
+    /* Stili ereditati dal tuo design */
     .card {
         border: none;
         border-radius: 12px;
@@ -171,83 +174,53 @@
         overflow: hidden;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         transition: box-shadow 0.3s ease;
+        background-color: #f8f9fa;
     }
 
     .carousel:hover {
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .carousel-inner {
-        transition: transform 0.5s ease;
+    /* Stili specifici per il carrello */
+    .cart-item {
+        transition: background-color 0.2s ease;
     }
 
-    .carousel-item img {
-        transition: transform 0.5s ease;
+    .cart-item:hover {
+        background-color: #f8f9fa;
     }
 
-    .carousel:hover .carousel-item.active img {
-        transform: scale(1.02);
+    .quantity-controls {
+        border-radius: 6px;
+        overflow: hidden;
     }
 
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 40px;
-        height: 40px;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 50%;
-        opacity: 0;
-        transition: all 0.3s ease;
-        margin: 0 15px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
+    .quantity-btn {
+        transition: all 0.2s ease;
     }
 
-    .carousel:hover .carousel-control-prev,
-    .carousel:hover .carousel-control-next {
-        opacity: 1;
+    .quantity-btn:hover {
+        background-color: #e9ecef !important;
     }
 
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        background-color: rgba(255, 255, 255, 0.95);
-        transform: translateY(-50%) scale(1.05);
+    .remove-btn {
+        transition: transform 0.2s ease;
     }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        background-image: none;
-        width: 20px;
-        height: 20px;
-        background-color: #333;
-        mask-repeat: no-repeat;
-        mask-position: center;
+    .remove-btn:hover {
+        transform: scale(1.1);
     }
 
-    .carousel-control-prev-icon {
-        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
-    }
-
-    .carousel-control-next-icon {
-        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-    }
-
-    .carousel-indicators {
-        bottom: 15px;
-    }
-
-    .carousel-indicators [data-bs-target] {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
-        border: none;
-        margin: 0 4px;
+    .checkout-btn {
         transition: all 0.3s ease;
     }
 
-    .carousel-indicators .active {
-        background-color: #fff;
-        transform: scale(1.2);
+    .checkout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
+    }
+
+    .continue-shopping {
+        transition: all 0.3s ease;
     }
 </style>

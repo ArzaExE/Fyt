@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
         elseif ($role === 'vendor') {
             return redirect()->intended(route('vendor', absolute: false));
         }
-        return redirect()->intended(route('user', absolute: false));
+        return redirect()->intended(route('home', absolute: false));
     }
 
     /**

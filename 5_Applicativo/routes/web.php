@@ -54,11 +54,6 @@ Route::delete('/admin/delete/{user}', [AdminController::class, 'destroy'])
     ->middleware(['auth', 'verified', 'admin'])
     ->name('admin.destroy');
 
-// ----------------------------------------
-Route::get('/user', function () {
-    return view('user');
-})->name('user');
-
 //------------------------------------------
 Route::get('/catalog', [CatalogController::class, 'index'])
     ->name('catalog');

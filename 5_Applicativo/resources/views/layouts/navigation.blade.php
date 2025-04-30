@@ -27,11 +27,6 @@
                                 <x-nav-link :href="route('vendor')" :active="request()->routeIs('vendor')">
                                     {{ __('Vendor') }}
                                 </x-nav-link>
-                            @elseif(Auth::user()->role->name === 'user')
-                                <!-- User -->
-                                <x-nav-link :href="route('user')" :active="request()->routeIs('user')">
-                                    {{ __('User') }}
-                                </x-nav-link>
                             @endif
                         @endif
                     @else

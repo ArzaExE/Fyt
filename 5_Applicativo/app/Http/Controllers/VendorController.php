@@ -7,8 +7,7 @@ use App\Http\Requests\ProductEditRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\ProductSizesAndQuantities;
-use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Image;
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
-
 
 class VendorController extends Controller
 {
@@ -233,9 +231,8 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else{
-                    $validator = Validator::make([], []); // Validator vuoto
-                    $validator->errors()->add('images', 'Massimo 10 immagini consentite');
-                    return back()->withErrors($validator)->withInput();
+                    // Non fa vedere l'errore sulla view
+                    return redirect()->back()->with('error', 'The images can be a maximum of 10');
                 }
             }
 
@@ -250,11 +247,8 @@ class VendorController extends Controller
                     $this->addOtherImages($request, $product);
                 }
                 else {
-                    $validator = \Validator::make([], []); // Crea un validator vuoto
-                    $validator->errors()->add('images', 'Maximum 10 images allowed');
-                    return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
+                    // Non fa vedere l'errore sulla view
+                    return redirect()->back()->with('error', 'The images can be a maximum of 10');
                 }
             }
 

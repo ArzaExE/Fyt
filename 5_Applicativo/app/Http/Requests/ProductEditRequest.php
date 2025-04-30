@@ -24,7 +24,7 @@ class ProductEditRequest extends FormRequest
             'price' => 'nullable|numeric|min:0.01|max:999999.99',
             'size_quantity' => 'required|array|min:1',
             'size_quantity.*.size' => 'required|numeric|between:35,50',
-            'size_quantity.*.quantity' => 'required|integer|min:1',
+            'size_quantity.*.quantity' => 'required|integer|min:1|max:999999999',
             'mainImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images' => 'nullable|max:10',
@@ -36,6 +36,8 @@ class ProductEditRequest extends FormRequest
         return [
             'images' => 'The images can be a maximum of 10',
             'images.*.mimes' => 'Images must be a file of type: jpeg, png, jpg, gif',
+            'size_quantity.*.quantity' => 'The quantity field must not be greater than 999999999.',
+            'size_quantity.*.size' => 'The size field must be between 35 and 50.',
         ];
     }
 }

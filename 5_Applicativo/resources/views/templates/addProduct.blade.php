@@ -67,10 +67,13 @@
                 + Add another size
             </button>
 
-            <x-input-error :messages="$errors->get('sizes')" class="mt-2" />
-            <x-input-error :messages="$errors->get('quantities')" class="mt-2" />
-            <x-input-error :messages="$errors->get('sizes.*')" class="mt-2" />
-            <x-input-error :messages="$errors->get('quantities.*')" class="mt-2" />
+            <x-input-error :messages="$errors->get('size_quantity')" class="mt-2" />
+            @error('size_quantity.*.quantity')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
+            @error('size_quantity.*.size')
+            <x-input-error :messages="$message" class="mt-2" />
+            @enderror
         </div>
 
         <!-- Campo Images -->
@@ -78,17 +81,26 @@
         <!-- Immagine principale -->
         <div class="mb-4">
             <x-input-label for="mainImage" :value="__('Main image')" />
-            <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/*" required/>
+            <input id="mainImage" class="block mt-1 w-full" type="file" name="mainImage" accept="image/png, image/jpeg, image/jpg, image/gif" required/>
             <x-input-error :messages="$errors->get('mainImage')" class="mt-2" />
         </div>
 
         <!-- Immagini multiple -->
         <div class="mb-4">
             <x-input-label for="images" :value="__('Other images')" />
-            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/*" multiple/>
+            <input id="images" class="block mt-1 w-full" type="file" name="images[]" accept="image/png, image/jpeg, image/jpg, image/gif" multiple/>
             @error('images')
             <x-input-error :messages="$message" class="mt-2" />
             @enderror
+
+            {{--            Non fa vedere l'errore--}}
+            @if (session('error'))
+                <div class="mb-4 font-medium text-red-600">
+                    {{ session('error') }}
+                </div>
+            @endif
+            {{--            -----------------------------}}
+
             @error('images.*')
             <x-input-error :messages="$message" class="mt-2" />
             @enderror
@@ -135,6 +147,7 @@
             sizesContainer.appendChild(newRow);
             rowCount++;
         });
+
 
         // Funzione che genera le opzioni delle taglie da 35 a 50 con incrementi di 0.5
         function generateSizeOptions() {

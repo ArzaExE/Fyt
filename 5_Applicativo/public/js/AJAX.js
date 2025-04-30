@@ -1,28 +1,21 @@
-// Funzione per il caricamento dei prodotti in base al numero della pagina (se non valido o non passato imposta di default 1)
+/* Funzione per il caricamento dei prodotti in base al numero della pagina
+   (se non valido o non passato imposta di default 1) */
 function loadProducts(page = 1) {
     // Recupera i prodotti in base al numero della pagina
-    fetch(`/products?page=${page}`)
+    fetch(`/catalog?page=${page}`)
         .then(response => response.json()) // Converte la risposta in formato json
         .then(data => {
-            // Recupera i prodotti
-            const productList = document.getElementById('product-list');
-            // Pulizia della lista
-            productList.innerHTML = data.data.map(product => `
-                <div class="product">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                </div>
-            `).join(''); // Formatta in una sola riga
-
-            // Aggiorna i link di paginazione
-            const paginationLinks = document.getElementById('pagination-links');
-            // Mostra solo i link di paginazione
-            paginationLinks.innerHTML = data.links;
+            // Ricarica la parziale con la nuova pagina dei prodotti
+            document.getElementById('catalog-partial').innerHTML = data.html;
         });
 }
 
-// Carica i prodotti alla prima pagina quando la pagina viene caricata
-window.onload = () => loadProducts(1);
+// Carica i prodotti alla prima pagina quando la pagina viene caricata (solamente nella pagina del catalogo)
+window.onload = () => {
+    if (window.location.pathname === '/catalog') {
+        loadProducts(1);
+    }
+};
 
 // Listener per link della navbar
 document.addEventListener('click', function(event) {
@@ -32,9 +25,10 @@ document.addEventListener('click', function(event) {
         // Evita il ricaricamento della pagina causato dal tag <a> dopo un reindirizzamento
         event.preventDefault();
         /* Creazione dell'URL per la pagina selezionata partendo dall'URL attuale usando "searchParams"
-           per ottenere il numero di pagina del parametro "page" */
+           per ottenere il numero di pagina del parametro "page".
+           event.target.href serve a ottenere l'URL completo che è stato cliccato*/
         const page = new URL(event.target.href).searchParams.get('page');
-        // Carica i prodotti
+        // Carica i prodotti della pagina definita nell'URL
         loadProducts(page);
     }
 });

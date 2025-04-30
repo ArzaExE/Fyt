@@ -130,11 +130,6 @@
                                                     </select>
                                                 </td>
                                             @endif
-                                            @if($sizes)
-                                                @foreach($sizes as $size)
-                                                    <td>{{ $size->size }}</td>
-                                                @endforeach
-                                            @endif
                                         </tr>
                                         </tbody>
                                     </table>
@@ -143,9 +138,15 @@
                                 <!-- Azioni -->
                                 <div class="mt-auto">
 
-                                    <a href="/cart/{{$product->id}}" class="btn w-100 mb-2" style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }} ; color: white; {{ $totaleProdotti > 0 ? '' : 'disabled' }}">
-                                        <i class="bi bi-cart-plus me-2"></i>{{ $totaleProdotti > 0 ? 'Aggiungi al carrello ' : 'Esaurito' }}
-                                    </a>
+                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn w-100 mb-2"
+                                                style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }}; color: white;"
+                                            {{ $totaleProdotti > 0 ? '' : 'disabled' }}>
+                                            <i class="bi bi-cart-plus me-2"></i>
+                                            {{ $totaleProdotti > 0 ? 'Aggiungi al carrello' : 'Esaurito' }}
+                                        </button>
+                                    </form>
                                     <a href="/" class="btn btn-outline-secondary w-100">
                                         <i class="bi bi-arrow-left me-2"></i>Torna al catalogo
                                     </a>

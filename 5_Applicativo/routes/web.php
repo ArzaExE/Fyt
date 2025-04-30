@@ -65,6 +65,10 @@ Route::get('/catalog/product/{id}', [ProductController::class, 'get'])
 Route::get('/cart', [CartController::class, 'index'])
     ->name('cart.index');
 
+Route::post('/cart/add/{product}', [CartController::class, 'add'])
+    ->name('cart.add')
+    ->middleware('auth');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

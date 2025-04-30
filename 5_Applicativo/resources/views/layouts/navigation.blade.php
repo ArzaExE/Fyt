@@ -81,6 +81,9 @@
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
+                            <x-dropdown-link :href="route('cart.index')">
+                                {{ __('Cart') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -172,6 +175,12 @@
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
+
+                    <x-responsive-nav-link :href="route('cart.index')">
+                        {{ __('Cart') }}
+                    </x-responsive-nav-link>
+
+                    </div>
                 </div>
             @elseif(Route::has('login') && !Auth::check())
                 <div class="mt-3 space-y-1">

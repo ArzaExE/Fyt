@@ -62,8 +62,8 @@ Route::get('/catalog/product/{id}', [ProductController::class, 'get'])
     ->name('product.get');
 
 // ---------- Pagine Carrello -------------
-Route::get('/cart', [CartController::class, 'get'])
-    ->name('cart.get');
+Route::get('/cart', [CartController::class, 'index'])
+    ->name('cart.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

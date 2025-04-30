@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function get(){
-        $id = Auth::user()->getAuthIdentifier();
-        $cart = Order::where('user_id',$id)->where('status','cart')->first();
-        $id_order = $cart->id;
-        $items = OrderItems::where('order_id',$id_order)->get();
-        return view('cart', compact('cart','items'));
+    public function index(){
+        if (Auth::user() === null || Auth::user()->role->name == "admin" || Auth::user()->role->name == "vendor") {
+            return redirect()->route('home');
+        }
+        else{
+            $id = Auth::user()->getAuthIdentifier();
+            $cart = Order::where('user_id',$id)->where('status','cart')->first();
+            $id_order = $cart->id;
+            $items = OrderItems::where('order_id',$id_order)->get();
+            return view('cart', compact('cart','items'));
+        }
     }
 
     public function add($product_id){

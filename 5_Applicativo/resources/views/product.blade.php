@@ -4,6 +4,11 @@
 <main class="flex-grow-1">
     <!-- Contenuto principale -->
     <div class="container mt-5">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <!-- Card del prodotto -->
@@ -76,80 +81,82 @@
                             <div class="card-body h-100 d-flex flex-column">
                                 <h1 class="card-title display-5 mb-4">{{ $product->name }}</h1>
 
-                                <!-- Tabella Dettagli -->
-                                <div class="table-responsive mb-4">
-                                    <table class="table table-borderless">
-                                        <tbody>
-                                        <tr>
-                                            <th class="w-25" scope="row">Colore</th>
-                                            <td>
-                                                <span class="d-inline-block rounded-circle me-2"
-                                                      style="width: 15px; height: 15px; background-color: #D0A1FF"></span>
-                                                {{ $product->color }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Descrizione</th>
-                                            <td>{{ $product->description }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Data di rilascio</th>
-                                            <td>{{ $product->formatted_release_date }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Prezzo</th>
-                                            <td class="h5">{{ number_format($product->price, 2) }} €</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Disponibilità</th>
-                                            <td>
-                                                @php
-                                                    $totaleProdotti = 0;
-                                                @endphp
-                                                @if($sizes)
-                                                    @foreach($sizes as $size)
-                                                        @php
-                                                            $totaleProdotti += $size->stock;
-                                                        @endphp
-                                                    @endforeach
-                                                @endif
-                                                <span
-                                                    class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
-                                                        {{ $totaleProdotti > 0 ? 'Disponibile' : 'Esaurito' }}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            @if($totaleProdotti > 0)
-                                                <th scope="row">Taglie</th>
-                                                <td colspan="{{ count($sizes) }}">
-                                                    <select name="selected_size" class="form-control">
-                                                        @foreach($sizes as $size)
-                                                            <option value="{{ $size->size }}">{{ $size->size }}</option>
-                                                        @endforeach
-                                                    </select>
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    <!-- Tabella Dettagli -->
+                                    <div class="table-responsive mb-4">
+                                        <table class="table table-borderless">
+                                            <tbody>
+                                            <tr>
+                                                <th class="w-25" scope="row">Colore</th>
+                                                <td>
+                                                    <span class="d-inline-block rounded-circle me-2"
+                                                          style="width: 15px; height: 15px; background-color: #D0A1FF"></span>
+                                                    {{ $product->color }}
                                                 </td>
-                                            @endif
-                                            @if($sizes)
-                                                @foreach($sizes as $size)
-                                                    <td>{{ $size->size }}</td>
-                                                @endforeach
-                                            @endif
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- Azioni -->
-                                <div class="mt-auto">
-
-                                    <a href="/cart/{{$product->id}}" class="btn w-100 mb-2" style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }} ; color: white; {{ $totaleProdotti > 0 ? '' : 'disabled' }}">
-                                        <i class="bi bi-cart-plus me-2"></i>{{ $totaleProdotti > 0 ? 'Aggiungi al carrello ' : 'Esaurito' }}
-                                    </a>
-                                    <a href="/" class="btn btn-outline-secondary w-100">
-                                        <i class="bi bi-arrow-left me-2"></i>Torna al catalogo
-                                    </a>
-                                </div>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Descrizione</th>
+                                                <td>{{ $product->description }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Data di rilascio</th>
+                                                <td>{{ $product->formatted_release_date }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Prezzo</th>
+                                                <td class="h5">{{ number_format($product->price, 2) }} €</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Disponibilità</th>
+                                                <td>
+                                                    @php
+                                                        $totaleProdotti = 0;
+                                                    @endphp
+                                                    @if($sizes)
+                                                        @foreach($sizes as $size)
+                                                            @php
+                                                                $totaleProdotti += $size->stock;
+                                                            @endphp
+                                                        @endforeach
+                                                    @endif
+                                                    <span
+                                                        class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
+                                                            {{ $totaleProdotti > 0 ? 'Disponibile' : 'Esaurito' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                @if($totaleProdotti > 0)
+                                                    <th scope="row">Taglie</th>
+                                                    <td colspan="{{ count($sizes) }}">
+                                                        <select name="selected_size" class="form-control">
+                                                            @foreach($sizes as $size)
+                                                                <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @error('selected_size')
+                                    <x-input-error :messages="$message" class="mb-6" />
+                                    @enderror
+                                    <!-- Azioni -->
+                                    <div class="mt-auto">
+                                        <button type="submit" class="btn w-100 mb-2"
+                                                style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }}; color: white;"
+                                            {{ $totaleProdotti > 0 ? '' : 'disabled' }}>
+                                            <i class="bi bi-cart-plus me-2"></i>
+                                            {{ $totaleProdotti > 0 ? 'Aggiungi al carrello' : 'Esaurito' }}
+                                        </button>
+                                        <a href="/catalog" class="btn btn-outline-secondary w-100">
+                                            <i class="bi bi-arrow-left me-2"></i>Torna al catalogo
+                                        </a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

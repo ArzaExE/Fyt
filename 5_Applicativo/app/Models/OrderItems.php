@@ -8,6 +8,16 @@ class OrderItems extends Model
 {
     protected $table = 'order_items';
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'size_id',
+        'quantity',
+        'price'
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -16,5 +26,15 @@ class OrderItems extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(ProductSizesAndQuantities::class);
     }
 }

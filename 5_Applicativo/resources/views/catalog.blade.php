@@ -6,7 +6,13 @@
 
 <!-- Contenuto principale -->
 <div class="container mt-5">
-    <h1 class="text-center mb-5">Catalogo Prodotti</h1>
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <h1 class="text-center mb-5">Catalog Product</h1>
 
     <!-- Testo prodotti mostrati -->
     <div class="d-flex justify-content-left mb-4 small text-muted">

@@ -4,6 +4,12 @@
 <div class="cart-container">
     <h1 class="cart-title">Il tuo carrello</h1>
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     @if(count($items) > 0)
         <div class="cart-items">
             @foreach($items as $item)
@@ -11,23 +17,48 @@
                     <div class="product-info">
                         <div class="product-details">
                             <p class="product-name">{{ $item->product->name }}</p>
-                            <p class="product-price">{{ number_format($item->price, 2) }} €</p>
+                            <p class="product-price">{{ number_format($item->product->price, 2) }} €</p>
                         </div>
                     </div>
 
+{{--                    <select class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">--}}
+{{--                        @foreach($sizes as $key => $value)--}}
+{{--                            @if($value == $item->product_id)--}}
+{{--                                <option>{{$key}}</option>--}}
+{{--                            @endif--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+
+                    <p class="product-price">EU {{$item->size_id}}</p>
+
                     <div class="quantity-controls">
-                        <button class="quantity-btn">−</button>
+                        <form action="{{ route('cart.remove', $item->product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <button type="submit" id="quantity-remove" name="quantity-remove" class="quantity-btn">−</button>
+                        </form>
                         <span class="quantity">{{ $item->quantity }}</span>
-                        <button class="quantity-btn">+</button>
+                        <form action="{{ route('cart.add', $item->product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <button type="submit" id="quantity-add" name="quantity-add" class="quantity-btn">+</button>
+                        </form>
                     </div>
+
+{{--                    <x-text-input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="block mt-1" placeholder="Quantity" required />--}}
+
 
                     <div class="item-total">
-                        {{ number_format($item->price * $item->quantity, 2) }} €
+                        {{ number_format($item->price, 2) }} €
                     </div>
 
-                    <button class="remove-btn">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <form action="{{ route('cart.delete', $item->product) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                        <button type="submit" class="remove-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             @endforeach
         </div>
@@ -35,7 +66,7 @@
         <div class="cart-summary">
             <div class="total-section">
                 <h3>Totale provvisorio</h3>
-                <p class="total-price">{{ $cart->total }} €</p>
+                <p class="total-price">{{ number_format($cart->total, 2) }} €</p>
             </div>
             <button class="checkout-btn">Procedi all'acquisto</button>
         </div>

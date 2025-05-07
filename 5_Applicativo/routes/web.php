@@ -55,7 +55,7 @@ Route::delete('/admin/delete/{user}', [AdminController::class, 'destroy'])
     ->name('admin.destroy');
 
 //------------------------------------------
-Route::get('/catalog', [CatalogController::class, 'index'])
+Route::get('/catalog', [CatalogController::class, 'handleCatalog'])
     ->name('catalog');
 
 Route::get('/catalog/product/{id}', [ProductController::class, 'get'])
@@ -96,7 +96,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
 });
 Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
-
-
-////  ----------------- Per ricerca prodotti -----------------
-//Route::post('/product', [ProductController::class, 'search'])->name('product.search');

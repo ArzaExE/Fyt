@@ -18,12 +18,29 @@ use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::select('id','name', 'color', 'description', 'release_date', 'price')->get();
+        $searchTerm = $request->query("searchProduct");
+        $query = Product::select('id','name', 'color', 'description', 'release_date', 'price');
+
+        if ($searchTerm) {
+            $terms = explode(' ', $searchTerm);
+
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->where(function ($subQuery) use ($term) {
+                        $subQuery->where('name', 'LIKE', "%{$term}%")
+                            ->orWhere('color', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%");
+                    });
+                }
+            });
+        }
+
+        $products = $query->get();
 
         // Passa i prodotti alla view product
-        return view('vendor', compact('products'));
+        return view('vendor', compact('products','searchTerm'));
     }
 
     public function showSales(){

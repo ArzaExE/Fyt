@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -39,16 +39,32 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
+        // protezione dai brute force, se sbagliato troppe volte applica un timer
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // Username o E-mail
+        $login = $this->input('email');
+
+        // Determina se è un'email o uno username
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        // Aggiornamento dell'array' di credenziali
+        $credentials = [
+            $field => $login,
+            'password' => $this->input('password'),
+        ];
+
+        // Auth::attempt tenta il login con le credenziali richieste
+        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+            // 'Rate limiter' incrementa il numero di tentativi eseguiti
             RateLimiter::hit($this->throttleKey());
 
+            // Messaggio di avviso per l'utente se le credenziali sono sbagliate troppe volte
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         }
-
+        // Azzeramento dei tentativi
         RateLimiter::clear($this->throttleKey());
     }
 

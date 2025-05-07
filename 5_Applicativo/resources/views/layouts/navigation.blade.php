@@ -10,20 +10,9 @@
                     </a>
                 </div>
 
-<<<<<<< Updated upstream
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <!-- Search Bar -->
-                    <form class="d-flex">
-                        <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product" aria-label="Search">
-                    </form>
-
-                    <!-- Navigation Links -->
-                    @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog')
-=======
                 <!-- Navigation Links - Visibile sopra 750px -->
                 <div class="hidden md:flex space-x-8 ms-10">
                     @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
->>>>>>> Stashed changes
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
@@ -225,11 +214,9 @@
             clearTimeout(searchTimer);
             var keyword = $(this).val().trim();
 
-            if(keyword.length >= 3) {
-                searchTimer = setTimeout(function() {
-                    redirectToCatalog(keyword);
-                }, 800);
-            }
+            searchTimer = setTimeout(function() {
+                redirectToCatalog(keyword);
+            }, 800); // Ritardo di 800ms dopo l'ultimo tasto premuto
         });
 
         $('#search').on('keypress', function(e) {
@@ -243,10 +230,6 @@
         });
 
         function redirectToCatalog(keyword) {
-<<<<<<< Updated upstream
-            // Costruzione URL
-=======
->>>>>>> Stashed changes
             var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword);
             window.location.href = url;
         }

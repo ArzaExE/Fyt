@@ -126,11 +126,10 @@
             clearTimeout(searchTimer);
             var keyword = $(this).val().trim();
 
-            if(keyword.length >= 3) {
-                searchTimer = setTimeout(function() {
-                    redirectToCatalog(keyword);
-                }, 800);
-            }
+            searchTimer = setTimeout(function() {
+                redirectToCatalog(keyword);
+            }, 800);
+
         });
 
         $('#searchUser').on('keypress', function(e) {

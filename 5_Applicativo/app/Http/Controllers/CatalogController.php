@@ -27,4 +27,36 @@ class CatalogController extends Controller
 
         return view('catalog', compact('products', 'images', 'searchTerm'));
     }
+
+//    Gestire richieste con anche filtri (reindirizzazionnnenennenenen)
+    public function handleCatalog(Request $request){
+        if ($request->has('price') || $request->has('priceRange')) {
+            return $this->filteredByPrice($request);
+        }
+
+        return $this->index($request);
+    }
+
+    public function filteredByPrice(Request $request){
+        $priceFilter = $request->input('price');
+        $priceRangeFilter = $request->input('priceRange');
+        $searchTerm = $request->query('search');
+        $query = Product::query();
+
+        if($priceFilter === 'lowest'){
+            $query->orderBy('price','asc');
+        }elseif($priceFilter === 'highest'){
+            $query->orderBy('price','desc');
+        }elseif ($priceRangeFilter){
+            $query->whereBetween('price',[0,$priceRangeFilter]);
+        }
+
+        $products = $query->paginate(12);
+        $images = ProductImage::whereIn('product_id', $products->pluck('id'))
+            ->orderByDesc('is_main')
+            ->get();
+
+        return view('catalog',compact('products','images','searchTerm'));
+
+    }
 }

@@ -56,7 +56,7 @@ Route::delete('/admin/delete/{user}', [AdminController::class, 'destroy'])
     ->name('admin.destroy');
 
 //------------------------------------------
-Route::get('/catalog', [CatalogController::class, 'index'])
+Route::get('/catalog', [CatalogController::class, 'handleCatalog'])
     ->name('catalog');
 
 Route::get('/catalog/product/{id}', [ProductController::class, 'get'])

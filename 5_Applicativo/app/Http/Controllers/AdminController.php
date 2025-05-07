@@ -19,9 +19,21 @@ class AdminController extends Controller
         $searchTerm = $request->query('searchUser');
         $query = User::query();
 
-        if($searchTerm){
-            $query->where('name','LIKE',"%{$searchTerm}%");
+        if ($searchTerm) {
+            $terms = explode(' ', $searchTerm);
+
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->where(function ($subQuery) use ($term) {
+                        $subQuery->where('name', 'LIKE', "%{$term}%")
+                            ->orWhere('surname', 'LIKE', "%{$term}%")
+                            ->orWhere('username', 'LIKE', "%{$term}%")
+                            ->orWhere('email','LIKE',"%{$term}%");
+                    });
+                }
+            });
         }
+
 
         $users = $query->get(); //Se il parametro di ricerca non esiste carica tutti gli User
 

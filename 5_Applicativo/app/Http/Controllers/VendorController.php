@@ -23,8 +23,18 @@ class VendorController extends Controller
         $searchTerm = $request->query("searchProduct");
         $query = Product::select('id','name', 'color', 'description', 'release_date', 'price');
 
-        if($searchTerm){
-            $query->where('name','LIKE',"%{$searchTerm}%");
+        if ($searchTerm) {
+            $terms = explode(' ', $searchTerm);
+
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->where(function ($subQuery) use ($term) {
+                        $subQuery->where('name', 'LIKE', "%{$term}%")
+                            ->orWhere('color', 'LIKE', "%{$term}%")
+                            ->orWhere('description', 'LIKE', "%{$term}%");
+                    });
+                }
+            });
         }
 
         $products = $query->get();

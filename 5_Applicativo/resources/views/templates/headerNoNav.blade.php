@@ -10,6 +10,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="{{ asset('css/carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('css/scrollbar.css') }}" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="../../../js/checkout.js"></script>
+    <script src="../../../js/return.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="d-flex flex-column min-vh-100">

@@ -1,0 +1,4 @@
+@include('templates.headerNoNav')
+<div id="checkout">
+    <!-- Checkout will insert the payment form here -->
+</div>

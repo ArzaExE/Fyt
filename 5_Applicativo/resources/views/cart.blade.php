@@ -55,8 +55,8 @@
                     <form action="{{ route('cart.delete', $item->product) }}" method="POST">
                         @csrf
                         <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
-                        <button type="submit" class="remove-btn">
-                            <i class="fas fa-trash"></i>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-trash"></i>
                         </button>
                     </form>
                 </div>
@@ -231,7 +231,9 @@
     }
 
     .checkout-btn:hover {
-        background: #218838;
+        background: white;
+        border: 1px solid #28a745;
+        color: #28a745;
     }
 
     /* Carrello vuoto */
@@ -253,18 +255,18 @@
     }
 
     .continue-shopping {
-        color: #007bff;
+        color: #D0A1FF;
         text-decoration: none;
         font-weight: 500;
         font-size: 1.1rem;
         padding: 0.75rem 1.5rem;
-        border: 1px solid #007bff;
+        border: 1px solid #D0A1FF;
         border-radius: 4px;
         transition: all 0.3s;
     }
 
     .continue-shopping:hover {
-        background-color: #007bff;
+        background-color: #D0A1FF;
         color: white;
         text-decoration: none;
     }

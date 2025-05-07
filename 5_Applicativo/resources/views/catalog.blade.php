@@ -6,6 +6,12 @@
 
 <!-- Contenuto principale -->
 <div class="container mt-5">
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <h1 class="text-center mb-5">Catalog Product</h1>
 
     <!-- Testo prodotti mostrati -->

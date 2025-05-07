@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductAddCartRequest;
 use App\Http\Requests\ProductCreateRequest;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\Product;
 use App\Models\ProductSizesAndQuantities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,26 +20,25 @@ class CartController extends Controller
             return redirect()->route('home');
         }
         else{
-            $cart = Order::where('user_id', Auth::user()->getAuthIdentifier())->where('status', 'cart')->first();
+            // Trova o crea il carrello
+            $cart = Order::firstOrCreate(
+                ['user_id' => Auth::user()->getAuthIdentifier(), 'status' => 'cart'],
+                ['total' => 0]
+            );
             $items = OrderItems::where('order_id', $cart->id)->get();
-            $sizes = array();
-            foreach ($items as $item) {
-                $sizeArray = ProductSizesAndQuantities::where('product_id', $item->product_id)->get();
-                foreach ($sizeArray as $size) {
-                    $sizes[number_format($size->size, 1)] = $item->product_id;
-                }
-            }
-            return view('cart', compact('cart','items', 'sizes'));
+            return view('cart', compact('cart','items'));
         }
     }
 
-    public function add(Product $product)
+    public function add(Product $product, ProductAddCartRequest $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to log in to add products to your cart.');
+        $validatedData = $request->validated();
+
+        if (!Auth::check() || !ProductSizesAndQuantities::where('product_id', $product->id)->where('size', $validatedData['selected_size'])->exists()) {
+            return redirect()->route('catalog')->with('error', 'Something went wrong...');
         }
 
-        $userId = Auth::id();
+        $userId = Auth::user()->getAuthIdentifier();
 
         // Trova o crea il carrello
         $cart = Order::firstOrCreate(
@@ -47,15 +48,23 @@ class CartController extends Controller
 
         $item = OrderItems::where('order_id', $cart->id)
             ->where('product_id', $product->id)
+            ->where('size_id', $validatedData['selected_size'])
             ->first();
 
         // Se l' Item esiste incrementa la quantità e aggiorna il prezzo in base a quest' ultima
         if ($item) {
-            $item->increment('quantity');
-            $item->update(['price' => $item->quantity * $product->price]);
+            $stock = ProductSizesAndQuantities::where('product_id', $product->id)->where('size', $validatedData['selected_size'])->first();
+            if ($item->quantity + 1 <= $stock->stock) {
+                $item->increment('quantity');
+                $item->update(['price' => $item->quantity * $product->price]);
+            }
+            else{
+                return redirect()->back()->with('error', 'Max quantitity for this product is ' . $stock->stock);
+            }
         } else {
             OrderItems::create([
                 'order_id' => $cart->id,
+                'size_id' => $validatedData['selected_size'],
                 'product_id' => $product->id,
                 'quantity' => 1,
                 'price' => $product->price
@@ -66,5 +75,53 @@ class CartController extends Controller
 
         return redirect()->back()
             ->with('success', $product->name . ' successfully added to the cart!');
+    }
+
+    public function remove(Product $product, ProductAddCartRequest $request){
+        $validatedData = $request->validated();
+
+        if (!Auth::check() || !ProductSizesAndQuantities::where('product_id', $product->id)->where('size', $validatedData['selected_size'])->exists()) {
+            return redirect()->back()->with('error', 'Something went wrong...');
+        }
+
+        $userId = Auth::user()->getAuthIdentifier();
+
+        $cart = Order::where('user_id', $userId)->where('status', 'cart')->first();
+
+        $item = OrderItems::where('order_id', $cart->id)
+            ->where('product_id', $product->id)
+            ->where('size_id', $validatedData['selected_size'])
+            ->first();
+
+        if ($item->quantity > 1) {
+            $item->decrement('quantity');
+            $item->update(['price' => $item->price - $product->price]);
+            $cart->update(['total' => OrderItems::where('order_id', $cart->id)->sum('price')]);
+        }
+        else{
+            $this->delete($product, $request);
+        }
+        return redirect()->back();
+    }
+
+    public function delete(Product $product, ProductAddCartRequest $request)
+    {
+        $validatedData = $request->validated();
+        $userId = Auth::user()->getAuthIdentifier();
+        $cart = Order::where('user_id', $userId)->where('status', 'cart')->first();
+
+        if (!Auth::check() || !OrderItems::where('product_id', $product->id)->where('order_id', $cart->id)->exists()) {
+            return redirect()->route('catalog')->with('error', 'Something went wrong...');
+        }
+
+
+        OrderItems::where('order_id', $cart->id)
+            ->where('product_id', $product->id)
+            ->where('size_id', $validatedData['selected_size'])
+            ->first()->delete();
+
+        $cart->update(['total' => OrderItems::where('order_id', $cart->id)->sum('price')]);
+
+        return redirect()->back();
     }
 }

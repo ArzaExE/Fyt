@@ -63,11 +63,21 @@ Route::get('/catalog/product/{id}', [ProductController::class, 'get'])
 
 // ---------- Pagine Carrello -------------
 Route::get('/cart', [CartController::class, 'index'])
+    ->middleware(['auth', 'verified', 'user'])
     ->name('cart.index');
 
 Route::post('/cart/add/{product}', [CartController::class, 'add'])
-    ->name('cart.add')
-    ->middleware('auth');
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('cart.add');
+
+Route::post('/cart/remove/{product}', [CartController::class, 'remove'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('cart.remove');
+
+Route::post('/cart/delete/{product}', [CartController::class, 'delete'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('cart.delete');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

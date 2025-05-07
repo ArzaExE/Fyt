@@ -4,6 +4,12 @@
 <div class="cart-container">
     <h1 class="cart-title">Il tuo carrello</h1>
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     @if(count($items) > 0)
         <div class="cart-items">
             @foreach($items as $item)
@@ -15,30 +21,44 @@
                         </div>
                     </div>
 
-                    <select class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @foreach($sizes as $key => $value)
-                            @if($value == $item->product_id)
-                                <option>{{$key}}</option>
-                            @endif
-                        @endforeach
-                    </select>
+{{--                    <select class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">--}}
+{{--                        @foreach($sizes as $key => $value)--}}
+{{--                            @if($value == $item->product_id)--}}
+{{--                                <option>{{$key}}</option>--}}
+{{--                            @endif--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
 
-{{--                    <div class="quantity-controls">--}}
-{{--                        <button class="quantity-btn">−</button>--}}
-{{--                        <span class="quantity">{{ $item->quantity }}</span>--}}
-{{--                        <button class="quantity-btn">+</button>--}}
-{{--                    </div>--}}
+                    <p class="product-price">EU {{$item->size_id}}</p>
 
-                    <x-text-input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="block mt-1" placeholder="Quantity" required />
+                    <div class="quantity-controls">
+                        <form action="{{ route('cart.remove', $item->product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <button type="submit" id="quantity-remove" name="quantity-remove" class="quantity-btn">−</button>
+                        </form>
+                        <span class="quantity">{{ $item->quantity }}</span>
+                        <form action="{{ route('cart.add', $item->product) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <button type="submit" id="quantity-add" name="quantity-add" class="quantity-btn">+</button>
+                        </form>
+                    </div>
+
+{{--                    <x-text-input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="block mt-1" placeholder="Quantity" required />--}}
 
 
                     <div class="item-total">
                         {{ number_format($item->price, 2) }} €
                     </div>
 
-                    <button class="remove-btn">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <form action="{{ route('cart.delete', $item->product) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                        <button type="submit" class="remove-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
                 </div>
             @endforeach
         </div>

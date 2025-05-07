@@ -13,7 +13,6 @@ class CatalogController extends Controller
         $searchTerm = $request->query('search');
         $query = Product::query();
 
-        // Applica la ricerca SE esiste il parametro
         if ($searchTerm) {
             $query->where('name', 'LIKE', "%{$searchTerm}%");
         }

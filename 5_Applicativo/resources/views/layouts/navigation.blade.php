@@ -10,23 +10,13 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <!-- Search Bar -->
-                <!-- Search Bar -->
-{{--                <div class="mb-4 w-100">--}}
-{{--                    <form class="d-flex">--}}
-{{--                        <input class="form-control rounded-2" id="search" type="search" placeholder="Search Product"--}}
-{{--                               aria-label="Search">--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <form class="d-flex">
-                        <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product"
-                               aria-label="Search">
+                        <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product" aria-label="Search">
                     </form>
+
+                    <!-- Navigation Links -->
                     @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog')
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
@@ -254,7 +244,7 @@
 
         function redirectToCatalog(keyword) {
             // Costruzione URL
-            var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword) + '&page=2';
+            var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword);
             window.location.href = url;
         }
     });

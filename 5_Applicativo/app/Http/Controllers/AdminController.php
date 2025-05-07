@@ -14,10 +14,18 @@ use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin', compact('users'));
+        $searchTerm = $request->query('searchUser');
+        $query = User::query();
+
+        if($searchTerm){
+            $query->where('name','LIKE',"%{$searchTerm}%");
+        }
+
+        $users = $query->get(); //Se il parametro di ricerca non esiste carica tutti gli User
+
+        return view('admin', compact('users','searchTerm'));
     }
 
     public function edit(User $user) {

@@ -1,7 +1,16 @@
 @include('templates.header')
 <div class="container mt-5">
-    <div class="d-flex align-items-center justify-content-between">
-        <b><h1 style="font-size: 25px">Products</h1></b>
+    <div class="d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <b><h1 style="font-size: 25px">Products</h1></b>
+        </div>
+
+        <!-- Search Bar (Product) -->
+        <div class="mb-4 w-100">
+            <form class="d-flex">
+                <input class="form-control rounded-2" type="search" placeholder="Search Product" aria-label="Search">
+            </form>
+        </div>
 
         <!-- Stampa esito inserimento -->
         @if(session('success'))
@@ -61,21 +70,20 @@
 <!-- Stile personalizzato -->
 <style>
     .btn-outline-gray-custom {
-        color: #838584; /* Colore del testo grigio */
-        border-color: #838584; /* Colore del bordo grigio */
-        background-color: transparent; /* Sfondo trasparente */
-        transition: all 0.3s ease; /* Transizione fluida */
+        color: #838584;
+        border-color: #838584;
+        background-color: transparent;
+        transition: all 0.3s ease;
     }
 
     .btn-outline-gray-custom:hover {
-        color: #fff; /* Testo bianco al passaggio del mouse */
-        background-color: #838584; /* Sfondo grigio al passaggio del mouse */
-        border-color: #838584; /* Colore del bordo al passaggio del mouse */
+        color: #fff;
+        background-color: #838584;
+        border-color: #838584;
     }
 
     .btn-custom-height {
-        padding-top: 0.25rem; /* Riduce il padding superiore */
-        padding-bottom: 0.25rem; /* Riduce il padding inferiore */
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
     }
 </style>
-

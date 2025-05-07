@@ -1,6 +1,12 @@
 @include('templates.header')
 <div class="container mt-5">
     <b><h1 style="font-size: 25px">Users</h1></b>
+    <!-- Search Bar (User) -->
+    <div class="mb-4">
+        <form class="d-flex">
+            <input class="form-control me-2 rounded-2 m-3" type="search" placeholder="Search User" aria-label="Search">
+        </form>
+    </div>
     <br>
     <br>
     <div class="table-responsive">

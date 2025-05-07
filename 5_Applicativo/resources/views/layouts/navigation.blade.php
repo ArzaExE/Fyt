@@ -6,11 +6,17 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800"/>
                     </a>
                 </div>
+
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <!-- Search Bar -->
+                    <form class="d-flex">
+                        <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product"
+                               aria-label="Search">
+                    </form>
                     @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog')
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
@@ -56,11 +62,15 @@
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->username }}</div>
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                              clip-rule="evenodd"/>
                                     </svg>
                                 </div>
                             </button>
@@ -84,23 +94,29 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
+
             @elseif(Route::has('login') && !Auth::check())
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <button type="button" class="btn me-3" style="color:whitesmoke; background-color: #D0A1FF;">
                         <a href="{{ route('login') }}">Login</a>
                     </button>
-                    <button type="button" class="btn" style="color:whitesmoke; background-color: #D0A1FF;" href="{{ route('register') }}">
+                    <button type="button" class="btn" style="color:whitesmoke; background-color: #D0A1FF;"
+                            href="{{ route('register') }}">
                         <a href="{{ route('register') }}">Sign Up</a>
                     </button>
                 </div>
             @endif
 
-            <!-- Hamburger -->
+            <!-- Menu Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
+                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
@@ -185,7 +201,42 @@
             @endif
         </div>
     </div>
+
 </nav>
 
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        var searchTimer;
+
+        $('#search').on('keyup', function() {
+            clearTimeout(searchTimer);
+            var keyword = $(this).val().trim();
+
+            // Avvia il timer solo se la keyword ha almeno 3 caratteri
+            if(keyword.length >= 3) {
+                searchTimer = setTimeout(function() {
+                    redirectToCatalog(keyword);
+                }, 800); // Ritardo di 800ms dopo l'ultimo tasto premuto
+            }
+        });
+
+        // Se si preme Invio, esegue subito la ricerca
+        $('#search').on('keypress', function(e) {
+            if(e.which === 13) { // 13 = tasto enter
+                e.preventDefault();
+                var keyword = $(this).val().trim();
+                if(keyword.length > 0) {
+                    redirectToCatalog(keyword);
+                }
+            }
+        });
+
+        function redirectToCatalog(keyword) {
+            // Costruzione URL
+            var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword) + '&page=2';
+            window.location.href = url;
+        }
+    });
+</script>

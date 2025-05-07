@@ -10,11 +10,9 @@
                     </a>
                 </div>
 
-<<<<<<< Updated upstream
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <!-- Search Bar -->
-=======
                 <!-- Search Bar -->
 {{--                <div class="mb-4 w-100">--}}
 {{--                    <form class="d-flex">--}}
@@ -25,7 +23,6 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
->>>>>>> Stashed changes
                     <form class="d-flex">
                         <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product"
                                aria-label="Search">
@@ -226,14 +223,8 @@
 
 </nav>
 
-<<<<<<< Updated upstream
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-=======
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
->>>>>>> Stashed changes
 <script>
     $(document).ready(function() {
         var searchTimer;
@@ -250,15 +241,9 @@
             }
         });
 
-<<<<<<< Updated upstream
         // Se si preme Invio, esegue subito la ricerca
         $('#search').on('keypress', function(e) {
             if(e.which === 13) { // 13 = tasto enter
-=======
-        // Se preme Invio, esegui subito la ricerca
-        $('#search').on('keypress', function(e) {
-            if(e.which === 13) { // 13 = tasto Invio
->>>>>>> Stashed changes
                 e.preventDefault();
                 var keyword = $(this).val().trim();
                 if(keyword.length > 0) {
@@ -268,19 +253,9 @@
         });
 
         function redirectToCatalog(keyword) {
-<<<<<<< Updated upstream
             // Costruzione URL
             var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword) + '&page=2';
-=======
-            // Costruisci l'URL del catalogo con il parametro di ricerca
-            var url = '{{ route("catalog") }}?search=' + encodeURIComponent(keyword);
-            // console.log("Redirect a:", url);
->>>>>>> Stashed changes
             window.location.href = url;
         }
     });
 </script>
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes

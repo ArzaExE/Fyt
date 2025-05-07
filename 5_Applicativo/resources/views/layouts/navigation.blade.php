@@ -214,9 +214,11 @@
             clearTimeout(searchTimer);
             var keyword = $(this).val().trim();
 
-            searchTimer = setTimeout(function() {
-                redirectToCatalog(keyword);
-            }, 800); // Ritardo di 800ms dopo l'ultimo tasto premuto
+            if(keyword.length >= 3) {
+                searchTimer = setTimeout(function() {
+                    redirectToCatalog(keyword);
+                }, 800);
+            }
         });
 
         $('#search').on('keypress', function(e) {

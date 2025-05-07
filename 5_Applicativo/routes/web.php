@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
@@ -77,6 +78,22 @@ Route::post('/cart/remove/{product}', [CartController::class, 'remove'])
 Route::post('/cart/delete/{product}', [CartController::class, 'delete'])
     ->middleware(['auth', 'verified', 'user'])
     ->name('cart.delete');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('checkout.index');
+
+Route::post('/checkoutprocess', [CheckoutController::class, 'create'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('checkout.create');
+
+Route::post('/return', [CheckoutController::class, 'status'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('checkout.status');
+
+Route::get('/status', [CheckoutController::class, 'showStatus'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('checkout.showStatus');
 
 
 Route::middleware('auth')->group(function () {

@@ -68,7 +68,9 @@
                 <h3>Totale provvisorio</h3>
                 <p class="total-price">{{ number_format($cart->total, 2) }} €</p>
             </div>
-            <button class="checkout-btn">Procedi all'acquisto</button>
+            <button class="checkout-btn">
+                <a href="{{ route('checkout.index') }}">Procedi all'acquisto</a>
+            </button>
         </div>
     @else
         <div class="empty-cart">

@@ -22,8 +22,7 @@ class HomeController extends Controller
         // In evidenza
         $highlight = ProductImage::join('products', 'product_images.product_id', '=', 'products.id')
             ->where('product_images.is_main', 1)
-            ->where('products.highlighted', 1)
-            ->orderByDesc('products.created_at')
+            ->orderByDesc('products.highlighted')
             ->select('product_images.*', 'products.name as product_name')
             ->limit(10)
             ->get();

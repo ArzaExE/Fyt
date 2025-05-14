@@ -91,7 +91,7 @@
                                                 <th class="w-25" scope="row">Colore</th>
                                                 <td>
                                                     <span class="d-inline-block rounded-circle me-2"
-                                                          style="width: 15px; height: 15px; background-color: #D0A1FF"></span>
+                                                          style="width: 15px; height: 15px; background-color: {{$product->color}}"></span>
                                                     {{ $product->color }}
                                                 </td>
                                             </tr>

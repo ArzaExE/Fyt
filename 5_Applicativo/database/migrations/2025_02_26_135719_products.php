@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('color');
             $table->date('release_date');
             $table->double('price');
+            $table->boolean('highlighted');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

@@ -53,10 +53,16 @@
                     <div class="py-2">
                         <h6 class="font-weight-bold mb-3">Size</h6>
                         <div class="dropdown">
-                            <select id="sizes" name="size" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <option>--choose--</option>
+                            <select name="size" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">-- Choose --</option>
                                 @for($i = 35; $i <= 50; $i += 0.5)
-                                    <option value="{{ number_format($i, 1) }}">{{ number_format($i, 1) }}</option>
+                                    @php
+                                        $sizeValue = number_format($i, 1, '.', '');
+                                        $selected = request('size') == $sizeValue ? 'selected' : '';
+                                    @endphp
+                                    <option value="{{ $sizeValue }}" {{ $selected }}>
+                                        {{ $sizeValue }}
+                                    </option>
                                 @endfor
                             </select>
                         </div>
@@ -200,29 +206,6 @@
                         <!-- Generatore con Laravel controlli con link per paginazione dei prodotti -->
                         {{ $products->links() }}
                     </div>
-
-                    {{-- Gestione in caso il prodotto cercato non fosse trovato --}}
-                    @if($searchTerm && $products->isEmpty())
-                        <div class="flex items-center justify-center min-h-[60vh]">
-                            <div class="text-center max-w-md mx-auto p-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                                <h3 class="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
-                                <p class="text-gray-500 mb-6">We couldn't find any results for "<span
-                                        class="font-medium">{{ $searchTerm }}</span>"</p>
-                                <div class="space-y-3">
-                                    <a href="{{ route('catalog') }}"
-                                       class="inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-gray-700 rounded-lg transition-colors">
-                                        Browse all products
-                                    </a>
-                                    <p class="text-sm text-gray-400">or try a different search term</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                 </div>
             </div>
         @endif

@@ -43,5 +43,11 @@ class Product extends Model
     {
         return Carbon::parse($this->release_date)->format('Y-m-d');
     }
+
+    // Per relazione nel filtraggio taglie
+    public function sizes()
+    {
+        return $this->hasMany(ProductSizesAndQuantities::class);
+    }
 }
 

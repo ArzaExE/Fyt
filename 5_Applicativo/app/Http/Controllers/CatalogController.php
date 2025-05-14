@@ -29,21 +29,22 @@ class CatalogController extends Controller
         return view('catalog', compact('products', 'images', 'searchTerm'));
     }
 
-//    Gestire richieste con anche filtri (reindirizzazionnnenennenenen)
+//    Gestire richieste con anche filtri (reindirizzamento)
     public function handleCatalog(Request $request)
     {
-        // Se è presente il filtro per data, ignora i filtri di prezzo
-        if($request->has('dateFilter')) {
-            return $this->filteredByDate($request);
-        }
-
+        // Tutte le richieste
         if ($request->has('price') || $request->has('priceRange')) {
             return $this->filteredByPrice($request);
+        }
+
+        if($request->has('dateFilter')) {
+            return $this->filteredByDate($request);
         }
 
         if($request->has('size')){
             return $this->filteredBySize($request);
         }
+
 
         return $this->index($request);
     }
@@ -103,14 +104,22 @@ class CatalogController extends Controller
 
 
     //La request va passata da un validator
-    public function filteredBySize(Request $request){
+    public function filteredBySize(Request $request)
+    {
         $sizeFilter = $request->input('size');
         $searchTerm = $request->query('search');
-        $query = Product::query();
-        $query_sizes = ProductSizesAndQuantities::query();
 
-        if($sizeFilter){
-             $query_sizes->where('size', $sizeFilter)->get();
+        $query = Product::query();
+
+        if ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        }
+
+        // Filtro per taglia usando la relazione
+        if ($sizeFilter) {
+            $query->whereHas('sizes', function($q) use ($sizeFilter) {
+                $q->where('size', $sizeFilter);
+            });
         }
 
         $products = $query->paginate(12);
@@ -118,6 +127,6 @@ class CatalogController extends Controller
             ->orderByDesc('is_main')
             ->get();
 
-        return view('catalog', compact('products', 'images','searchTerm'));
+        return view('catalog', compact('products', 'images', 'searchTerm'));
     }
 }

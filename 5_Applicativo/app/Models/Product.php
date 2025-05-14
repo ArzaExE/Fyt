@@ -44,3 +44,4 @@ class Product extends Model
         return Carbon::parse($this->release_date)->format('Y-m-d');
     }
 }
+

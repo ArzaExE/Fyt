@@ -40,11 +40,11 @@
                     <div class="py-2 border-bottom">
                         <h6 class="font-weight-bold mb-3">Release date</h6>
                         <div class="form-check mb-2">
-                            <input type="checkbox" id="newest" class="form-check-input">
+                            <input type="radio" name="dateFilter" id="newest" class="form-check-input" value="newest">
                             <label for="newest" class="form-check-label">Newest</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" id="oldest" class="form-check-input">
+                            <input type="radio" name="dateFilter" id="oldest" class="form-check-input" value="oldest">
                             <label for="oldest" class="form-check-label">Oldest</label>
                         </div>
                     </div>
@@ -52,21 +52,13 @@
                     <!-- Size Filter -->
                     <div class="py-2">
                         <h6 class="font-weight-bold mb-3">Size</h6>
-                        <div class="form-check mb-2">
-                            <input type="checkbox" id="size36.5" class="form-check-input">
-                            <label for="size36.5" class="form-check-label">36.5</label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input type="checkbox" id="size37" class="form-check-input">
-                            <label for="size37" class="form-check-label">37</label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input type="checkbox" id="size40" class="form-check-input">
-                            <label for="size40" class="form-check-label">40</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" id="size42" class="form-check-input">
-                            <label for="size42" class="form-check-label">42</label>
+                        <div class="dropdown">
+                            <select id="sizes" name="size" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <option>--choose--</option>
+                                @for($i = 35; $i <= 50; $i += 0.5)
+                                    <option value="{{ number_format($i, 1) }}">{{ number_format($i, 1) }}</option>
+                                @endfor
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
@@ -202,10 +194,6 @@
                         <p class="text-sm text-gray-400">or try a different search term</p>
                     </div>
 
-                    <!-- Inclusione del parziale -->
-                    <div id="catalog-partial">
-                        @include('profile.partials.catalog-ajax', ['products' => $products])
-                    </div>
 
                     <!-- Navbar per paginazione -->
                     <div class="pagination d-flex justify-content-center mb-4" id="pagination-links">
@@ -253,39 +241,24 @@
 
         priceRange.addEventListener('input', function () {
             priceValue.textContent = priceRange.value + " €";
-        });
-
-        // Per blocco range se radio sono attivi
-        document.addEventListener("DOMContentLoaded", function () {
-            const rangeInput = document.getElementById('priceRange');
-            const radioButtons = document.querySelectorAll('input[name="price"]');
-
-            function toggleRange() {
-                // Se uno dei radio è selezionato → disabilita range
-                const isRadioChecked = Array.from(radioButtons).some(rb => rb.checked);
-                rangeInput.disabled = isRadioChecked;
-            }
-
-            // Al caricamento iniziale
-            toggleRange();
-
-            // Quando un radio cambia stato
-            radioButtons.forEach(rb => {
-                rb.addEventListener('change', toggleRange);
-            });
-        });
+        })
 
         function resetFilters() {
             var lowest = document.getElementById('lowestPrice');
             var highest = document.getElementById('highestPrice');
             var range = document.getElementById('priceRange');
+            var newest = document.getElementById('newest');
+            var oldest = document.getElementById('oldest');
 
             lowest.checked = false;
             highest.checked = false;
             range.value = 0;
+            newest.checked = false;
+            oldest.checked = false;
         }
 
         var resetButton = document.getElementById('resetButton');
         resetButton.onclick = resetFilters;
 
     </script>
+</div>

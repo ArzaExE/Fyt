@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductSizesAndQuantities;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
@@ -29,12 +30,19 @@ class CatalogController extends Controller
     }
 
 //    Gestire richieste con anche filtri (reindirizzazionnnenennenenen)
-    public function handleCatalog(Request $request){
-        if ($request->has('price') || $request->has('priceRange')){
+    public function handleCatalog(Request $request)
+    {
+        // Se è presente il filtro per data, ignora i filtri di prezzo
+        if($request->has('dateFilter')) {
+            return $this->filteredByDate($request);
+        }
+
+        if ($request->has('price') || $request->has('priceRange')) {
             return $this->filteredByPrice($request);
         }
-        if($request->has('newest') || $request->has('oldest')){
-            return $this->filteredByDate($request);
+
+        if($request->has('size')){
+            return $this->filteredBySize($request);
         }
 
         return $this->index($request);
@@ -46,12 +54,18 @@ class CatalogController extends Controller
         $searchTerm = $request->query('search');
         $query = Product::query();
 
+        if ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        }
+
         if($priceFilter === 'lowest'){
             $query->orderBy('price','asc');
         }elseif($priceFilter === 'highest'){
             $query->orderBy('price','desc');
-        }elseif ($priceRangeFilter){
+        }elseif ($priceRangeFilter != 0){
             $query->whereBetween('price',[0,$priceRangeFilter]);
+        }elseif ($priceFilter === 0){
+            $query->whereBetween('price',[0,500]);
         }
 
         $products = $query->paginate(12);
@@ -63,7 +77,47 @@ class CatalogController extends Controller
 
     }
 
-    public function filteredByDate(Request $request){
+    public function filteredByDate(Request $request)
+    {
+        $dateFilter = $request->input('dateFilter');
+        $searchTerm = $request->query('search');
+        $query = Product::query();
 
+        if ($searchTerm) {
+            $query->where('name', 'LIKE', "%{$searchTerm}%");
+        }
+
+        if ($dateFilter === 'newest') {
+            $query->orderBy('release_date', 'desc');
+        } elseif ($dateFilter === 'oldest') {
+            $query->orderBy('release_date', 'asc');
+        }
+
+        $products = $query->paginate(12);
+        $images = ProductImage::whereIn('product_id', $products->pluck('id'))
+            ->orderByDesc('is_main')
+            ->get();
+
+        return view('catalog', compact('products', 'images', 'searchTerm'));
+    }
+
+
+    //La request va passata da un validator
+    public function filteredBySize(Request $request){
+        $sizeFilter = $request->input('size');
+        $searchTerm = $request->query('search');
+        $query = Product::query();
+        $query_sizes = ProductSizesAndQuantities::query();
+
+        if($sizeFilter){
+             $query_sizes->where('size', $sizeFilter)->get();
+        }
+
+        $products = $query->paginate(12);
+        $images = ProductImage::whereIn('product_id', $products->pluck('id'))
+            ->orderByDesc('is_main')
+            ->get();
+
+        return view('catalog', compact('products', 'images','searchTerm'));
     }
 }

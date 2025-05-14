@@ -113,3 +113,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
 });
 Route::get('/vendor/sales', [VendorController::class, 'showSales'])->name('vendor.sales');
+
+//  ----------------- Per richieste AJAX -----------------
+// match permette la gestione di più richieste
+Route::match(['get', 'post'], '/catalogo', [CatalogController::class, 'index']);
+
+//  ----------------- Per ricerca prodotti -----------------
+Route::post('/product', [ProductController::class, 'search'])->name('product.search');

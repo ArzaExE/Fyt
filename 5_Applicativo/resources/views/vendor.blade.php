@@ -8,7 +8,7 @@
         <!-- Search Bar (Product) -->
         <div class="mb-4 w-100">
             <form class="d-flex">
-                <input class="form-control rounded-2" id="searchProduct" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
+                <input class="form-control rounded-2 border-gray-300" id="searchProduct" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
             </form>
         </div>
 

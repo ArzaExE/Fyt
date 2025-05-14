@@ -10,21 +10,9 @@
                     </a>
                 </div>
 
-                <!-- Search Bar -->
-{{--                <div class="mb-4 w-100">--}}
-{{--                    <form class="d-flex">--}}
-{{--                        <input class="form-control rounded-2" id="search" type="search" placeholder="Search Product"--}}
-{{--                               aria-label="Search">--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <form class="d-flex">
-                        <input class="form-control rounded-2 mt-3 h-9" id="search" type="search" placeholder="Search Product"
-                               aria-label="Search">
-                    </form>
-                    @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog')
+                <!-- Navigation Links - Visibile sopra 750px -->
+                <div class="hidden md:flex space-x-8 ms-10">
+                    @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
@@ -84,15 +72,11 @@
                     <!-- Settings Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->username }}</div>
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                              clip-rule="evenodd"/>
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                     </svg>
                                 </div>
                             </button>
@@ -218,7 +202,6 @@
         </div>
 
     </div>
-
 </nav>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

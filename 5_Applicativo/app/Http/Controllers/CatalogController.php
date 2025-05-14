@@ -30,8 +30,11 @@ class CatalogController extends Controller
 
 //    Gestire richieste con anche filtri (reindirizzazionnnenennenenen)
     public function handleCatalog(Request $request){
-        if ($request->has('price') || $request->has('priceRange')) {
+        if ($request->has('price') || $request->has('priceRange')){
             return $this->filteredByPrice($request);
+        }
+        if($request->has('newest') || $request->has('oldest')){
+            return $this->filteredByDate($request);
         }
 
         return $this->index($request);
@@ -57,6 +60,10 @@ class CatalogController extends Controller
             ->get();
 
         return view('catalog',compact('products','images','searchTerm'));
+
+    }
+
+    public function filteredByDate(Request $request){
 
     }
 }

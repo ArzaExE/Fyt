@@ -11,7 +11,7 @@ class CatalogController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->query('search');
-        $query = Product::query();
+        $query = Product::query()->orderByDesc('created_at');
 
         if ($searchTerm) {
             $query->where('name', 'LIKE', "%{$searchTerm}%");

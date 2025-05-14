@@ -10,17 +10,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $images = ProductImage::where('is_main',1)
-            ->orderByDesc('product_id')
+        // Ultime uscite
+        $latest = ProductImage::join('products', 'product_images.product_id', '=', 'products.id')
+            ->where('product_images.is_main', 1)
+            ->orderByDesc('products.created_at')
             ->limit(10)
             ->get();
-        return view('home', compact('images'));
-    }
 
-    public function get(){
-        $product = Product::all();
-        $images = ProductImage::where('is_main',1)
+
+
+        // In evidenza
+        $highlight = ProductImage::join('products', 'product_images.product_id', '=', 'products.id')
+            ->where('product_images.is_main', 1)
+            ->where('products.highlighted', 1)
+            ->orderByDesc('products.created_at')
+            ->select('product_images.*', 'products.name as product_name')
+            ->limit(10)
             ->get();
 
+
+
+        return view('home', compact('latest', 'highlight'));
     }
+
 }

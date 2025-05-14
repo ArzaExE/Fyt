@@ -20,7 +20,9 @@ class Product extends Model
         'description',
         'color',
         'release_date',
-        'price'
+        'price',
+        'created_at',
+        'highlighted'
     ];
 
     // Relazione uno-a-molti con le immagini

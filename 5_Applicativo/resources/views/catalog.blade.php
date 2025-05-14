@@ -17,25 +17,23 @@
                 <form action="{{ route('catalog') }}" method="GET">
                     <div class="py-2 border-bottom">
                         <h6 class="font-weight-bold mb-3">Price</h6>
-                        <form>
-                            <div class="form-check mb-2">
-                                <input type="radio" id="lowestPrice" name="price" value="lowest" class="form-check-input">
-                                <label for="artisan" class="form-check-label">Lowest</label>
+                        <div class="form-check mb-2">
+                            <input type="radio" id="lowestPrice" name="price" value="lowest" class="form-check-input">
+                            <label for="artisan" class="form-check-label">Lowest</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="radio" id="highestPrice" name="price" value="highest" class="form-check-input">
+                            <label for="breakfast" class="form-check-label">Highest</label>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label mb-2" for="priceRange">Price Range</label>
+                            <input type="range" class="form-range w-100" id="priceRange" name="priceRange" min="0" max="500" step="5" value="0">
+                            <div class="d-flex justify-content-center mt-2">
+                                <span id="priceValue" class="font-weight-bold"></span>
                             </div>
-                            <div class="form-check mb-3">
-                                <input type="radio" id="highestPrice" name="price" value="highest" class="form-check-input">
-                                <label for="breakfast" class="form-check-label">Highest</label>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label mb-2" for="priceRange">Price Range</label>
-                                <input type="range" class="form-range w-100" id="priceRange" name="priceRange" min="0" max="500" step="5" value="0">
-                                <div class="d-flex justify-content-center mt-2">
-                                    <span id="priceValue" class="font-weight-bold"></span>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                         <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
-                        <button id="resetButton" type="submit" class="btn btn-primary btn-sm">De Filters</button>
+                        <button id="resetButton" type="button" class="btn btn-primary btn-sm">Reset Filters</button>
                     </div>
                 </form>
 
@@ -236,6 +234,7 @@
             @endif
         </div>
     </div>
+@endif
 </div>
 
 <!-- Footer -->

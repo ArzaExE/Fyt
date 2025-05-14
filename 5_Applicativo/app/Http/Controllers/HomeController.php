@@ -28,8 +28,6 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
-
-
         return view('home', compact('latest', 'highlight'));
     }
 

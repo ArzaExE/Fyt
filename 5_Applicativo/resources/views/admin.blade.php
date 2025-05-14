@@ -6,7 +6,7 @@
     <!-- Search Bar -->
     <div class="mb-4">
         <form class="d-flex">
-            <input class="form-control me-2 rounded-2 m-3" id="searchUser" type="search" placeholder="Search User" aria-label="Search">
+            <input class="border-gray-300 form-control me-2 rounded-2 m-3" id="searchUser" type="search" placeholder="Search User" aria-label="Search" style="background-color: #f0f0f0">
         </form>
     </div>
 

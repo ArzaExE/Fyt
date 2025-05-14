@@ -1,0 +1,13 @@
+- Paginazione
+- Ricerca dei prodotti tramite barra di ricerca e filtri
+- Login con username
+- Sistema di pagamento
+- Sistema del carrello
+- Estetica (aggiunti caroselli nella home e piccole modifiche)
+- Responsive
+- Articoli in evidenza e utime uscite
+
+1) definition of done -> trello 
+2) search e filtri non funzionano assieme
+3) descrizione delle singole task da definire prima di implementare
+4) slider (min e max)

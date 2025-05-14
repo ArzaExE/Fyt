@@ -50,9 +50,9 @@
                         @endif
                     @endif
                     @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
-                        <x-nav-link class="flex items-center">
+                        <x-nav-link class="flex items-center" style="width: 30vw">
                             <input class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                   id="search" type="search" placeholder="Search Product" aria-label="Search">
+                                   id="search" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
                         </x-nav-link>
                     @endif
                 </div>
@@ -119,7 +119,7 @@
                 @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
                     <form class="flex items-center">
                         <input class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                               id="search" type="search" placeholder="Search Product" aria-label="Search">
+                               id="search" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
                     </form>
                 @endif
             </div>

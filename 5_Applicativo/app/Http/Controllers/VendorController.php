@@ -67,9 +67,7 @@ class VendorController extends Controller
         $validatedData = $request->validated();
 
         $validatedData['highlighted'] = $request->has('highlighted');
-
-        var_dump($validatedData);
-
+        
         // Avvia una transazione
         DB::beginTransaction();
 

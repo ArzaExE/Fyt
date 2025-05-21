@@ -85,7 +85,8 @@
                         <x-slot name="content">
                             <div class="p-1 px-4 border-b border-gray-200">
                                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                                <div class="font-medium text-sm text-gray-500 break-words">
+                                    {{ Auth::user()->email }}</div>
                             </div>
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}

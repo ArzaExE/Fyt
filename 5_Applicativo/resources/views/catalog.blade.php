@@ -300,8 +300,8 @@
         const resetButton = document.getElementById('resetButton');
         resetButton.onclick = resetFilters;
 
-        const applyFiltersButton = document.getElementById('applyFilters');
-        applyFiltersButton.onclick = checkFilters;
+        // const applyFiltersButton = document.getElementById('applyFilters');
+        // applyFiltersButton.onclick = checkFilters;
 
     </script>
 </div>

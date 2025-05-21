@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductSearchRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductSizesAndQuantities;
@@ -30,7 +31,7 @@ class CatalogController extends Controller
     }
 
 //    Gestire richieste con anche filtri (reindirizzamento)
-    public function handleCatalog(Request $request)
+    public function handleCatalog(ProductSearchRequest $request)
     {
         // Tutte le richieste
         if ($request->has('price') || $request->has('priceRange')) {

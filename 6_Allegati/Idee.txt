@@ -11,19 +11,12 @@
 
 -----------------------Implemetazione-----------------------
 
-- Creare certificato per HTTPS --- Importanza: 1
-- Scroll dei prodotti nel catalogo oppure pagina con pulsante next. (Nel caso dello scroll utilizzare AJAX.) --- Importanza: 1
-- Pagina prodotto: Fare attenzione alla data 13/05/2023. (FARE ATTENZIONE ALLE DATE IN GENERALE) --- Importanza: 1
-- Più campi di ricerca nelle pagine. --- Importanza: 2
 - Cifratura dati anagrafici (AES) --> tabella users (solo se c'è tempo) --- Importanza: null
 - Quando l'utente viene eliminato bisogna rendere anonima la profilazione del utente (attività, acquisti, etc..) --> meglio farlo fin da subito. NEXT LEVEL --- Importanza: null
 - Per mail server mailjet --- Importanza: 3
 - Controlli sul numero di telefono per i form del sito con l'aggiunta della provenienza (input apposta)  --- Importanza: 4
 - Controllo sulla modifica dell'account: se viene tolta o aggiunta solo una informazione riguardante il luogo anche le altre devono essere messe o tolte --- Importanza: 4
 - È da implementare il Soft Delete --> creare una tabella a parte dove si tengono i dati degli utenti eliminati 
-- Gestione degli errori per tutti i form da FARE!!! Controllare anche la mole di dati che si inseriscono per evitare di mostrare errori. --- Importanza: 1
-- Se si inserisco file di dimensioni grandi da un errore, È DA GESTIRE!
-- Traduzione del sito in inglese
 - Scaricare dati personali (ordini effettuati) prima di eliminare l'account
 - Aggiungere campo di priorità per le immagini in modo che l'utente possa ordinarle a piacimento --- Importanza: 5
 Chi determina il mimes?

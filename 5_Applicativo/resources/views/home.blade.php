@@ -32,7 +32,7 @@
 </style>
 
 <!-- Carosello ultime uscite -->
-<div class="container mt-1">
+<div class="container mt-3">
     <h1 style="font-size: larger">Latest releases</h1><br>
     <div id="latestReleasesCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -73,7 +73,7 @@
 </div>
 
 <!-- Carosello articoli in evidenza -->
-<div class="container mt-1">
+<div class="container mt-3">
     <h1 style="font-size: larger">Highlighted</h1><br>
     <div id="highlightedCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -115,7 +115,7 @@
 
 <!-- Carosello articoli più venduti -->
 @if($bestSellers)
-    <div class="container mt-1">
+    <div class="container mt-3">
         <h1 style="font-size: larger">Best Sellers</h1><br>
         <div id="bestSellersCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">

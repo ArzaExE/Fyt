@@ -27,7 +27,7 @@
                         <div class="mb-3">
                             <label class="form-label mb-2" for="priceRange">Price Range</label>
                             <input type="range" class="form-range w-100" id="priceRange" name="priceRange" min="30"
-                                   max="500" step="5" value="0">
+                                   max="500" step="5" value="30">
                             <div class="d-flex justify-content-center mt-2">
                                 <span id="priceValue" class="font-weight-bold"></span>
                             </div>
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                     <button id="applyFilters" type="submit" class="btn btn-primary btn-sm" style="background-color: #D0A1FF; border-color: #D0A1FF">Apply Filters</button>
-                    <button id="resetButton" type="button" class="btn btn-primary btn-sm" style="background-color: #D0A1FF; border-color: #D0A1FF">Reset Filters</button>
+                    <button id="resetButton" type="button" class="btn btn-primary btn-sm" style="background-color: #D0A1FF; border-color: #D0A1FF"><a href="{{route('catalog')}}">Reset Filters</a></button>
                 </form>
             </section>
         </div>
@@ -82,8 +82,9 @@
 
             <h1 class="text-center mb-5 font-weight-bold text-dark">Catalog Product</h1>
 
+
 {{--                Gestione nel caso che il prodotto non sia trovato--}}
-                @if($searchTerm  && $products->isEmpty())
+                @if($searchTerm === null && count($products) <= 0)
                     <div class="d-flex justify-content-center">
                         <div class="text-center p-4" style="max-width: 500px;">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
@@ -224,6 +225,12 @@
         const dateOldest = document.getElementById('oldest');
         const size = document.getElementById('size');
 
+        if(size.value !== ""){
+            priceRange.disabled = true;
+        }
+
+        priceValue.textContent = "MAX: " + priceRange.value + " €";
+
         priceLowest.addEventListener('change',function ()
         {
            if(priceLowest.checked){
@@ -271,13 +278,13 @@
             priceValue.textContent = "MAX: " + priceRange.value + " €";
         });
 
-        function checkFilters(){
-            if(priceRange.value === "30" && priceLowest.checked === false && priceHighest.checked === false &&
-                dateNewest.checked === false && dateOldest.checked === false && size.value === ""){
-                priceRange.disabled = true;
-                size.disabled = true;
-            }
-        }
+        // function checkFilters(){
+        //     if(priceRange.value === "30" && priceLowest.checked === false && priceHighest.checked === false &&
+        //         dateNewest.checked === false && dateOldest.checked === false && size.value === ""){
+        //         priceRange.disabled = true;
+        //         size.disabled = true;
+        //     }
+        // }
 
         function resetFilters() {
             priceLowest.checked = false;

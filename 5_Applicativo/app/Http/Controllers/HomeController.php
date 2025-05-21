@@ -33,7 +33,9 @@ class HomeController extends Controller
         // Più venduti
         $bestSellers = ProductImage::join('products', 'product_images.product_id', '=', 'products.id')
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
+            ->join('orders', 'order_items.order_id', '=', 'orders.id') // Aggiunto join con orders
             ->where('product_images.is_main', 1)
+            ->where('orders.status', 'paid') // Filtro sullo status dell'ordine
             ->select('product_images.*', 'products.name as product_name', DB::raw('SUM(order_items.quantity) as total_sold'))
             ->groupBy('products.id', 'product_images.id', 'products.name')
             ->orderByDesc('total_sold')

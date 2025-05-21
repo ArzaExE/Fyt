@@ -100,11 +100,17 @@
                         <x-slot name="content">
                             <div class="p-1 px-4 border-b border-gray-200">
                                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                                <div class="font-medium text-sm text-gray-500 break-words">
+                                    {{ Auth::user()->email }}</div>
                             </div>
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            @if(Auth::user()->role->name === 'user')
+                                <x-dropdown-link :href="route('cart.showOrders')">
+                                    {{ __('Orders') }}
+                                </x-dropdown-link>
+                            @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
@@ -199,8 +205,8 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
                     @if(Auth::user()->role->name === 'user')
-                        <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
-                            {{ __('Cart') }}
+                        <x-responsive-nav-link :href="route('cart.showOrders')" :active="request()->routeIs('cart.showOrders')">
+                            {{ __('Orders') }}
                         </x-responsive-nav-link>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">

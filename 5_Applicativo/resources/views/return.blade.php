@@ -31,7 +31,7 @@
                     <!-- Bottone continua lo shopping -->
                     <div class="d-grid gap-2 d-md-block mt-4">
                         <a href="{{route('catalog')}}" class="btn px-4"  style="color: whitesmoke; background-color: #D0A1FF;">Continue Shopping</a>
-                        <a href="/ordini" class="btn btn-outline-secondary px-4 ms-2">My Orders</a>
+                        <a href="/orders" class="btn btn-outline-secondary px-4 ms-2">My Orders</a>
                     </div>
                 </div>
             </div>

@@ -88,7 +88,7 @@
                                         <table class="table table-borderless">
                                             <tbody>
                                             <tr>
-                                                <th class="w-25" scope="row">Colore</th>
+                                                <th class="w-25" scope="row">Color</th>
                                                 <td>
                                                     <span class="d-inline-block rounded-circle me-2"
                                                           style="width: 15px; height: 15px; background-color: {{$product->color}}"></span>
@@ -96,19 +96,19 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Descrizione</th>
+                                                <th scope="row">Description</th>
                                                 <td>{{ $product->description }}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Data di rilascio</th>
+                                                <th scope="row">Release Date</th>
                                                 <td>{{ $product->formatted_release_date }}</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Prezzo</th>
+                                                <th scope="row">Price</th>
                                                 <td class="h5">{{ number_format($product->price, 2) }} €</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Disponibilità</th>
+                                                <th scope="row">Availability</th>
                                                 <td>
                                                     @php
                                                         $totaleProdotti = 0;
@@ -122,13 +122,13 @@
                                                     @endif
                                                     <span
                                                         class="badge {{ $totaleProdotti > 0 ? 'bg-success' : 'bg-secondary' }}">
-                                                            {{ $totaleProdotti > 0 ? 'Disponibile' : 'Esaurito' }}
+                                                            {{ $totaleProdotti > 0 ? 'Available' : 'Not Available' }}
                                                     </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 @if($totaleProdotti > 0)
-                                                    <th scope="row">Taglie</th>
+                                                    <th scope="row">Sizes</th>
                                                     <td colspan="{{ count($sizes) }}">
                                                         <select name="selected_size" class="form-control">
                                                             @foreach($sizes as $size)
@@ -150,10 +150,10 @@
                                                 style="background-color: {{ $totaleProdotti > 0 ? '#D0A1FF' : 'gray' }}; color: white;"
                                             {{ $totaleProdotti > 0 ? '' : 'disabled' }}>
                                             <i class="bi bi-cart-plus me-2"></i>
-                                            {{ $totaleProdotti > 0 ? 'Aggiungi al carrello' : 'Esaurito' }}
+                                            {{ $totaleProdotti > 0 ? 'Add to cart' : 'Sold out' }}
                                         </button>
                                         <a href="/catalog" class="btn btn-outline-secondary w-100">
-                                            <i class="bi bi-arrow-left me-2"></i>Torna al catalogo
+                                            <i class="bi bi-arrow-left me-2"></i>Back to the catalog
                                         </a>
                                     </div>
                                 </form>

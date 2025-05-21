@@ -15,7 +15,6 @@ class ProductCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'name' => 'required|string|max:255',
             'color' => 'required|string|max:100',
@@ -28,6 +27,7 @@ class ProductCreateRequest extends FormRequest
             'mainImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5000',
             'images' => 'max:10',
+            'highlighted' => 'sometimes|boolean'
         ];
     }
 

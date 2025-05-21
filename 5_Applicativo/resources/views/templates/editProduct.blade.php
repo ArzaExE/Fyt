@@ -75,6 +75,13 @@
 
         </div>
 
+        <!-- Campo Highlighted -->
+        <div class="mb-4">
+            <x-input-label for="highlighted" :value="__('Highlighted')" />
+            <input id="highlighted" class="block mt-1" type="checkbox" name="highlighted" {{ $product->highlighted ? 'checked' : '' }}/>
+            <x-input-error :messages="$errors->get('highlighted')" class="mt-2" />
+        </div>
+
         <!-- Sezione Immagini -->
         <h2 class="text-lg font-medium text-gray-900">Images Management</h2>
         <p class="mt-1 text-sm text-gray-600">Update your product images</p>

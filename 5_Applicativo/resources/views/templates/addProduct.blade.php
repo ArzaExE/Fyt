@@ -76,6 +76,14 @@
             @enderror
         </div>
 
+        <!-- Campo Highlighted -->
+        <div class="mt-4">
+            <x-input-label for="highlighted" :value="__('Highlighted')" />
+            <input id="highlighted" class="block mt-1" type="checkbox" name="highlighted" value="1" {{ old('highlighted') ? 'checked' : '' }}/>
+            <x-input-error :messages="$errors->get('highlighted')" class="mt-2" />
+        </div>
+
+
         <!-- Campo Images -->
 
         <!-- Immagine principale -->

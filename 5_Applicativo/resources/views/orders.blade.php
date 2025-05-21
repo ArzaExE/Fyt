@@ -1,6 +1,6 @@
 @include('templates.header')
 <div class="container mt-4">
-    <h1 class="h5 font-weight-bold text-dark mb-4">Sales</h1>
+    <h1 class="h5 font-weight-bold text-dark mb-4">Orders</h1>
     @if(count($orders) > 0)
         @foreach($orders as $order)
             <div class="card mb-3 border-0 shadow-sm">
@@ -91,6 +91,9 @@
         <div class="text-center py-4 empty-orders">
             <i class="fas fa-box-open text-muted mb-3" style="font-size: 2.5rem;"></i>
             <p class="text-muted mb-2">You don't have any orders yet</p>
+            <a href="/catalog" class="btn btn-sm text-white" style="background-color: #D0A1FF;">
+                Browse Products
+            </a>
         </div>
     @endif
 </div>

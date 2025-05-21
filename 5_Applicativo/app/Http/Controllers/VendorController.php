@@ -21,7 +21,7 @@ class VendorController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->query("searchProduct");
-        $query = Product::select('id','name', 'color', 'description', 'release_date', 'price');
+        $query = Product::select('id','name', 'color', 'description', 'release_date', 'price', 'highlighted');
 
         if ($searchTerm) {
             $terms = explode(' ', $searchTerm);
@@ -44,7 +44,9 @@ class VendorController extends Controller
     }
 
     public function showSales(){
-        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->get();
+        $orders = Order::with(['items.product', 'items.size'])
+            ->where('status', 'paid')
+            ->get();
         return view('vendorSales',compact('orders'));
     }
 
@@ -65,6 +67,8 @@ class VendorController extends Controller
     public function upload(ProductCreateRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
+
+        $validatedData['highlighted'] = $request->has('highlighted');
 
         // Avvia una transazione
         DB::beginTransaction();
@@ -228,10 +232,14 @@ class VendorController extends Controller
         DB::beginTransaction();
 
         try{
-
-            $product->update($request->only([
-                'name', 'color', 'description', 'release_date', 'price'
-            ]));
+            $product->update([
+                'name' => $validatedData['name'],
+                'color' => $validatedData['color'],
+                'description' => $validatedData['description'],
+                'release_date' => $validatedData['release_date'],
+                'price' => $validatedData['price'],
+                'highlighted' => $request->has('highlighted')
+            ]);
 
             $this->editSizesAndQuantities($validatedData, $product);
 

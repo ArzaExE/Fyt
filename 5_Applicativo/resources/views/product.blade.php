@@ -1,5 +1,42 @@
 <!-- Header -->
 @include('templates.header')
+@php
+    // Funzione che pemette di controllare se una parola corrisponde a un colore che possa essere usato come per esempio background-color
+    function isColorName($color) {
+        $colors = [
+            'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure',
+            'beige', 'bisque', 'black', 'blanchedalmond', 'blue',
+            'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse',
+            'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson',
+            'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray',
+            'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
+            'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue',
+            'darkslategray', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue',
+            'dimgray', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen',
+            'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod',
+            'gray', 'green', 'greenyellow', 'honeydew', 'hotpink',
+            'indianred', 'indigo', 'ivory', 'khaki', 'lavender',
+            'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral',
+            'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgreen', 'lightpink',
+            'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightsteelblue',
+            'lightyellow', 'lime', 'limegreen', 'linen', 'magenta',
+            'maroon', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple',
+            'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred',
+            'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite',
+            'navy', 'oldlace', 'olive', 'olivedrab', 'orange',
+            'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise',
+            'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink',
+            'plum', 'powderblue', 'purple', 'red', 'rosybrown',
+            'royalblue', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen',
+            'seashell', 'sienna', 'silver', 'skyblue', 'slateblue',
+            'slategray', 'snow', 'springgreen', 'steelblue', 'tan',
+            'teal', 'thistle', 'tomato', 'turquoise', 'violet',
+            'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen'
+        ];
+
+        return in_array(strtolower($color), $colors);
+    }
+@endphp
 
 <main class="flex-grow-1">
     <!-- Contenuto principale -->
@@ -90,9 +127,15 @@
                                             <tr>
                                                 <th class="w-25" scope="row">Color</th>
                                                 <td>
-                                                    <span class="d-inline-block rounded-circle me-2"
-                                                          style="width: 15px; height: 15px; background-color: {{$product->color}}"></span>
-                                                    {{ $product->color }}
+                                                    @if(isColorName($product->color))
+                                                        <span class="d-inline-block rounded-circle me-2"
+                                                              style="width: 15px; height: 15px; background-color: {{$product->color}}"></span>
+                                                        {{ $product->color }}
+                                                    @else
+                                                        <span class="d-inline-block rounded-circle me-2"
+                                                              style="width: 15px; height: 15px; background-color: gray"></span>
+                                                        {{ $product->color }}
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>
@@ -132,7 +175,9 @@
                                                     <td colspan="{{ count($sizes) }}">
                                                         <select name="selected_size" class="form-control">
                                                             @foreach($sizes as $size)
-                                                                <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                                                @if($size->stock > 0)
+                                                                    <option value="{{ $size->size }}">{{ $size->size }}</option>
+                                                                @endif
                                                             @endforeach
                                                         </select>
                                                     </td>

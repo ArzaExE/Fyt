@@ -102,7 +102,6 @@ class CatalogController extends Controller
         return view('catalog', compact('products', 'images', 'searchTerm'));
     }
 
-
     //La request va passata da un validator
     public function filteredBySize(Request $request)
     {

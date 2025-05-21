@@ -51,8 +51,18 @@
                     @endif
                     @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
                         <x-nav-link class="flex items-center" style="width: 30vw">
-                            <input class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                   id="search" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
+                            <!-- NAVBAR -->
+                            <input
+                                class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                id="search" type="search" placeholder="Search Product" aria-label="Search"
+                                style="background-color: #f0f0f0"
+                                value="{{ trim(implode(' ', array_filter([
+                                   $searchTerm ?? '',
+                                   request('price') ? 'price:'.request('price') : '',
+                                   request('priceRange') ? 'priceRange:'.request('priceRange') : '',
+                                   request('dateFilter') ? 'date:'.request('dateFilter') : '',
+                                   request('size') ? 'size:'.request('size') : ''
+                               ]))) }}">
                         </x-nav-link>
                     @endif
                 </div>
@@ -64,7 +74,8 @@
                     <!-- Shopping Cart Icon-->
                     @if(Auth::user()->role->name === 'user')
                         <div class="px-6">
-                            <a href="{{ route('cart.index') }}" class="flex items-center text-gray-600 hover:text-gray-900">
+                            <a href="{{ route('cart.index') }}"
+                               class="flex items-center text-gray-600 hover:text-gray-900">
                                 <i class="fas fa-shopping-cart text-xl"></i>
                             </a>
                         </div>
@@ -72,11 +83,15 @@
                     <!-- Settings Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->username }}</div>
                                 <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                              clip-rule="evenodd"/>
                                     </svg>
                                 </div>
                             </button>
@@ -92,7 +107,8 @@
                             </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                                <x-dropdown-link :href="route('logout')"
+                                                 onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -118,17 +134,22 @@
             <div class="-me-2 flex items-center md:hidden">
                 @if(Route::currentRouteName() === 'home' || Route::currentRouteName() === 'catalog' || Route::currentRouteName() === 'cart.index' || Route::currentRouteName() === 'profile.edit' || Route::currentRouteName() === 'product.get')
                     <form class="flex items-center">
-                        <input class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                               id="search" type="search" placeholder="Search Product" aria-label="Search" style="background-color: #f0f0f0">
+                        <input
+                            class="form-control rounded-2 h-9 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            id="search" type="search" placeholder="Search Product" aria-label="Search"
+                            style="background-color: #f0f0f0">
                     </form>
                 @endif
             </div>
 
             <div class="-me-2 flex items-center md:hidden">
-                <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = !open"
+                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
@@ -184,7 +205,8 @@
                     @endif
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                        <x-responsive-nav-link :href="route('logout')"
+                                               onclick="event.preventDefault(); this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
@@ -207,25 +229,25 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var searchTimer;
 
-        $('#search').on('keyup', function() {
+        $('#search').on('keyup', function () {
             clearTimeout(searchTimer);
             var keyword = $(this).val().trim();
 
-            if(keyword.length >= 3) {
-                searchTimer = setTimeout(function() {
+            if (keyword.length >= 3) {
+                searchTimer = setTimeout(function () {
                     redirectToCatalog(keyword);
                 }, 800);
             }
         });
 
-        $('#search').on('keypress', function(e) {
-            if(e.which === 13) {
+        $('#search').on('keypress', function (e) {
+            if (e.which === 13) {
                 e.preventDefault();
                 var keyword = $(this).val().trim();
-                if(keyword.length > 0) {
+                if (keyword.length > 0) {
                     redirectToCatalog(keyword);
                 }
             }

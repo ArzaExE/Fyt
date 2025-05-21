@@ -27,7 +27,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label mb-2" for="priceRange">Price Range</label>
-                            <input type="range" class="form-range w-100" id="priceRange" name="priceRange" min="0"
+                            <input type="range" class="form-range w-100" id="priceRange" name="priceRange" min="30"
                                    max="500" step="5" value="0">
                             <div class="d-flex justify-content-center mt-2">
                                 <span id="priceValue" class="font-weight-bold"></span>
@@ -52,8 +52,8 @@
                     <!-- Size Filter -->
                     <div class="py-2">
                         <h6 class="font-weight-bold mb-3">Size</h6>
-                        <div class="dropdown">
-                            <select name="size" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <div class="dropdown h-20">
+                            <select id="size" name="size" class="block mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                 <option value="">-- Choose --</option>
                                 @for($i = 35; $i <= 50; $i += 0.5)
                                     @php
@@ -67,8 +67,8 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
-                    <button id="resetButton" type="button" class="btn btn-primary btn-sm">Reset Filters</button>
+                    <button id="applyFilters" type="submit" class="btn btn-primary btn-sm" style="background-color: #D0A1FF; border-color: #D0A1FF">Apply Filters</button>
+                    <button id="resetButton" type="button" class="btn btn-primary btn-sm" style="background-color: #D0A1FF; border-color: #D0A1FF">Reset Filters</button>
                 </form>
             </section>
         </div>
@@ -82,6 +82,37 @@
             @endif
 
             <h1 class="text-center mb-5 font-weight-bold text-dark">Catalog Product</h1>
+
+{{--                Gestione nel caso che il prodotto non sia trovato--}}
+                @if($searchTerm  && $products->isEmpty())
+                    <div class="d-flex justify-content-center">
+                        <div class="text-center p-4" style="max-width: 500px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                      d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <h3 class="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
+                            <p class="text-gray-500 mb-6">We couldn't find any results for "<span
+                                    class="font-medium">{{ $searchTerm }}</span>"</p>
+                            <div class="space-y-3">
+                                <a href="{{ route('catalog') }}"
+                                   class="inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-gray-700 rounded-lg transition-colors">
+                                    Browse all products
+                                </a>
+                                <p class="text-sm text-gray-400">or try a different search term</p>
+                            </div>
+
+
+                            <!-- Navbar per paginazione -->
+                            <div class="pagination d-flex justify-content-center mb-4" id="pagination-links">
+                                <!-- Generatore con Laravel controlli con link per paginazione dei prodotti -->
+                                {{ $products->links() }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
 
             <!-- Griglia dei prodotti -->
             <div class="row">
@@ -179,69 +210,104 @@
             <!-- Generatore con Laravel controlli con link per paginazione dei prodotti -->
             {{ $products->links() }}
         </div>
-
-        {{-- Gestione in caso il prodotto cercato non fosse trovato--}}
-        @if($searchTerm && $products->isEmpty())
-            <div class="flex items-center justify-center min-h-[60vh]">
-                <div class="text-center max-w-md mx-auto p-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                              d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <h3 class="text-2xl font-bold text-gray-700 mb-2">No products found</h3>
-                    <p class="text-gray-500 mb-6">We couldn't find any results for "<span
-                            class="font-medium">{{ $searchTerm }}</span>"</p>
-                    <div class="space-y-3">
-                        <a href="{{ route('catalog') }}"
-                           class="inline-block px-6 py-2 bg-purple-600 hover:bg-purple-700 text-gray-700 rounded-lg transition-colors">
-                            Browse all products
-                        </a>
-                        <p class="text-sm text-gray-400">or try a different search term</p>
-                    </div>
-
-
-                    <!-- Navbar per paginazione -->
-                    <div class="pagination d-flex justify-content-center mb-4" id="pagination-links">
-                        <!-- Generatore con Laravel controlli con link per paginazione dei prodotti -->
-                        {{ $products->links() }}
-                    </div>
-                </div>
-            </div>
-        @endif
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- Per aggiornamento prezzo range nella filter bar --}}
+    {{-- Per aggiornamento prezzo range nella filter bar + Controlli --}}
     <script>
-        var priceRange = document.getElementById('priceRange');
-        var priceValue = document.getElementById('priceValue');
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+
+        const priceLowest = document.getElementById('lowestPrice');
+        const priceHighest = document.getElementById('highestPrice');
+        const dateNewest = document.getElementById('newest');
+        const dateOldest = document.getElementById('oldest');
+        const size = document.getElementById('size');
+
+        priceLowest.addEventListener('change',function ()
+        {
+           if(priceLowest.checked){
+               priceRange.disabled = true;
+           }else{
+               priceRange.disabled = false;
+           }
+        });
+
+        priceHighest.addEventListener('change', function ()
+        {
+            if(priceHighest.checked){
+                priceRange.disabled = true;
+            }else{
+                priceRange.disabled = false;
+            }
+        });
+
+        dateNewest.addEventListener('change',function ()
+        {
+            if(dateNewest.checked){
+                priceRange.disabled = true;
+            }else{
+                priceRange.disabled = false;
+            }
+        });
+
+        dateOldest.addEventListener('change', function ()
+        {
+           if(dateOldest.checked){
+               priceRange.disabled = true;
+           }else{
+               priceRange.disabled = false;
+           }
+        });
+
+        size.addEventListener('change', function ()
+        {
+            if(size.value !== ""){
+                priceRange.disabled = true;
+            }
+        });
 
         priceRange.addEventListener('input', function () {
-            priceValue.textContent = priceRange.value + " €";
-        })
+            priceValue.textContent = "MAX: " + priceRange.value + " €";
+        });
 
-        function resetFilters() {
-            var lowest = document.getElementById('lowestPrice');
-            var highest = document.getElementById('highestPrice');
-            var range = document.getElementById('priceRange');
-            var newest = document.getElementById('newest');
-            var oldest = document.getElementById('oldest');
-
-            lowest.checked = false;
-            highest.checked = false;
-            range.value = 0;
-            newest.checked = false;
-            oldest.checked = false;
+        function checkFilters(){
+            if(priceRange.value === "30" && priceLowest.checked === false && priceHighest.checked === false &&
+                dateNewest.checked === false && dateOldest.checked === false && size.value === ""){
+                priceRange.disabled = true;
+                size.disabled = true;
+            }
         }
 
-        var resetButton = document.getElementById('resetButton');
+        function resetFilters() {
+            priceLowest.checked = false;
+            priceHighest.checked = false;
+            priceRange.value = 0;
+            priceRange.disabled = false;
+            priceValue.textContent = "";
+            dateNewest.checked = false;
+            dateOldest.checked = false;
+            size.selectedIndex = 0; // -- Choose -- (prima opzione)
+        }
+
+        const resetButton = document.getElementById('resetButton');
         resetButton.onclick = resetFilters;
+
+        const applyFiltersButton = document.getElementById('applyFilters');
+        applyFiltersButton.onclick = checkFilters;
 
     </script>
 </div>
 
 <!-- Footer -->
 @include('templates.footer')
+
+{{-- Stile per thumb del range --}}
+<style>
+    input[type=range]::-moz-range-thumb {
+        background-color: #D0A1FF;
+        border: none;
+    }
+</style>

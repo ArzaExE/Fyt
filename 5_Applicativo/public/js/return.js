@@ -14,10 +14,9 @@ async function initialize() {
     });
     const session = await response.json();
 
-    if (session.status == 'open') {
-        window.location.replace('http://localhost:8000/checkout')
-    } else if (session.status == 'complete') {
-        document.getElementById('success').classList.remove('hidden');
-        document.getElementById('customer-email').textContent = session.customer_email
+    if (session.status == 'complete') {
+        document.getElementById('total').innerHTML = ` ${session.amount_total/100} €`;
+        //document.getElementById('order_id').innerHTML = ` #${session.order_id}`;
+
     }
 }

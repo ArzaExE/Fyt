@@ -17,6 +17,7 @@ class ProductController extends Controller
             ->get();
 
         $sizes = ProductSizesAndQuantities::where('product_id', $id)
+            ->where('stock', '>', 0)
             ->orderBy('size', 'asc')
             ->get();
 

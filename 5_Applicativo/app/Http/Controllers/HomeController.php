@@ -27,6 +27,15 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
+
+
+        // In evidenza
+                $highlight = ProductImage::join('products', 'product_images.product_id', '=', 'products.id')
+                    ->where('product_images.is_main', 1)
+                    ->orderByDesc('products.highlighted')
+                    ->select('product_images.*', 'products.name as product_name')
+                    ->limit(10)
+                    ->get();
         return view('home', compact('latest', 'highlight'));
     }
 

@@ -2,7 +2,7 @@
 @include('templates.header')
 
 <div class="cart-container">
-    <h1 class="cart-title">Il tuo carrello</h1>
+    <h1 class="cart-title">Your shopping cart</h1>
 
     @if(session('error'))
         <div class="alert alert-danger">
@@ -65,18 +65,18 @@
 
         <div class="cart-summary">
             <div class="total-section">
-                <h3>Totale provvisorio</h3>
+                <h3>Total</h3>
                 <p class="total-price">{{ number_format($cart->total, 2) }} €</p>
             </div>
             <button class="checkout-btn">
-                <a href="{{ route('checkout.index') }}">Procedi all'acquisto</a>
+                <a href="{{ route('checkout.index') }}">Proceed to purchase</a>
             </button>
         </div>
     @else
         <div class="empty-cart">
             <i class="fas fa-shopping-cart"></i>
-            <p>Il tuo carrello è vuoto</p>
-            <a href="/catalog" class="continue-shopping">Continua lo shopping</a>
+            <p>Your cart is empty</p>
+            <a href="/catalog" class="continue-shopping">Continue shopping</a>
         </div>
     @endif
 </div>

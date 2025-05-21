@@ -152,18 +152,17 @@
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text text-muted">{{ $product->description }}</p>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Colore:</strong> {{ $product->color }}</li>
-                                    <li class="list-group-item"><strong>Data di
-                                            rilascio:</strong> {{ $product->formatted_release_date }}
+                                    <li class="list-group-item"><strong>Color:</strong> {{ $product->color }}</li>
+                                    <li class="list-group-item"><strong>Release Date:</strong> {{ $product->formatted_release_date }}
                                     </li>
-                                    <li class="list-group-item"><strong>Prezzo:</strong> {{ $product->price }} €</li>
+                                    <li class="list-group-item"><strong>Price:</strong> {{ $product->price }} €</li>
                                 </ul>
                             </div>
 
                             <!-- Footer della card -->
                             <div class="card-footer bg-transparent">
                                 <a href="/catalog/product/{{ $product->id }}" class="btn w-100"
-                                   style="color: whitesmoke; background-color: #D0A1FF;">Dettagli</a>
+                                   style="color: whitesmoke; background-color: #D0A1FF;">Details</a>
                             </div>
                         </div>
                     </div>

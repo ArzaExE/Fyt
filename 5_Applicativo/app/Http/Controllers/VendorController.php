@@ -44,7 +44,9 @@ class VendorController extends Controller
     }
 
     public function showSales(){
-        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->where('status', 'paid')->get();
+        $orders = Order::with(['items.product', 'items.size'])
+            ->where('status', 'paid')
+            ->get();
         return view('vendorSales',compact('orders'));
     }
 
@@ -67,7 +69,7 @@ class VendorController extends Controller
         $validatedData = $request->validated();
 
         $validatedData['highlighted'] = $request->has('highlighted');
-        
+
         // Avvia una transazione
         DB::beginTransaction();
 

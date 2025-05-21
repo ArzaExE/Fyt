@@ -90,6 +90,9 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('cart.showOrders')">
+                                {{ __('Orders') }}
+                            </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
@@ -178,8 +181,8 @@
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
                     @if(Auth::user()->role->name === 'user')
-                        <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
-                            {{ __('Cart') }}
+                        <x-responsive-nav-link :href="route('cart.showOrders')" :active="request()->routeIs('cart.showOrders')">
+                            {{ __('Orders') }}
                         </x-responsive-nav-link>
                     @endif
                     <form method="POST" action="{{ route('logout') }}">

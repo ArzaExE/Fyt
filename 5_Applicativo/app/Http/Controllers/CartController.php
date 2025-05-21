@@ -27,6 +27,9 @@ class CartController extends Controller
                 ['total' => 0]
             );
             $items = OrderItems::with('size')->where('order_id', $cart->id)->get();
+            foreach ($items as $item) {
+                $a = $item->size;
+            }
             return view('cart', compact('cart','items'));
         }
     }
@@ -145,5 +148,13 @@ class CartController extends Controller
         $cart->update(['total' => OrderItems::where('order_id', $cart->id)->sum('price')]);
 
         return redirect()->back();
+    }
+
+    public function showOrders(){
+        $orders = Order::with(['items.product', 'items.size'])  // Carica items + prodotto + taglia
+        ->where('user_id', Auth::id())
+            ->where('status', 'paid')
+            ->get();
+        return view('orders', compact('orders'));
     }
 }

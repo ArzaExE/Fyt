@@ -29,3 +29,4 @@
 - Aggiungere campo di priorità per le immagini in modo che l'utente possa ordinarle a piacimento --- Importanza: 5
 Chi determina il mimes?
 - Login possibile anche con lo username perchè se no è inutile
+- Redirect dopo il pagamento errato

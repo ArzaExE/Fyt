@@ -95,6 +95,10 @@ Route::get('/status', [CheckoutController::class, 'showStatus'])
     ->middleware(['auth', 'verified', 'user'])
     ->name('checkout.showStatus');
 
+Route::get('/orders', [CartController::class, 'showOrders'])
+    ->middleware(['auth', 'verified', 'user'])
+    ->name('cart.showOrders');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

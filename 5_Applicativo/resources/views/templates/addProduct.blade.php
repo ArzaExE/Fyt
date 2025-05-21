@@ -101,13 +101,12 @@
             <x-input-error :messages="$message" class="mt-2" />
             @enderror
 
-            {{--            Non fa vedere l'errore--}}
+            <!-- Non fa vedere l'errore -->
             @if (session('error'))
                 <div class="mb-4 font-medium text-red-600">
                     {{ session('error') }}
                 </div>
             @endif
-            {{--            -----------------------------}}
 
             @error('images.*')
             <x-input-error :messages="$message" class="mt-2" />
@@ -122,6 +121,8 @@
         </div>
     </form>
 </div>
+
+@include('templates.footer')
 
 <script>
     //Aspetta che il DOM sia completamente caricato prima di eseguire lo script

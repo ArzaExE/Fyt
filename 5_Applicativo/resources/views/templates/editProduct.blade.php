@@ -90,7 +90,7 @@
         <div class="mt-4">
             <x-input-label :value="__('Current Main Image')" />
             <div class="mt-2 flex items-center space-x-4">
-                <img src="{{ asset('productImages'. $main->image) }}" alt="Current main image" class="fixed-size-img">
+                <img src="{{ file_exists(public_path('productImages' . $main->image)) ? asset('productImages' . $main->image) : asset('img/not_found.png') }}" class="fixed-size-img">
                 <input type="hidden" name="old_main_image" value="{{ $main->image }}">
                 <input type="hidden" name="old_main_id" value="{{ $main->id }}">
                 <div class="ml-12">
@@ -107,7 +107,7 @@
             <div class="flex flex-wrap gap-3 mt-2">
                 @foreach($images as $image)
                     <div class="flex flex-col items-center border rounded p-2 w-24">
-                        <img src="{{ asset('productImages'.$image->image) }}" alt="Product image" class="fixed-size-img mb-1">
+                        <img src="{{ file_exists(public_path('productImages' . $main->image)) ? asset('productImages' . $main->image) : asset('img/not_found.png') }}" class="fixed-size-img mb-1">
                         <label class="flex items-center space-x-1">
                             <input type="checkbox"
                                    name="delete_images[]"
@@ -129,14 +129,12 @@
             @enderror
 
 
-{{--            Non fa vedere l'errore--}}
+            <!-- Non fa vedere l'errore -->
             @if (session('error'))
                 <div class="mb-4 font-medium text-red-600">
                     {{ session('error') }}
                 </div>
             @endif
-{{--            -----------------------------}}
-
 
             @error('images.*')
             <x-input-error :messages="$message" class="mt-2" />
@@ -144,7 +142,7 @@
             <p class="mt-1 text-sm text-gray-500">You can upload up to 10 additional images</p>
         </div>
 
-        <div class="flex items-center justify-end mt-6">
+        <div class="flex items-center justify-end mt-6 mb-6">
             <x-primary-button>
                 {{ __('Edit') }}
             </x-primary-button>
@@ -152,7 +150,7 @@
     </form>
 </div>
 
-
+@include('templates.footer')
 
 <script>
     //Aspetta che il DOM sia completamente caricato prima di eseguire lo script

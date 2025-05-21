@@ -98,6 +98,8 @@
     @endif
 </div>
 
+@include('templates.footer')
+
 <style>
     .empty-orders {
         background-color: #f8f9fa;

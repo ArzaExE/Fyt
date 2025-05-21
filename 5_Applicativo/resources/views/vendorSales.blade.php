@@ -94,6 +94,7 @@
         </div>
     @endif
 </div>
+@include('templates.footer')
 
 <style>
     .empty-orders {

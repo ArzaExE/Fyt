@@ -33,4 +33,4 @@
     @endforeach
     </tbody>
 </table>
-
+@include('templates.footer')

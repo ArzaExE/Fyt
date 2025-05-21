@@ -89,6 +89,8 @@
     </div>
 @endif
 
+@include('templates.footer')
+
 <!-- Stile personalizzato -->
 <style>
     .btn-outline-gray-custom {

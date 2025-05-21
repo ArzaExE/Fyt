@@ -1,4 +1,3 @@
-<!-- Header -->
 @include('templates.header')
 
 <!-- Token per caricamento di più immagini -->
@@ -300,7 +299,6 @@
     </script>
 </div>
 
-<!-- Footer -->
 @include('templates.footer')
 
 {{-- Stile per thumb del range --}}

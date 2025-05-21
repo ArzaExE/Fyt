@@ -103,7 +103,7 @@ class CheckoutController extends Controller
             'ui_mode' => 'embedded',
             'line_items' => $cartItems,
             'mode' => 'payment',
-            'return_url' => env('APP_URL'). ':8000' . '/status?session_id={CHECKOUT_SESSION_ID}',
+            'return_url' => env('APP_URL'). ':' . env('APP_PORT') . '/status?session_id={CHECKOUT_SESSION_ID}',
         ]);
 
         echo json_encode(array('clientSecret' => $checkout_session->client_secret));

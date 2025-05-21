@@ -44,7 +44,7 @@ class VendorController extends Controller
     }
 
     public function showSales(){
-        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->get();
+        $orders = Order::with('user')->select('id', 'user_id', 'total', 'status')->where('status', 'paid')->get();
         return view('vendorSales',compact('orders'));
     }
 

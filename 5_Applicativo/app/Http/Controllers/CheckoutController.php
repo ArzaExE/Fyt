@@ -88,9 +88,9 @@ class CheckoutController extends Controller
     }
     public function create()
     {
-//        $curl = new \Stripe\HttpClient\CurlClient([CURLOPT_PROXY => 'proxy.cpt.local:8080']);
-//        // tell Stripe to use the tweaked client
-//        \Stripe\ApiRequestor::setHttpClient($curl);
+        $curl = new \Stripe\HttpClient\CurlClient([CURLOPT_PROXY => 'proxy.cpt.local:8080']);
+        // tell Stripe to use the tweaked client
+        \Stripe\ApiRequestor::setHttpClient($curl);
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $cart = Order::where('user_id', auth()->id())->where('status', 'cart')->firstOrFail();
         $items = $cart->items()->with('product')->get();
@@ -110,9 +110,9 @@ class CheckoutController extends Controller
     }
 
     public function status(){
-//        $curl = new \Stripe\HttpClient\CurlClient([CURLOPT_PROXY => 'proxy.cpt.local:8080']);
-//        // tell Stripe to use the tweaked client
-//        \Stripe\ApiRequestor::setHttpClient($curl);
+        $curl = new \Stripe\HttpClient\CurlClient([CURLOPT_PROXY => 'proxy.cpt.local:8080']);
+        // tell Stripe to use the tweaked client
+        \Stripe\ApiRequestor::setHttpClient($curl);
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         header('Content-Type: application/json');
         try {

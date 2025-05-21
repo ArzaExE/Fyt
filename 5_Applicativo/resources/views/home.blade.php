@@ -6,7 +6,7 @@
 <!-- Carosello ultime uscite -->
 <div class="container mt-5">
 
-    <h1 style="font-size: larger">Ultime uscite</h1><br>
+    <h1 style="font-size: larger">Latest releases</h1><br>
     <div id="carousel1" class="carousel slide" data-bs-ride="carousel1">
         <div class="carousel-inner">
             @foreach(array_chunk($latest->all(), 5) as $imageChunk)
@@ -43,7 +43,7 @@
 <!-- Carosello articoli in evidenza -->
 <div class="container mt-5">
 
-    <h1 style="font-size: larger">In evidenza</h1><br>
+    <h1 style="font-size: larger">Highlighted</h1><br>
     <div id="carousel2" class="carousel slide" data-bs-ride="carousel2">
         <div class="carousel-inner">
             @foreach(array_chunk($highlight->all(), 5) as $imageChunk)

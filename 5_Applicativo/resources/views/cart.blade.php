@@ -29,18 +29,18 @@
 {{--                        @endforeach--}}
 {{--                    </select>--}}
 
-                    <p class="product-price">EU {{$item->size_id}}</p>
+                    <p class="product-price">EU {{$item->size->size}}</p>
 
                     <div class="quantity-controls">
                         <form action="{{ route('cart.remove', $item->product) }}" method="POST">
                             @csrf
-                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size->size}}">
                             <button type="submit" id="quantity-remove" name="quantity-remove" class="quantity-btn">−</button>
                         </form>
                         <span class="quantity">{{ $item->quantity }}</span>
                         <form action="{{ route('cart.add', $item->product) }}" method="POST">
                             @csrf
-                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                            <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size->size}}">
                             <button type="submit" id="quantity-add" name="quantity-add" class="quantity-btn">+</button>
                         </form>
                     </div>
@@ -54,7 +54,7 @@
 
                     <form action="{{ route('cart.delete', $item->product) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size_id}}">
+                        <input type="hidden" name="selected_size" id="selected_size" value="{{$item->size->size}}">
                         <button type="submit" class="btn btn-sm btn-outline-danger">
                             <i class="fa-solid fa-trash"></i>
                         </button>

@@ -28,7 +28,6 @@ class ProductEditRequest extends FormRequest
             'mainImage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'images' => 'nullable|max:10',
-            'highlighted' => 'sometimes|boolean'
         ];
     }
 

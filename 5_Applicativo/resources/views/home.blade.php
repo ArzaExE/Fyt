@@ -138,7 +138,7 @@
                                         @foreach($image->product->items as $item)
                                             @php $tot_quantità += $item->quantity @endphp
                                         @endforeach
-                                        <small class="d-block text-truncate">Sold: {{ $tot_quantità }}</small>
+                                        <small class="d-block text-truncate">Sold: {{ $tot_quantità }} </small>
                                     </div>
                                 </div>
                             @endforeach

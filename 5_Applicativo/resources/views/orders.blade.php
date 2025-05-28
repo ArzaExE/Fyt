@@ -9,7 +9,7 @@
                     <div class="row align-items-center mb-4">
                         <div class="col-md-4">
                             <h2 class="h6 mb-0 font-bold">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#clientDetails-{{ $order->user_id }}">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#orderDetails-{{ $order->id }}">
                                     Click here for more infos
                                 </a>
                             </h2>
@@ -43,8 +43,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-start gap-5">  <!-- Aggiungi spazio fisso tra gli elementi -->
                                                 <span class="text-muted small">Quantity: {{$item->quantity}}</span>
+                                                <span class="text-muted small">Size: {{$item->size->size}}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -59,34 +60,34 @@
                     </div>
                 @endforeach
             </div>
-        @endforeach
-        <div class="card-body p-3">
-            <div class="modal fade" id="clientDetails-{{ $order->user_id }}" tabindex="-1" role="dialog"
-                 aria-labelledby="clientDetails-{{ $order->user_id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Client details
-                                - {{ $order->user->name }} {{ $order->user->surname }}</h5>
-                        </div>
-                        <div class="modal-body">
-                            <p><b>Order ID: </b> {{ $order->id}}</p>
-                            <p><b>Address: </b> {{ $order->user->address }}</p>
-                            <p><b>Postcode: </b> {{ $order->user->postcode }}</p>
-                            <p><b>City: </b> {{ $order->user->city }}</p>
-                            <p><b>Country: </b> {{ $order->user->country }}</p>
-                            <p><b>Phone: </b>{{ $order->user->phone }}</p>
-                            <p><b>Email: </b> {{ $order->user->email }}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                    style="background-color: #D0A1FF">Close
-                            </button>
+            <div class="card-body p-3">
+                <div class="modal fade" id="orderDetails-{{ $order->id }}" tabindex="-1" role="dialog"
+                     aria-labelledby="orderDetails-{{ $order->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Client details
+                                    - {{ $order->user->name }} {{ $order->user->surname }}</h5>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>Order ID: </b> {{ $order->id}}</p>
+                                <p><b>Address: </b> {{ $order->user->address }}</p>
+                                <p><b>Postcode: </b> {{ $order->user->postcode }}</p>
+                                <p><b>City: </b> {{ $order->user->city }}</p>
+                                <p><b>Country: </b> {{ $order->user->country }}</p>
+                                <p><b>Phone: </b>{{ $order->user->phone }}</p>
+                                <p><b>Email: </b> {{ $order->user->email }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        style="background-color: #D0A1FF">Close
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     @else
         <div class="text-center py-4 empty-orders">
             <i class="fas fa-box-open text-muted mb-3" style="font-size: 2.5rem;"></i>

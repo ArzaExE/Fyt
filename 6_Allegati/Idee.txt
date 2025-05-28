@@ -3,11 +3,8 @@
 -----------------------Documentazione-----------------------
 
 - Descrivere l'idea del nome: nome moderno che richiamasse il futuro....
-- Inserire tabelle di confronto tra le varie tecnologie di cui eravamo indecisi
-     - Metodo di pagamento (Stripe, PayPal...)
-     - Frameworks (Laraverl, Maui...)
 - Nell'analisi del dominio (ultimo paragrafo) aggiungere il perchè il nostro prodotto è diverso dagli altri.
-- Aggiungere alla documentazione una comparazione delle tecnologie adottate e perchè sono state scelte.
+
 
 -----------------------Implemetazione-----------------------
 
@@ -19,4 +16,9 @@
 - È da implementare il Soft Delete --> creare una tabella a parte dove si tengono i dati degli utenti eliminati 
 - Scaricare dati personali (ordini effettuati) prima di eliminare l'account
 - Aggiungere campo di priorità per le immagini in modo che l'utente possa ordinarle a piacimento --- Importanza: 5
+
+
 Chi determina il mimes?
+
+CAPITOLO SULL'AI
+CONNESSIONE AL DB ENV

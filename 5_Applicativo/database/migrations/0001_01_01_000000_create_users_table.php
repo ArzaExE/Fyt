@@ -30,7 +30,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role_id')->references('id')->on('user_roles')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('userRoles')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

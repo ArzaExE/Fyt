@@ -9,7 +9,7 @@ use App\Models\OrderItems;
 use App\Models\ProductImage;
 use App\Models\ProductSizesAndQuantities;
 use App\Models\User;
-use App\Models\user_roles;
+use App\Models\UserRoles;
 use Error;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

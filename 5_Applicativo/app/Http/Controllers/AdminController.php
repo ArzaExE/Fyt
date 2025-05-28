@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUpdateRequest;
 use App\Models\User;
-use App\Models\user_roles;
+use App\Models\UserRoles;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +54,7 @@ class AdminController extends Controller
         $user->update($request->except('role'));
 
         if ($request->has('role')) {
-            $role = user_roles::where('name', $request->role)->first();
+            $role = UserRoles::where('name', $request->role)->first();
             $user->role()->associate($role);
         }
 

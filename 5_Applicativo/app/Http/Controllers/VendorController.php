@@ -47,7 +47,7 @@ class VendorController extends Controller
         $orders = Order::with(['items.product', 'items.size'])
             ->where('status', 'paid')
             ->get();
-        return view('vendorSales',compact('orders'));
+        return view('vendorSales', compact('orders'));
     }
 
 
@@ -226,7 +226,6 @@ class VendorController extends Controller
 
     public function save(ProductEditRequest $request, Product $product): RedirectResponse
     {
-//        dd($request->all());
         $validatedData = $request->validated();
 
         DB::beginTransaction();

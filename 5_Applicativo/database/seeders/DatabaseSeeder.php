@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\user_roles;
+use App\Models\UserRoles;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,17 +13,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        user_roles::create([
+        UserRoles::create([
             'id' => 1,
             'name' => 'admin'
         ]);
 
-        user_roles::create([
+        UserRoles::create([
             'id' => 2,
             'name' => 'vendor'
         ]);
 
-        user_roles::create([
+        UserRoles::create([
             'id' => 3,
             'name' => 'user'
         ]);

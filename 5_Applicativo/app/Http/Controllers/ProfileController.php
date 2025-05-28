@@ -48,13 +48,14 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        if ($user->role->name !== 'admin') {
+            Auth::logout();
 
-        $user->delete();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
         return Redirect::to('/');
     }
 
